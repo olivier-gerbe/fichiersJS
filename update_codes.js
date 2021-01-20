@@ -3,10 +3,10 @@
 function setNodeCode (node,portfolioid) {
 	var uuid = $(node).attr("id");
 	var code = UICom.structure["ui"][uuid].getCode();
-	var nodes = $("*:has(metadata[semantictag*='ajout1'])",node);
+	var nodes = $("*:has(metadata[semantictag*='ajoutable-parcours'])",node);
 	for (var i=0;i<nodes.length;i++) {
 		var nodeid = $(nodes[i]).attr("id");
-		if (UICom.structure.ui[nodeid].semantictag.indexOf('ajout1')>-1) {
+		if (UICom.structure.ui[nodeid].semantictag.indexOf('ajoutable-parcours')>-1) {
 			var nodecode =  UICom.structure.ui[nodeid].getCode();
 			if (nodecode.indexOf("__")>-1) {
 				var oldpartcode = nodecode.substring(nodecode.indexOf("__"));
