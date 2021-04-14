@@ -3,6 +3,7 @@
 demanderEvaluation = function (evalnodeid)
 //=================================================
 {
+	g_execbatch = false; // usager a déjà un portfolio
 	g_variables['uuid_eval'] = evalnodeid;
 	var evalnode = UICom.structure.ui[evalnodeid].node;
 	var date_eval = $("asmContext:has(metadata[semantictag='date-demande-eval'])",evalnode);
