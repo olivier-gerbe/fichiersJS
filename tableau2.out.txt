@@ -1,0 +1,767 @@
+"0 - Aucune connaissance
+					ou compétence";"1 - Découverte";"2 - Connaissance
+					superficielle";"3 - Connaissance
+					approfondie";"4 - Mise en pratique";"5 - Expert";
+;
+"BIA, BB, PPL";
+
+					"
+					BIA - Brevet d'Initiation Aéronautique"
+				;
+					"
+					
+						Non"
+					
+				;
+
+					"
+					BB - Brevet de Base"
+				;
+					"
+					
+						Oui"
+					
+				;
+
+					"
+					PPL - Licence de Piliote Privé"
+				;
+					"
+					
+						Oui"
+					
+				;
+
+					"
+					BIA - Brevet d'Initiation Aéronautique"
+				;
+					"
+					
+						Non"
+					
+				;
+
+					"
+					BB - Brevet de Base"
+				;
+					"
+					
+						Oui"
+					
+				;
+
+					"
+					PPL - Licence de Piliote Privé"
+				;
+					"
+					
+						Oui"
+					
+				;
+
+					"
+					Connaissance du milieu de l'aéronautique"
+				;
+
+					"
+					Implication associative UTC"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Implication associative hors UTC"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Autre"
+				;
+					"
+					
+						5 - Expert"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Connaissance des industries aéronautique"
+				;
+
+					"
+					Procédures Qualité"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					MCO/MRO"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Les concepteurs"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Stage UTC"
+				;
+					"
+					
+						0 - Aucune connaissance ou compétence"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Stage autres"
+				;
+					"
+					
+						3 - Connaissance approfondie"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Connaissance des aéronefs"
+				;
+
+					"
+					Structure générale des aéronefs"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Structure d'un fuselage"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Vibration d'un fuselage"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Calcul de structure sur aéronef"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Matériaux utilisés"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Equipements et circuits"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Systèmes propulsifs, Motorisation"
+				;
+					"
+					
+						0 - Aucune connaissance ou compétence"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Aérodynes à voilures tournantes"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Fusée et engins spatiaux"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Engins pour les missions spatiales"
+				;
+
+					"
+					Conception d'engins spatiaux"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Système de propulsion spatiale"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Fabrication et contrôle des structures"
+				;
+
+					"
+					Conception, CAO, calculs numériques"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Techniques d'usinages et d'assemblage"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Contrôles destructifs et non destructifs"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Mesures physiques"
+				;
+
+					"
+					Mesures physiques"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Ingénierie Programme"
+				;
+
+					"
+					Manager l'ingénierie du besoin"
+				;
+					"
+					
+						5 - Expert"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Analyse fonctionnelle"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					STB et spécifications internes"
+				;
+					"
+					
+						5 - Expert"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Ingénierie de la conception et du développement"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Optimisation de la conception"
+				;
+					"
+					
+						3 - Connaissance approfondie"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Qualification acceptation"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Accréditation et certification"
+				;
+					"
+					
+						0 - Aucune connaissance ou compétence"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Gconf et traçabilité"
+				;
+					"
+					
+						0 - Aucune connaissance ou compétence"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Normalisation"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Base du risk management"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Base du risk management"
+				;
+					"
+					
+						5 - Expert"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Navigation et règlementations"
+				;
+
+					"
+					Organisation en France"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Organisation Européenne"
+				;
+					"
+					
+						3 - Connaissance approfondie"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Organisations internationales"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Météorologie"
+				;
+
+					"
+					Atmosphère"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Circulation des masses d'airs et fronts"
+				;
+					"
+					
+						3 - Connaissance approfondie"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Formation et typologie des nuages"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Phénomènes dangereux et incidence sur les structures"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Déchiffrage des infos météos aéronautique"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Aérodynamique et mécanique du vol"
+				;
+
+					"
+					Aérodynamique physique"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Aérodynamique d'une aile"
+				;
+					"
+					
+						3 - Connaissance approfondie"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Mécanique des fluides"
+				;
+					"
+					
+						5 - Expert"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Couplage Fluide structure"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Tracé et utilisation d'une polaire"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Mécanique du vol"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Pratique du vol"
+				;
+
+					"
+					Base"
+				;
+					"
+					
+						2 - Connaissance superficielle"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Licencié"
+				;
+					"
+					
+						1 - Découverte"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
+
+					"
+					Vol acrobatique"
+				;
+					"
+					
+						4 - Mise en pratique"
+					
+				;;
+					"
+					
+					Aucun document"
+				;
