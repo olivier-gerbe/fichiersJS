@@ -1,0 +1,40 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
+
+<script>
+var datamenu = 	'{"menus": [{"menu": [ '
+	+ '{"type" : "import","srce" : {"portfoliocode" : "##dossier-modeles##.composantes","semtag" : "etudiant-doc"},"label" : "Ajouter un document@fr","roles" : "etudiant","dest" : "","condition" : ""},'
+	+ '{"type" : "import","srce" : {"portfoliocode" : "self","semtag" : "to import"},"label" : "Ajouter@fr","roles" : "etudiant","dest" : "","condition" : ""}'
+	+ ']}]}';
+//	alert(datamenu);
+var json = JSON.parse(datamenu);
+
+function displayjsonmenu(dest,json) {
+	var html = "<div class='datamenu'>";
+	for (var i=0;i<json.menus.length;i++) {
+		for (var j=0;j<json.menus[i].menu.length;j++) {
+			if (json.menus[i].menu[j].type == "import") {
+				html += "<div><span class='type badge badge-primary'>"+json.menus[i].menu[j].type+"</span> ";
+				html += "<span class='portfoliocode badge badge-warning'>"+json.menus[i].menu[j].srce.portfoliocode+"</span> ";
+				html += "<span class='semtag badge badge-warning'>"+json.menus[i].menu[j].srce.semtag+"</span> ";
+				html += "<span class='semtag badge badge-success'>"+json.menus[i].menu[j].label+"</span> ";
+				html += "<span class='semtag badge badge-info'>"+json.menus[i].menu[j].roles+"</span></div>";
+			}
+		}
+	}
+		html += "</div>";
+	document.getElementById(dest).innerHTML = html;
+}
+</script>
+</head>
+<body>
+
+	<div id='test'>
+	</div>
+	<script>
+		displayjsonmenu('test',json);
+	</script>
+	
+</body>
+</html>
