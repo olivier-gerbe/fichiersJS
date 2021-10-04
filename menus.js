@@ -1,7 +1,7 @@
 {
 	menus: [
 	{
-		'type' : 'import'
+		'type' : 'import',
 		'srce' : {
 			'portfoliocode' : '',
 			'semtag' : ''
@@ -10,7 +10,7 @@
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'importAndSetDateToday',
 		'srce' : {
@@ -22,65 +22,81 @@
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'moveto',
 		'starttag' : '',
-		'desttag' :','
+		'desttag' :'',
 		'label' : '',
 		'roles' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'execReport_BatchCSV',
 		'reportcode' : '',
 		'label' : '',
 		'roles' : '',
 		'condition' : ''
-	}
+	},
 //==================================================
+	{
+		'type' : 'get_simle',
+		'recherche' : {
+			'portfoliocode' : '',
+			'semtag' : ''
+		},
+		'updatetag' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
+		'roles' : '',
+		'dest' : '',
+		'condition' : ''
+	},
 	{
 		'type' : 'get_multiple',
 		'recherche' : {
 			'portfoliocode' : '',
 			'semtag' : ''
-		}
+		},
 		'updatetag' : '',
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'import_multiple',
 		'recherche' : {
 			'portfoliocode' : '',
 			'semtag' : ''
-		}
+		},
 		'srce' : {
 			'portfoliocode' : '',
 		},
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'proxy_multiple',
 		'recherche' : {
 			'portfoliocode' : '',
 			'semtag' : ''
-		}
+		},
 		'proxy' : {
 			'portfoliocode' : '',
 			'semtag' : ''
-		}
+		},
 		'updatetag' : '',
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	//---------------------------------
 	{
 		'type' : 'functions_multiple',
@@ -88,9 +104,10 @@
 				'portfoliocode' : '',
 				'semtag' : ''
 			},
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
-		'condition' : ''.
+		'condition' : '',
 		'functions' : [
 			{
 				'type' : 'import',
@@ -98,23 +115,23 @@
 					'portfoliocode' : '',
 				},
 				'dest' : ''
-			}
+			},
 			{
 				'type' : 'get',
 				'updatetag' : '',
 				'dest' : ''
-			}
+			},
 			{
 				'type' : 'proxy',
 				'proxy' : {
 					'portfoliocode' : '',
 					'semtag' : ''
-				}
+				},
 				'updatetag' : '',
 				'dest' : ''
 			}
 		]
-	}
+	},
 //==================================================
 	{
 		'type' : 'get_get_multiple',
@@ -123,14 +140,15 @@
 				'semtagparent' : '',
 				'positionparent' : '',
 				'portfoliocode' : '',
-				'semtag',
+				'semtag':''
 			},
 		'updatetag' : '',
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'import_ggmultiple',
 		'recherche' : {
@@ -138,16 +156,17 @@
 			'semtagparent' : '',
 			'positionparent' : '',
 			'portfoliocode' : '',
-			'semtag',
+			'semtag':''
 		},
 		'srce' : {
 			'portfoliocode' : '',
 		},
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
 		'dest' : '',
 		'condition' : ''
-	}
+	},
 	{
 		'type' : 'functions_ggmultiple',
 		'recherche' : {
@@ -155,11 +174,12 @@
 			'semtagparent' : '',
 			'positionparent' : '',
 			'portfoliocode' : '',
-			'semtag',
+			'semtag':''
 		},
-		'label' : '',
+		'menulabel' : '',
+		'boxlabel' : '',
 		'roles' : '',
-		'condition' : ''.
+		'condition' : '',
 		'functions' : [
 			{
 				'type' : 'import',
@@ -167,7 +187,7 @@
 					'portfoliocode' : '',
 				},
 				'dest' : ''
-			}
+			},
 			{
 				'type' : 'get',
 				'updatetag' : '',

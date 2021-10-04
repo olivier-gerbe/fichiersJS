@@ -1,30 +1,74 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
+		<script src="jquery-3.3.1.min.js"></script>
+
 
 <script>
-var datamenu = 	'{"menus": [{"menu": [ '
+var datamenu = 	'{"menus": [{"menulabel" :"Ajouter des élts", "boxlabel" :"Ajouter des élémentsts", "items" : [ '
 	+ '{"type" : "import","srce" : {"portfoliocode" : "##dossier-modeles##.composantes","semtag" : "etudiant-doc"},"label" : "Ajouter un document@fr","roles" : "etudiant","dest" : "","condition" : ""},'
-	+ '{"type" : "import","srce" : {"portfoliocode" : "self","semtag" : "to import"},"label" : "Ajouter@fr","roles" : "etudiant","dest" : "","condition" : ""}'
+	+ '{"type" : "import","srce" : {"portfoliocode" : "self","semtag" : "to import"},"label" : "Ajouter@fr","roles" : "etudiant","dest" : "","condition" : ""},'
+	+ '{"type" : "importAndSetDateToday","srce" : {"portfoliocode" : "portfoliocode","semtag" : "semantic tag"},"updatetag" : "tag","label" : "Ajouter@fr","roles" : "etudiant","dest" : "","condition" : ""}'
 	+ ']}]}';
+	var xmlmenu = 	"<menus><menu><menulabel>zorro</menulabel><items><item><type>import</type></item></items></menu></menus>";
+
 //	alert(datamenu);
 var json = JSON.parse(datamenu);
+var parser = new DOMParser();
+xmlDoc = parser.parseFromString(xmlmenu,"text/xml");
 
-function displayjsonmenu(dest,json) {
+//=======================================================================
+function xml2string(node)
+//=======================================================================
+{
+	if (typeof(XMLSerializer) !== 'undefined') {
+		var serializer = new XMLSerializer();
+		return serializer.serializeToString(node);
+	}
+	else {
+		return node.xml;
+	}
+}
+
+
+function displayjsonmenu(dest,jsun) {
 	var html = "<div class='datamenu'>";
-	for (var i=0;i<json.menus.length;i++) {
-		for (var j=0;j<json.menus[i].menu.length;j++) {
-			if (json.menus[i].menu[j].type == "import") {
-				html += "<div><span class='type badge badge-primary'>"+json.menus[i].menu[j].type+"</span> ";
-				html += "<span class='portfoliocode badge badge-warning'>"+json.menus[i].menu[j].srce.portfoliocode+"</span> ";
-				html += "<span class='semtag badge badge-warning'>"+json.menus[i].menu[j].srce.semtag+"</span> ";
-				html += "<span class='semtag badge badge-success'>"+json.menus[i].menu[j].label+"</span> ";
-				html += "<span class='semtag badge badge-info'>"+json.menus[i].menu[j].roles+"</span></div>";
+	for (var i=0;i<jsun.menus.length;i++) {
+		html += "<textarea id='' class='form-control' style='height:50px'>"+jsun.stringify(jsun.menus[i])+"</textarea>";
+		for (var j=0;j<jsun.menus[i].items.length;j++) {
+			//============== import ==================
+			if (jsun.menus[i].items[j].type == "import") {
+				html += "<div><span class='type badge badge-primary'>"+jsun.menus[i].items[j].type+"</span> ";
+				html += "<span class='portfoliocode badge badge-warning'>"+jsun.menus[i].items[j].srce.portfoliocode+"</span> ";
+				html += "<span class='semtag badge badge-warning'>"+jsun.menus[i].items[j].srce.semtag+"</span> ";
+				html += "<span class='semtag badge badge-success'>"+jsun.menus[i].items[j].label+"</span> ";
+				html += "<span class='semtag badge badge-info'>"+jsun.menus[i].items[j].roles+"</span></div>";
+				html += "<textarea id='' class='form-control' style='height:50px'>"+jsun.stringify(jsun.menus[i].items[j])+"</textarea>";
+			}
+			//============== importAndSetDateToday ==================
+			if (jsun.menus[i].items[j].type == "importAndSetDateToday") {
+				html += "<div><span class='type badge badge-primary'>"+jsun.menus[i].items[j].type+"</span> ";
+				html += "<span class='portfoliocode badge badge-warning'>"+jsun.menus[i].items[j].srce.portfoliocode+"</span> ";
+				html += "<span class='semtag badge badge-warning'>"+jsun.menus[i].items[j].srce.semtag+"</span> ";
+				html += "<span class='updatetag badge badge-secondary'>"+jsun.menus[i].items[j].updatetag+"</span> ";
+				html += "<span class='semtag badge badge-success'>"+jsun.menus[i].items[j].label+"</span> ";
+				html += "<span class='semtag badge badge-info'>"+jsun.menus[i].items[j].roles+"</span></div>";
 			}
 		}
 	}
 		html += "</div>";
-	document.getElementById(dest).innerHTML = html;
+		jsun.menus[0].menulabel = 'hello;'
+		document.getElementById(dest).innerHTML = html+"<br><br>" + jsun.stringify(jsun);
+
+}
+
+function displayxmlmenu(dest,xmlDoc) {
+	var menus = $("menus",xmlDoc);
+	for (var i=0;i<menus.length;i++) {
+		var menulabel = $("menulabel",menus[i]).text();
+		$("#"+dest).append(menulabel);
+		$("menulabel",menus[i]).text('Batman');
+	}
 }
 </script>
 </head>
@@ -32,8 +76,14 @@ function displayjsonmenu(dest,json) {
 
 	<div id='test'>
 	</div>
+	<div id='test2'>
+	</div>
 	<script>
-		displayjsonmenu('test',json);
+	displayxmlmenu('test',xmlDoc);
+	displayxmlmenu('test',xmlDoc);
+////	displayjsonmenu('test',json);
+var str =  "<xmp>"+xml2string(xmlDoc)+"</xmp>";
+	document.getElementById("test2").innerHTML = "<br>--------------<br>" + str;
 	</script>
 	
 </body>

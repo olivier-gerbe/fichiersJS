@@ -1,0 +1,1067 @@
+<!DOCTYPE xsl:stylesheet [<!ENTITY nbsp "&amp;#160;">]>
+<div>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0"
+		style="" class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0"
+			style="text-align:justify;" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-0"
+				style="border:none; width:33%;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9edbf0-e090-11eb-8694-866553ff25c5"
+					style="width:150px;">
+					<div uuid="img_fe9edbf0-e090-11eb-8694-866553ff25c5">
+						<img style="display:inline;"
+							id="image_fe9edbf0-e090-11eb-8694-866553ff25c5"
+							src="../../../../../../karuta-backendPourV3/resources/resource/file/fe9edbf0-e090-11eb-8694-866553ff25c5?lang=fr&amp;timestamp=1631726149390"
+							width="200px" alt="" />
+					</div>
+				</span>
+				<span id="reshelp_fe9edbf0-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1"
+				style="border:none; width:33%;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1"
+					class="ihelp"></span>
+				<table
+					id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0"
+					style="" class="undefined">
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-0-0"
+							style="font-size:24pt;border: 0px solid white;" class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-0-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9edfb4-e090-11eb-8694-866553ff25c5"
+								style="">Agathe</span>
+							<span id="reshelp_fe9edfb4-e090-11eb-8694-866553ff25c5"></span>
+							<span id="txtundefined" style="" class="undefined">
+							</span>
+							<span
+								id="dashboard_node_resourcefe9edeac-e090-11eb-8694-866553ff25c5"
+								style="">ThePower</span>
+							<span id="reshelp_fe9edeac-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-1"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-1-0"
+							style="border: 0px solid white;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-1-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9eed0b-e090-11eb-8694-866553ff25c5"
+								style="">2 Rue de la Souris qui Dance</span>
+							<span id="reshelp_fe9eed0b-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-2"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-2-0"
+							style="border: 0px solid white;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-2-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9eef08-e090-11eb-8694-866553ff25c5"
+								style="">36100</span>
+							<span id="reshelp_fe9eef08-e090-11eb-8694-866553ff25c5"></span>
+							<span id="txtundefined" style="" class="undefined">
+							</span>
+							<span
+								id="dashboard_node_resourcefe9eee03-e090-11eb-8694-866553ff25c5"
+								style="">Chatalors</span>
+							<span id="reshelp_fe9eee03-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-3"
+						style="margin-top:20px" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-3-0"
+							style="border: 0px solid white;padding-bottom:20px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-3-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9ef003-e090-11eb-8694-866553ff25c5"
+								style="">France</span>
+							<span id="reshelp_fe9ef003-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-4"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-4-0"
+							style="border: 0px solid white;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-4-0"
+								class="ihelp"></span>
+							<span id="txtundefined" style="" class="undefined">Permis de conduire : </span>
+							<span
+								id="dashboard_node_resourcefe9eeb07-e090-11eb-8694-866553ff25c5"
+								style="">Non</span>
+							<span id="reshelp_fe9eeb07-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-5"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-5-0"
+							style="border: 0px solid white;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-1-0-5-0"
+								class="ihelp"></span>
+							<span id="txtundefined" style="" class="undefined">Nationalité : </span>
+							<span
+								id="dashboard_node_resourcefe9ee0b6-e090-11eb-8694-866553ff25c5"
+								style="">Française</span>
+							<span id="reshelp_fe9ee0b6-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2"
+				style="text-align:left;border:none; width:33%;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2"
+					class="ihelp"></span>
+				<table
+					id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0"
+					style="" class="undefined">
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-0-0"
+							style="font-weight:bold;border:none;padding-bottom:10px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-0-0"
+								class="ihelp"></span>
+							<span id="txtundefined"
+								style="font-weight:bold;font-size:14pt;" class="undefined">Me contacter :</span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-1"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-1-0"
+							style="border:none;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-1-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9e4dd8-e090-11eb-8694-866553ff25c5"
+								style="">064852125</span>
+							<span id="reshelp_fe9e4dd8-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-2"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-2-0"
+							style="border:none;padding-bottom:10px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-2-0"
+								class="ihelp"></span>
+							<span id="dashboard_undefined"></span>
+							<span id="reshelp_undefined"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-3-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-3-0-0-0"
+							style="border:none;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-3-0-0-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9ef34d-e090-11eb-8694-866553ff25c5"
+								style="">
+								<a href="https://fr.wix.com/" target="_blank">
+									<img src="../../karuta/img/link-icon.png"
+										style="width:25px" />
+									Mon site internet
+								</a>
+							</span>
+							<span id="reshelp_fe9ef34d-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-4-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-4-0-0-0"
+							style="border:none;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-4-0-0-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9ef444-e090-11eb-8694-866553ff25c5"
+								style="">
+								<a href="https://www.linkedin.com/m/login/" target="_blank">
+									<img src="../../karuta/img/link-icon.png"
+										style="width:25px" />
+									https://www.linkedin.com/m/login/
+								</a>
+							</span>
+							<span id="reshelp_fe9ef444-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-5-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-5-0-0-0"
+							style="border:none;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-5-0-0-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9ef547-e090-11eb-8694-866553ff25c5"
+								style="">
+								<a href="https://twitter.com/?lang=fr" target="_blank">
+									<img src="../../karuta/img/link-icon.png"
+										style="width:25px" />
+									https://twitter.com/?lang=fr
+								</a>
+							</span>
+							<span id="reshelp_fe9ef547-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-6-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-6-0-0-0"
+							style="border:none;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-6-0-0-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9ef640-e090-11eb-8694-866553ff25c5"
+								style="">
+								<a href="https://www.facebook.com/" target="_blank">
+									<img src="../../karuta/img/link-icon.png"
+										style="width:25px" />
+									https://www.facebook.com/
+								</a>
+							</span>
+							<span id="reshelp_fe9ef640-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+					<tr
+						id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-7-0-0"
+						style="" class="undefined">
+						<td
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-7-0-0-0"
+							style="border:none;padding-bottom:0px;padding-top:0px"
+							class="undefined">
+							<span
+								id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-0-0-2-0-7-0-0-0"
+								class="ihelp"></span>
+							<span
+								id="dashboard_node_resourcefe9ef253-e090-11eb-8694-866553ff25c5"
+								style="">
+								<a href="https://www.instagram.com/?hl=fr" target="_blank">
+									<img src="../../karuta/img/link-icon.png"
+										style="width:25px" />
+									https://www.instagram.com/?hl=fr
+								</a>
+							</span>
+							<span id="reshelp_fe9ef253-e090-11eb-8694-866553ff25c5"></span>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-1"
+		style="width:100%;margin-top:20px;margin-bottom:-30px;"
+		class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-1-0"
+			style="text-align:center;" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-1-0-0"
+				style="text-align:center;font-size:16pt;color:#000000;border:none;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-1-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">
+				</span>
+				<span id="dashboard_fea03858-e090-11eb-8694-866553ff25c5"></span>
+				<span id="reshelp_fea03858-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtundefined" style="" class="undefined">
+				</span>
+			</td>
+		</tr>
+	</table>
+	<table
+		id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5europass"
+		style="width:100%;">
+		<tr>
+			<td style="border:0px solid white">
+				<span class="mothertongue-label">Langue maternelle</span>
+				<span class="mothertongue-value"
+					id="mother_tongue_fea05d78-e090-11eb-8694-866553ff25c5">
+					<div class="fr view-div" style="">
+						<span name="label">Français</span>
+					</div>
+				</span>
+			</td><!--col -->
+		</tr><!--row -->
+		<tr>
+			<td style="border:0px solid white">
+				<h5>Langues étrangères</h5>
+				<table
+					id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5europasseuropass_table"
+					class="europass_table">
+					<tbody>
+						<tr class="en-tete">
+							<td class="language_edit"></td>
+							<td class="bordure" colspan="2"> COMPRENDRE </td>
+							<td class="bordure" colspan="2"> PARLER </td>
+							<td class="bordure"> ÉCRIRE </td>
+						</tr>
+						<tr class="en-tete">
+							<td></td>
+							<td class="bordure"> Écouter </td>
+							<td class="bordure"> Lire </td>
+							<td class="bordure"> Prendre part à une conversation </td>
+							<td class="bordure"> S'exprimer oralement en continu </td>
+							<td class="bordure">
+							</td>
+						</tr>
+						<tr class="other-tongue"
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5europass_fea05a89-e090-11eb-8694-866553ff25c5">
+							<td class="langue language"
+								id="report_language_fea05a89-e090-11eb-8694-866553ff25c5">
+								<div class="en view-div" style="">
+									<span name="label">Anglais</span>
+								</div>
+							</td>
+							<td class="bordure listening"
+								id="report_listening_fea05a89-e090-11eb-8694-866553ff25c5">B2</td>
+							<td class="bordure reading"
+								id="report_reading_fea05a89-e090-11eb-8694-866553ff25c5">B1</td>
+							<td class="bordure spoken-interaction"
+								id="report_spokenInteraction_fea05a89-e090-11eb-8694-866553ff25c5">C1</td>
+							<td class="bordure spoken-production"
+								id="report_spokenProduction_fea05a89-e090-11eb-8694-866553ff25c5">B2</td>
+							<td class="bordure writing"
+								id="report_writing_fea05a89-e090-11eb-8694-866553ff25c5">B2</td>
+						</tr>
+						<tr class="other-tongue"
+							id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5europass_85c965b5-15f2-11ec-8694-866553ff25c5">
+							<td class="langue language"
+								id="report_language_85c965b5-15f2-11ec-8694-866553ff25c5">
+								<div class="ko view-div" style="">
+									<span name="label">Coréen</span>
+								</div>
+							</td>
+							<td class="bordure listening"
+								id="report_listening_85c965b5-15f2-11ec-8694-866553ff25c5">C2</td>
+							<td class="bordure reading"
+								id="report_reading_85c965b5-15f2-11ec-8694-866553ff25c5">C1</td>
+							<td class="bordure spoken-interaction"
+								id="report_spokenInteraction_85c965b5-15f2-11ec-8694-866553ff25c5">A2</td>
+							<td class="bordure spoken-production"
+								id="report_spokenProduction_85c965b5-15f2-11ec-8694-866553ff25c5">A1</td>
+							<td class="bordure writing"
+								id="report_writing_85c965b5-15f2-11ec-8694-866553ff25c5">B1</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3"
+		style="width:100%;margin-bottom:20px;margin-top:20px;"
+		class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3-0-0"
+				style="font-weight:bold;font-size:14pt;color:#00b0f0;border:none;border-bottom:1px solid #00b0f0;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">FORMATION</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3-1-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3-1-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-3-1-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9fdb4c-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#00b0f0;">Licence mention Science de la Vie</span>
+				<span id="reshelp_fe9fdb4c-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fda93-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+				</span>
+				<span
+					id="dashboard_node_resourcefe9fe214-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;">Université d'Orléans</span>
+				<span id="reshelp_fe9fe214-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fda93-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+				</span>
+				<span
+					id="dashboard_node_resourcefe9fd581-e090-11eb-8694-866553ff25c5"
+					style="">09/2017</span>
+				<span id="reshelp_fe9fd581-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9e0511-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined"> à </span>
+				<span
+					id="dashboard_node_resourcefe9e0511-e090-11eb-8694-866553ff25c5"
+					style="">07/2018</span>
+				<span id="reshelp_fe9e0511-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4"
+		style="width:100%;margin-bottom:20px;" class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-0-0"
+				style="font-weight:bold;font-size:14pt;color:#ff9900;border:none;border-bottom:1px solid #ff9900;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">EXPÉRIENCE
+					PROFESSIONNELLE</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-1-0-0-0-0"
+			style="" class="undefined">
+			<td
+				id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-1-0-0-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-1-0-0-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea0cbe6-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#ff9900;">
+					<span>Action étudiante 1</span>
+				</span>
+				<span id="reshelp_fea0cbe6-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfea0cbe6-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined"> - </span>
+				<span
+					id="dashboard_node_resourcefea1254a-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;">BDE Pôle Sciences</span>
+				<span id="reshelp_fea1254a-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfea0cbe6-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+				</span>
+				<span
+					id="dashboard_node_resourcefea12310-e090-11eb-8694-866553ff25c5"
+					style="">01/2018</span>
+				<span id="reshelp_fea12310-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfea1274b-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined"> à </span>
+				<span
+					id="dashboard_node_resourcefea1274b-e090-11eb-8694-866553ff25c5"
+					style="">05/2018</span>
+				<span id="reshelp_fea1274b-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfea0cbe6-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+					<br />
+					<b>Mes missions :</b>
+					<br />
+				</span>
+				<span
+					id="dashboard_node_resourcefea12a81-e090-11eb-8694-866553ff25c5"
+					style="">
+					<div>
+						<div>
+							Créer des activités dans le but de rendre heureux les étudiants
+							<br />
+							Développer la notoriété de l'Université﻿
+						</div>
+					</div>
+				</span>
+				<span id="reshelp_fea12a81-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfea0cbe6-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+					<b>Mes réalisations :</b>
+					<br />
+				</span>
+				<span id="dashboard_fea12c03-e090-11eb-8694-866553ff25c5"></span>
+				<span id="reshelp_fea12c03-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfea0cbe6-e090-11eb-8694-866553ff25c5"
+					style="font-weight:normal;" class="undefined">
+					<b>Apports de cette expérience :</b>
+					<br />
+				</span>
+				<span
+					id="dashboard_node_resourcefea12916-e090-11eb-8694-866553ff25c5"
+					style="">
+					Plus de confiance, polyvalence...﻿
+					<br />
+				</span>
+				<span id="reshelp_fea12916-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-4-0-0-0-0"
+			style="" class="undefined">
+			<td
+				id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-4-0-0-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-4-4-0-0-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9fec79-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#ff9900;">
+					<span>Expérience personnelle 1</span>
+				</span>
+				<span id="reshelp_fe9fec79-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fec79-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined"> - </span>
+				<span
+					id="dashboard_node_resourcefe9ff402-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;">Restaurant au Cambodge</span>
+				<span id="reshelp_fe9ff402-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fec79-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+				</span>
+				<span
+					id="dashboard_node_resourcefe9fed76-e090-11eb-8694-866553ff25c5"
+					style="">08/2017</span>
+				<span id="reshelp_fe9fed76-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9e1a2d-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined"> à </span>
+				<span
+					id="dashboard_node_resourcefe9e1a2d-e090-11eb-8694-866553ff25c5"
+					style="">08/2017</span>
+				<span id="reshelp_fe9e1a2d-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fec79-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+					<br />
+					<b>But de cette expérience :</b>
+					<br />
+				</span>
+				<span
+					id="dashboard_node_resourcefe9ff613-e090-11eb-8694-866553ff25c5"
+					style="">
+					Pouvoir manger tranquillement﻿
+					<br />
+				</span>
+				<span id="reshelp_fe9ff613-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fec79-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+					<b>Mes réalisations :</b>
+					<br />
+				</span>
+				<span
+					id="dashboard_node_resourcefe9ff564-e090-11eb-8694-866553ff25c5"
+					style="">
+					Gérer un conflit imprévu﻿
+					<br />
+				</span>
+				<span id="reshelp_fe9ff564-e090-11eb-8694-866553ff25c5"></span>
+				<span id="txtfe9fec79-e090-11eb-8694-866553ff25c5" style=""
+					class="undefined">
+					<b>Apports de cette expérience :</b>
+					<br />
+				</span>
+				<span
+					id="dashboard_node_resourcefe9ff4b5-e090-11eb-8694-866553ff25c5"
+					style="">
+					Confiance en soi et empathie﻿
+					<br />
+				</span>
+				<span id="reshelp_fe9ff4b5-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5"
+		style="width:100%;margin-bottom:20px;" class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5-0-0"
+				style="font-weight:bold;font-size:14pt;color:#7030a0;border:none;border-bottom:1px solid #a5a5a5;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">CERTIFICATIONS</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5-1-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5-1-0-0-0"
+				style="font-weight:bold;border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-5-1-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea15a7a-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>C2i2e</span>
+				</span>
+				<span id="reshelp_fea15a7a-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6"
+		style="width:100%;margin-bottom:20px;" class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-0-0"
+				style="font-weight:bold;font-size:14pt;color:#92d050;border:none;border-bottom:1px solid #92d050;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">COMPÉTENCES</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-1-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-1-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-1-0-0-0"
+					class="ihelp"></span>
+				<span id="txtfe9e0b92-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#92d050;" class="undefined">Compétences
+					disciplinaires</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-2-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-2-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-2-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9e0b92-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Mobiliser les concepts fondamentaux de l'écologie et des
+						écosystèmes pour situer les problématiques biologiques et
+						physiologiques</span>
+				</span>
+				<span id="reshelp_fe9e0b92-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-3-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-3-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-3-0-0-0"
+					class="ihelp"></span>
+				<span id="txtfea0b308-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#92d050;" class="undefined">Compétences
+					préprofessionnelles</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-4-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-4-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-4-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea0b308-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Travailler en équipe autant qu'en autonomie et responsabilité
+						au service d'un projet</span>
+				</span>
+				<span id="reshelp_fea0b308-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-5-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-5-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-5-0-0-0"
+					class="ihelp"></span>
+				<span id="txtfea0cabe-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#92d050;" class="undefined">Compétences métier</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea0cabe-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence métier 10</span>
+				</span>
+				<span id="reshelp_fea0cabe-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-1-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-1-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-1-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9fd2b9-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence métier 2</span>
+				</span>
+				<span id="reshelp_fe9fd2b9-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-2-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-2-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-6-2-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea08d4a-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence métier 1</span>
+				</span>
+				<span id="reshelp_fea08d4a-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-7-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-7-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-7-0-0-0"
+					class="ihelp"></span>
+				<span id="txtfea0ba42-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#92d050;" class="undefined">Compétences
+					transversales et linguistiques</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-8-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-8-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-8-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea0ba42-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Développer une argumentation avec esprit critique.</span>
+				</span>
+				<span id="reshelp_fea0ba42-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-8-1-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-8-1-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-8-1-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea08c4b-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Se servir aisément des différents registres d'expression
+						écrite et orale de la langue française.</span>
+				</span>
+				<span id="reshelp_fea08c4b-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-9-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-9-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-9-0-0-0"
+					class="ihelp"></span>
+				<span id="txtfe9d5155-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#92d050;" class="undefined">Compétences issues
+					des certifications</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-10-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-10-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-10-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9d5155-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Réaliser un document composite</span>
+				</span>
+				<span id="reshelp_fe9d5155-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-11-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-11-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-11-0-0-0"
+					class="ihelp"></span>
+				<span id="txtfea07e78-e090-11eb-8694-866553ff25c5"
+					style="font-weight:bold;color:#92d050;" class="undefined">Compétences diverses</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea07e78-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence diverse 10</span>
+				</span>
+				<span id="reshelp_fea07e78-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-1-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-1-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-1-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9fbc3f-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence diverse 3</span>
+				</span>
+				<span id="reshelp_fe9fbc3f-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-2-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-2-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-2-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea08161-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence diverse 1</span>
+				</span>
+				<span id="reshelp_fea08161-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-3-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-3-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-6-12-3-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9feaea-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Compétence diverse 4</span>
+				</span>
+				<span id="reshelp_fe9feaea-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7"
+		style="width:100%;margin-bottom:20px;" class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-0-0"
+				style="font-weight:bold;font-size:14pt;color:#953734;border:none;border-bottom:1px solid #a5a5a5;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">MATIÈRES</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea10343-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Chimie organique expérimentale</span>
+				</span>
+				<span id="reshelp_fea10343-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-1-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-1-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-1-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea10703-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Chimie pour les Biosciences</span>
+				</span>
+				<span id="reshelp_fea10703-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-2-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-2-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-2-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea0bc5a-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Initiation et valorisation des ressources végétales</span>
+				</span>
+				<span id="reshelp_fea0bc5a-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-3-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-3-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-3-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea12e43-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Entomofaune et flore de la région Centre</span>
+				</span>
+				<span id="reshelp_fea12e43-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-4-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-4-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-7-1-4-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefea13116-e090-11eb-8694-866553ff25c5"
+					style="">
+					<span>Chimie, Energie et environnement</span>
+				</span>
+				<span id="reshelp_fea13116-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+	</table>
+	<table id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8"
+		style="width:100%;margin-bottom:20px;" class="undefined">
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-0-0"
+				style="font-weight:bold;font-size:14pt;color:#a5a5a5;border:none;border-bottom:1px solid #a5a5a5;text-align:center"
+				class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-0-0"
+					class="ihelp"></span>
+				<span id="txtundefined" style="" class="undefined">INTERETS</span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-0-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-0-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-0-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9ef92c-e090-11eb-8694-866553ff25c5"
+					style="">Intérêt 1</span>
+				<span id="reshelp_fe9ef92c-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-1-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-1-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-1-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9efa2e-e090-11eb-8694-866553ff25c5"
+					style="">Intérêt 2</span>
+				<span id="reshelp_fe9efa2e-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-2-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-2-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-2-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9efb25-e090-11eb-8694-866553ff25c5"
+					style="">Intérêt 3</span>
+				<span id="reshelp_fe9efb25-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+		<tr id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-3-0"
+			style="" class="undefined">
+			<td id="dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-3-0-0"
+				style="border:none;" class="undefined">
+				<span
+					id="help_dashboard_fea02be3-e090-11eb-8694-866553ff25c5-8-1-3-0-0"
+					class="ihelp"></span>
+				<span
+					id="dashboard_node_resourcefe9efc1a-e090-11eb-8694-866553ff25c5"
+					style="">Passion 1</span>
+				<span id="reshelp_fe9efc1a-e090-11eb-8694-866553ff25c5"></span>
+			</td>
+		</tr>
+	</table>
+</div>
