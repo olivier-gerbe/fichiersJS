@@ -1,0 +1,81 @@
+<menus>
+	<menu>
+		<menulabel>Ajouter une trace A@fr</menulabel>
+		<items>
+			<item>
+				<itemlabel>Ajouter un document et une image@fr</itemlabel>
+				<action>
+					<folder>karuta</folder>
+					<foliocode>composantes</foliocode>
+					<semtag>Document</semtag>
+					<target>
+						<folder>self</folder>
+						<foliocode>self</foliocode>
+						<semtag>self</semtag>
+					</target>
+				</action>
+				<action>
+					<folder>karuta</folder>
+					<foliocode>composantes</foliocode>
+					<semtag>Image</semtag>
+					<target>
+						<folder></folder>
+						<foliocode></foliocode>
+						<semtag></semtag>
+					</target>
+				</action>
+				<itemtype>importsingle</itemtype>
+				<roles>etudiant</roles>
+				<condition></condition>
+			</item>
+			<item>
+				<itemlabel>Importer une situation</itemlabel>
+				<boxlabel></boxlabel>
+				<search>
+					<parentposition>sibling</parentposition>
+					<parentsemtag>domaine</parentsemtag>
+				</search>
+				<action>
+					<folder>[##situations##+lastFolder(?)]</folder>
+					<foliocode>?</foliocode>
+					<semtag>situation</semtag>
+					<target></target>
+					<updatedtag></updatedtag>
+				</action>
+				<itemtype>importggmultipe</itemtype>
+				<roles>etudiant enseignant</roles>
+				<condition></condition>
+			</item>
+			<item>
+				<itemlabel>Importer une situation</itemlabel>
+				<boxlabel></boxlabel>
+				<search>
+					<folder>##situations##</folder>
+					<foliocode>liste-situation</foliocode>
+					<semtag>situation</semtag>
+				</search>
+				<action>
+					<folder></folder>
+					<foliocode></foliocode>
+					<semtag></semtag>
+					<target>
+						<folder></folder>
+						<foliocode></foliocode>
+						<semtag>mes-competences</semtag>
+					</target>
+					<updatedtag></updatedtag>
+				</action>
+				<action>
+					<folder>?</folder>
+					<foliocode>?</foliocode>
+					<semtag>situation-element</semtag>
+					<target>mes situations</target>
+					<updatedtag></updatedtag>
+				</action>
+				<itemtype>importgmultipe</itemtype>
+				<roles>etudiant enseignant</roles>
+				<condition></condition>
+			</item>
+		</items>
+	</menu>
+</menus>

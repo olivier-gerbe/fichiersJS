@@ -161,7 +161,7 @@
 		'srce' : {
 			'portfoliocode' : '',
 		},
-		'menulabel' : '',
+		'itemlabel' : '',
 		'boxlabel' : '',
 		'roles' : '',
 		'dest' : '',
