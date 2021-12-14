@@ -16,3 +16,10 @@ function testPrevGGRCodeNotEmpty(node) {
 function niveauchoisi(node) {
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
 }
+
+function setVariable_code (node)
+{
+	let variable = $("code",$("asmResource[xsi_type='nodeRes']",$(node))).text();
+	let code = $("code",$("asmResource[xsi_type='Get_Resource']",$(node))).text();
+	g_variables[variable+"_code"] = code;
+}
