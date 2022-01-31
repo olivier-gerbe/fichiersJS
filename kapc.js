@@ -13,6 +13,24 @@ function testPrevGGRCodeNotEmpty(node) {
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
 }
 
+function testEnseignantCodeNotEmpty(uuid) {
+	if (uuid == null)
+		uuid = $("#page").attr('uuid');
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
+	return (enseignants.length>0);
+}
+
+function envoiErreurSiPasEnseignants() {
+	var uuid = $("#page").attr('uuid');
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
+	if (enseignants.length==0) {
+		alert("Il n'y a pas d'enseignant associé.");
+		$("#edit-window").modal('hide');
+		throw "Il n'y a pas d'enseignant associé.";
+	}
+}
+
+
 function niveauchoisi(node) {
 	// retourne vrai si le Get_Get_Resource précédent le noeud n'est pas vide, faux sinon
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
@@ -154,8 +172,6 @@ function specificDisplayPortfolios(){
 
 function buildSaveVectorKAPC(nodeid,uuid,type) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
-	if (enseignants.length==0)
-		alert("Il n'y a pas d'enseignant assocé.");
 	const today = new Date().getTime();
 	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",UICom.root.node)).text();
 
