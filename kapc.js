@@ -30,7 +30,6 @@ function envoiErreurSiPasEnseignants() {
 	}
 }
 
-
 function niveauchoisi(node) {
 	// retourne vrai si le Get_Get_Resource précédent le noeud n'est pas vide, faux sinon
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
@@ -43,15 +42,7 @@ function setVariable_code (node)
 	g_variables[variable+"_code"] = code;
 }
 
-/*function setPrenomNom(nodeid) {
-	let prenom_nom =  $("*:has(>metadata[semantictag*='prenom_nom'])",UICom.structure.ui[nodeid]. node)[0];
-	var prenom_nomid = $(prenom_nom).attr("id");
-	let prenom = $("*:has(>metadata[semantictag*='prenom-etudiant'])",g_portfolio_current)[0];
-	let nom = $("*:has(>metadata[semantictag*='nom-famille-etudiant'])",g_portfolio_current)[0];
-	UICom.structure.ui[prenom_nomid].resource.text_node[LANGCODE].text(text);
-	UICom.structure.ui[prenom_nomid].resource.save();
-}
-*/
+
 //==============================================
 function setPrenomNom(nodeid) {
 	var prenom_nom =  $("*:has(>metadata[semantictag*='prenom_nom'])",UICom.structure.ui[nodeid].node)[0];
@@ -75,7 +66,7 @@ function setPrenomNom(nodeid) {
 
 //mise à jour du code et du libellé dela compétence dans la section 'mes compétences'
 function setCompetenceCodeLabel(nodeid){
-	let js = replaceVariable("setNodeCodeLabel(##currentnode##,##lastimported##)",UICom.structure.ui[nodeid].node);
+	let js = replaceVariable("setNodeCodeLabel(##currentnode##,##lastimported##)",UICom.structure.ui[nodeid]);
 	eval(js);
 }
 
@@ -166,32 +157,59 @@ function specificDisplayPortfolios(){
 	}
 }
 
+function supprimerCompetenceMonBilan(uuid){
+	const code = UICom.structure.ui[uuid].getCode();
+	const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
+	if (target.length>0) {
+		targetid = $(target[0]).attr("id");
+		const compnode = $("asmUnit:has(>metadata[semantictag*=page-competence-specification])",UICom.structure.ui[targetid].node);
+		for (let i=0;i<compnode.length;i++){
+			const nodeid = $(compnode[i]).attr("id");
+			const nodecode = UICom.structure.ui[nodeid].getCode();
+			if (nodecode==code)
+				UIFactory.Node.remove(nodeid);
+		}
+		UIFactory.Node.reloadStruct();
+	}
+}
+
+function supprimerFormationMonBilan(uuid){
+	const code = UICom.structure.ui[uuid].getCode();
+	const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
+	if (target.length>0) {
+		targetid = $(target[0]).attr("id");
+		const compnode = $("asmUnit:has(>metadata[semantictag*=bilan-competences-FORMATION])",UICom.structure.ui[targetid].node);
+		for (let i=0;i<compnode.length;i++){
+			const nodeid = $(compnode[i]).attr("id");
+			const nodecode = UICom.structure.ui[nodeid].getCode();
+			if (nodecode==code)
+				UIFactory.Node.remove(nodeid);
+		}
+		UIFactory.Node.reloadStruct();
+	}
+}
+
+
 //=========================================================
 //==================Specific Vector Functions==============
 //=========================================================
 
-function buildSaveVectorKAPC(nodeid,uuid,type) {
-	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
+function buildSaveVectorKAPC(nodeid,pageid,type) {
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const today = new Date().getTime();
 	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",UICom.root.node)).text();
 
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,uuid,g_portfolioid,USER.id,today,selfcode);
+		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,USER.id,today,selfcode);
 	}
 }
 
 
-
-function numberVectorKAPC(enseignantid,type1,type2) {
-	let tab = searchVectorKAPC(enseignantid,type1,type2);
-	return tab.length;
-}
-
 //=============== EVALUATION =======================
 function demanderEvaluation(nodeid) {
-	const uuid = $("#page").attr('uuid');
-	const semtag = UICom.structure.ui[uuid].semantictag;
+	const pageid = $("#page").attr('uuid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
@@ -203,16 +221,16 @@ function demanderEvaluation(nodeid) {
 		type='competence';
 	const val = UICom.structure.ui[nodeid].resource.getValue();
 	if (val=='1')
-		buildSaveVectorKAPC(uuid,uuid,type+'-evaluation');
+		buildSaveVectorKAPC(nodeid,pageid,type+'-evaluation');
 	else
-		deleteVector(null,type+'-evaluation',uuid);
+		deleteVector(null,type+'-evaluation',pageid);
 }
 
 
 //=============== FEEDBACK ========================
 function demanderFeedback(nodeid){
-	const uuid = $("#page").attr('uuid');
-	const semtag = UICom.structure.ui[uuid].semantictag;
+	const pageid = $("#page").attr('pageid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
@@ -222,12 +240,12 @@ function demanderFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	buildSaveVectorKAPC(nodeid,uuid,type+"-feedback");
+	buildSaveVectorKAPC(nodeid,pageid,type+"-feedback");
 }
 
 function supprimerFeedback(nodeid){
-	const uuid = $("#page").attr('uuid');
-	const semtag = UICom.structure.ui[uuid].semantictag;
+	const pageid = $("#page").attr('pageid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
@@ -241,8 +259,8 @@ function supprimerFeedback(nodeid){
 }
 
 function soumettreFeedback(nodeid){
-	const uuid = $("#page").attr('uuid');
-	const semtag = UICom.structure.ui[uuid].semantictag;
+	const pageid = $("#page").attr('pageid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
@@ -252,13 +270,13 @@ function soumettreFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	buildSubmitVectorKAPC(nodeid,uuid,type+"-feedback-done");
+	buildSubmitVectorKAPC(nodeid,pageid,type+"-feedback-done");
 }
 
 
 function soumettreEvaluation(nodeid){
-	const uuid = $("#page").attr('uuid');
-	const semtag = UICom.structure.ui[uuid].semantictag;
+	const pageid = $("#page").attr('pageid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
@@ -271,18 +289,18 @@ function soumettreEvaluation(nodeid){
 	buildSubmitVectorKAPC(nodeid,nodeid,type+"-evaluation-done");
 }
 
-function buildSubmitVectorKAPC(nodeid,uuid,type) {
+function buildSubmitVectorKAPC(nodeid,pageid,type) {
 	const today = new Date().getTime();
 	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",UICom.root.node)).text();
 	const portfolioidnodes = $(".portfolioid",document);
 	const tab = $(portfolioidnodes).map(function() {return $(this).text();}).get();
 	let portfolioid ="";
 	for (let i=0;i<tab.length;i++){
-		let uuids = tab[i].split("_");
-		if (uuids[0]==nodeid)
-			portfolioid = uuids[1];
+		let pageids = tab[i].split("_");
+		if (pageids[0]==nodeid)
+			portfolioid = pageids[1];
 	}
-	saveVector(USER.username,type,nodeid,uuid,portfolioid,USER.id,today,selfcode);
+	saveVector(USER.username,type,nodeid,pageid,portfolioid,USER.id,today,selfcode);
 }
 
 function searchVectorKAPC(enseignantid,type1,type2,date1,date2) {
@@ -317,10 +335,23 @@ function searchVectorKAPC(enseignantid,type1,type2,date1,date2) {
 				tableau.splice(indx,1);
 		}
 	}
-	let result =  [];
-	for (let i=0;i<tableau.length;i++){ // copie dans result en éliminant les doublons
-		if (result.indexOf(tableau[i][0])<0)
-			result.push(tableau[i].substring(0,tableau[i].indexOf("_")));
-	}
-	return result;
+	return tableau;
 }
+
+
+function numberVectorKAPC(enseignantid,type1,type2) {
+	let tab = searchVectorKAPC(enseignantid,type1,type2);
+	let result = [];
+	for (let i=0;i<tab.length;i++){
+		const portfolioid = tab[i].substring(0,tab[i].indexOf('_'));
+		const nodeid = tab[i].substring(tab[i].indexOf('_')+1);
+		const search = $("vector",searchVector(null,type2,nodeid,null,portfolioid));
+		if (search.length==0)
+			result.push(tab[i]);
+	}
+	return result.length;
+}
+
+
+
+

@@ -37,3 +37,11 @@
 #navigation_bar {
 	margin-top:-100px;
 }
+
+#main-user,
+#main-portfoliosgroup,
+#main-usersgroup,
+#main-exec-batch,
+#main-exec-report {
+	margin-top:100px;
+}
