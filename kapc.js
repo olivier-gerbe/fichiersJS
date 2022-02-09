@@ -229,7 +229,7 @@ function demanderEvaluation(nodeid) {
 
 //=============== FEEDBACK ========================
 function demanderFeedback(nodeid){
-	const pageid = $("#page").attr('pageid');
+	const pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
@@ -244,7 +244,7 @@ function demanderFeedback(nodeid){
 }
 
 function supprimerFeedback(nodeid){
-	const pageid = $("#page").attr('pageid');
+	const pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
@@ -259,7 +259,7 @@ function supprimerFeedback(nodeid){
 }
 
 function soumettreFeedback(nodeid){
-	const pageid = $("#page").attr('pageid');
+	const pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
@@ -275,7 +275,7 @@ function soumettreFeedback(nodeid){
 
 
 function soumettreEvaluation(nodeid){
-	const pageid = $("#page").attr('pageid');
+	const pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
