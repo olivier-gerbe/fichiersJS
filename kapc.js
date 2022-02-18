@@ -157,6 +157,8 @@ function specificDisplayPortfolios(){
 	}
 }
 
+
+
 function supprimerCompetenceMonBilan(uuid){
 	const code = UICom.structure.ui[uuid].getCode();
 	const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
@@ -189,6 +191,40 @@ function supprimerFormationMonBilan(uuid){
 	}
 }
 
+function specificEnterDisplayPortfolio()
+{
+	const fc = $("*:has(>metadata[semantictag*=fichier-consentement])",g_portfolio_current).not(":has(>metadata-wad[submitted=Y])");
+	if (fc.length!=0 && g_userroles[0]!='designer') {
+		const nop = UICom.structure.ui[$(fc).attr("id")].getView();
+		var html = "";
+		html += "\n<!-- ==================== box ==================== -->";
+		html += "\n<div id='temp-window'>";
+		html += "\n		<div class='modal-content'>";
+		html += "\n			<div style='padding:10px;height:50px;font-size:120%;background-color:#E4E3E3'>Vous devez accepter les conditions d'utilisation pour accéder à votre portfolio.</div>";
+		html += "\n			<div id='temp-window-body' style='padding:10px'>";
+		html += "\n			</div>";
+		html += "\n		</div>";
+		html += "\n</div>";
+		html += "\n<!-- ============================================== -->";
+		var tempwindow = document.createElement("DIV");
+		tempwindow.setAttribute("class", "preview-window");
+		tempwindow.innerHTML = html;
+		$('body').append(tempwindow);
+		UICom.structure.ui[$(fc).attr("id")].displayAsmContext('temp-window-body',null,LANGCODE,true);
+		var confirmbackdrop = document.createElement("DIV");
+		confirmbackdrop.setAttribute("id", "confirmbackdrop");
+		confirmbackdrop.setAttribute("class", "preview-backdrop");
+		$('body').append(confirmbackdrop);
+		$("#temp-window").show();
+	}
+}
+
+function removeBackdropAndRelaod()
+{
+	$("#temp-window").remove();
+	$('#confirmbackdrop').remove();
+	fill_main_page();
+}
 
 //=========================================================
 //==================Specific Vector Functions==============
@@ -201,7 +237,7 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,USER.id,today,selfcode);
+		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,USER.username,today,selfcode);
 	}
 }
 
@@ -289,6 +325,36 @@ function soumettreEvaluation(nodeid){
 	buildSubmitVectorKAPC(nodeid,nodeid,type+"-evaluation-done");
 }
 
+function supprimerEvaluation(nodeid){
+	const pageid = $("#page").attr('uuid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	var type = "";
+	if (semtag.indexOf('sae')>-1)
+		type = 'sae';
+	else if (semtag.indexOf('stage')>-1)
+		type='stage';
+	else if (semtag.indexOf('autre')>-1)
+		type='action';
+	else if (semtag.indexOf('competence')>-1)
+		type='competence';
+	deleteVector(null,type+"-evaluation",nodeid);
+}
+
+function resetEvaluation(nodeid){
+	const pageid = $("#page").attr('uuid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	var type = "";
+	if (semtag.indexOf('sae')>-1)
+		type = 'sae';
+	else if (semtag.indexOf('stage')>-1)
+		type='stage';
+	else if (semtag.indexOf('autre')>-1)
+		type='action';
+	else if (semtag.indexOf('competence')>-1)
+		type='competence';
+	deleteVector(null,type+"-evaluation-done",nodeid);
+}
+
 function buildSubmitVectorKAPC(nodeid,pageid,type) {
 	const today = new Date().getTime();
 	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",UICom.root.node)).text();
@@ -303,34 +369,36 @@ function buildSubmitVectorKAPC(nodeid,pageid,type) {
 	saveVector(USER.username,type,nodeid,pageid,portfolioid,USER.id,today,selfcode);
 }
 
-function searchVectorKAPC(enseignantid,type1,type2,date1,date2) {
+function searchVectorEvalFB(enseignantid,type1,type2,date1,date2) {
 	const search1 = $("vector",searchVector(enseignantid,type1));
 	let tableau = [];
 	// on ajoute tous les uuids qui ont type1
 	for (let i=0;i<search1.length;i++){
-		let portfolioid = $("a5",search1[i]).text();
 		let nodeid = $("a3",search1[i]).text();
+		let pageid = $("a4",search1[i]).text();
+		let portfolioid = $("a5",search1[i]).text();
 		if (date1!=null || date2!=null) {
 			let date = $("a7",search1[i]).text();
 			if (date1!=null && date1<date) {
 				if (date2==null || (date2!=null && date<date2) ) {
-					if (tableau.indexOf(portfolioid)<0)
-						tableau.push(portfolioid+"_"+nodeid);
+					if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
+						tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
 				}
 			} else if (date2==null || (date2!=null && date<date2) ) {
-				if (tableau.indexOf(portfolioid)<0)
-					tableau.push(portfolioid+"_"+nodeid);
+				if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
+					tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
 			} 
-		} else if (tableau.indexOf(portfolioid)<0)
-			tableau.push(portfolioid+"_"+nodeid);
+		} else if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
+			tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
 	}
 	if (type2!=null && type2!=""){
 		// on retire tous les uuids qui ont type2 et le même nodeid
 		const search2 = $("vector",searchVector(enseignantid,type2));
 		for (let i=0;i<search2.length;i++){
-			let portfolioid = $("a5",search2[i]).text();
-			let nodeid = $("a3",search2[i]).text();
-			const indx = tableau.indexOf(portfolioid+"_"+nodeid);
+			let nodeid = $("a3",search1[i]).text();
+			let pageid = $("a4",search1[i]).text();
+			let portfolioid = $("a5",search1[i]).text();
+			const indx = tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid);
 			if (indx>-1)
 				tableau.splice(indx,1);
 		}
@@ -338,18 +406,40 @@ function searchVectorKAPC(enseignantid,type1,type2,date1,date2) {
 	return tableau;
 }
 
-
-function numberVectorKAPC(enseignantid,type1,type2) {
-	let tab = searchVectorKAPC(enseignantid,type1,type2);
+function searchVectorKAPC(enseignantid,type1,type2,date1,date2) {
+	let tableau = searchVectorEvalFB(enseignantid,type1,type2,date1,date2);
 	let result = [];
-	for (let i=0;i<tab.length;i++){
-		const portfolioid = tab[i].substring(0,tab[i].indexOf('_'));
-		const nodeid = tab[i].substring(tab[i].indexOf('_')+1);
-		const search = $("vector",searchVector(null,type2,nodeid,null,portfolioid));
-		if (search.length==0)
-			result.push(tab[i]);
+	for (let i=0;i<tableau.length;i++){
+		const elts = tableau[i].split("/");
+		if (result.indexOf(elts[2])<0)
+		result.push(elts[2]);
 	}
-	return result.length;
+	return result;
+}
+
+function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
+	let tab1 = searchVectorEvalFB(enseignantid,type1,type2,date1,date2);
+	let tab2 = [];
+	let tab3 = [];
+	for (let i=0;i<tab1.length;i++) {
+		const elts = tab1[i].split("/");
+		let pageid = elts[1];
+		const search = $("vector",searchVector(null,type2,pageid));
+		if (search.length==0)
+			tab2.push(tab1[i]);
+	}
+	if (type1.indexOf('feedback')>-1) {
+		for (let i=0;i<tab2.length;i++){
+			const elts = tab2[i].split("/");
+			let nodeid = elts[0];
+			let pageid = elts[1];
+			const search1 = $("vector",searchVector(null,type2,nodeid));
+			const search2 = $("vector",searchVector(null,type2.replace('feedback','evaluation'),pageid));
+			if (search1.length==0 && search2.length==0)
+				tab3.push(tab2[i]);
+		}
+	}
+	return (type1.indexOf('feedback')>-1)? tab3.length:tab2.length;
 }
 
 
