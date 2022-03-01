@@ -8,6 +8,24 @@ function majEvaluation(nodeid,sharetoemail) {
 	UICom.structure.ui[demandeid].resource.save();
 }
 
+function confirmsoumettreAutres(nodeid,semtag) {
+	document.getElementById('delete-window-body').innerHTML = "L'envoi supprime les droits d'édition de tous les éléments de la page. Cette action est irréversible.<br> Voulez-vous continuer ?";
+	var buttons = "<button class='btn' onclick=\"javascript:$('#delete-window').modal('hide');\">" + karutaStr[LANG]["Cancel"] + "</button>";
+	buttons += "<button class='btn btn-danger' onclick=\"$('#delete-window').modal('hide');soumettreAutres('"+nodeid+"','"+semtag+"')\">Envoyer</button>";
+	document.getElementById('delete-window-footer').innerHTML = buttons;
+	$('#delete-window').modal('show');
+}
+
+function soumettreAutres(nodeid,semtag) {
+	submit(nodeid);
+	const pageid = $("#page").attr('uuid');
+	var autres = $("*:has(>metadata[semantictag*='"+semtag+"'])",UICom.structure.ui[pageid].node);
+	for (var i=0;i<autres.length;i++){
+		submit($(autres).attr("id"));
+	}
+}
+
+
 function testPrevGGRCodeNotEmpty(node) {
 	// le GGR précédent doit avoir la métadonnée Recharger la page cochée
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
@@ -24,7 +42,7 @@ function envoiErreurSiPasEnseignants() {
 	var uuid = $("#page").attr('uuid');
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
 	if (enseignants.length==0) {
-		alert("Il n'y a pas d'enseignant associé.");
+		alert("Il n'y a pas d'enseignant ou d'évaluateur associé.");
 		$("#edit-window").modal('hide');
 		throw "Il n'y a pas d'enseignant associé.";
 	}
@@ -86,6 +104,23 @@ function majDemEvalSAE(nodeid) {
 	UICom.structure.ui[demandeid].resource.save();
 }
 
+function majDate(nodeid,datesemtag) {
+	var date = $("*:has(>metadata[semantictag*='"+datesemtag+"'])",$(UICom.structure.ui[nodeid].node).parent())[0];
+	var dateid = $(date).attr("id");
+	var text = " " + new Date().toLocaleString();
+	UICom.structure.ui[dateid].resource.text_node[LANGCODE].text(text);
+	UICom.structure.ui[dateid].resource.save();
+}
+
+function majDateEvaluation(nodeid) {
+	let evalens = $("*:has(>metadata[semantictag*=evaluation-enseignant])",$(UICom.structure.ui[nodeid].node));
+	var date = $("*:has(>metadata[semantictag*=date-evaluation])",evalens)[0];
+	var dateid = $(date).attr("id");
+	var text = " " + new Date().toLocaleString();
+	UICom.structure.ui[dateid].resource.text_node[LANGCODE].text(text);
+	UICom.structure.ui[dateid].resource.save();
+}
+
 function cacherColonnesVides(){
 	var colspan = 7;
 	if (g_variables['auto-eval']==undefined || g_variables['auto-eval'].length==0){
@@ -111,11 +146,12 @@ function specificDisplayPortfolios(){
 	if (USER.other!="etudiant")
 		throw 'non etudiant';
 	else {
+		let autoload = "";
+		let nb_visibleportfolios = 0;
 		for (var i=0;i<portfolios_list.length;i++){
 			//--------------------------
 			if (portfolios_list[i].visible || portfolios_list[i].ownerid==USER.id) {
 				nb_visibleportfolios++;
-//				visibleid = portfolios_list[i].id;
 			}
 			if (portfolios_list[i].autoload) {
 				autoload = portfolios_list[i].id;
@@ -160,35 +196,51 @@ function specificDisplayPortfolios(){
 
 
 function supprimerCompetenceMonBilan(uuid){
-	const code = UICom.structure.ui[uuid].getCode();
-	const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
-	if (target.length>0) {
-		targetid = $(target[0]).attr("id");
-		const compnode = $("asmUnit:has(>metadata[semantictag*=page-competence-specification])",UICom.structure.ui[targetid].node);
-		for (let i=0;i<compnode.length;i++){
-			const nodeid = $(compnode[i]).attr("id");
-			const nodecode = UICom.structure.ui[nodeid].getCode();
-			if (nodecode==code)
-				UIFactory.Node.remove(nodeid);
+	var retour = false;
+	if (confirm('ATTENTION. Cela va supprimer la compétence dans Mon bilan. Voulez-vous continuer?')) {
+		retour = true;
+		const code = UICom.structure.ui[uuid].getCode();
+		const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
+		if (target.length>0) {
+			targetid = $(target[0]).attr("id");
+			const compnode = $("*:has(>metadata[semantictag*=page-competence-specification])",UICom.structure.ui[targetid].node);
+			for (let i=0;i<compnode.length;i++){
+				const nodeid = $(compnode[i]).attr("id");
+				const nodecode = UICom.structure.ui[nodeid].getCode();
+				if (nodecode==code)
+					UIFactory.Node.remove(nodeid);
+			}
+			UIFactory.Node.reloadStruct();
 		}
-		UIFactory.Node.reloadStruct();
+	} else {
+		$('#delete-window').modal('hide');
+		$('#wait-window').modal('hide');
 	}
+	return retour;
 }
 
 function supprimerFormationMonBilan(uuid){
-	const code = UICom.structure.ui[uuid].getCode();
-	const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
-	if (target.length>0) {
-		targetid = $(target[0]).attr("id");
-		const compnode = $("asmUnit:has(>metadata[semantictag*=bilan-competences-FORMATION])",UICom.structure.ui[targetid].node);
-		for (let i=0;i<compnode.length;i++){
-			const nodeid = $(compnode[i]).attr("id");
-			const nodecode = UICom.structure.ui[nodeid].getCode();
-			if (nodecode==code)
-				UIFactory.Node.remove(nodeid);
+	var retour = false;
+	if (confirm('ATTENTION. Cela va supprimer la formation et les compétences dans Mes bilans par compétence. Voulez-vous continuer?')) {
+		retour = true;
+		const code = UICom.structure.ui[uuid].getCode();
+		const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
+		if (target.length>0) {
+			targetid = $(target[0]).attr("id");
+			const compnode = $("*:has(>metadata[semantictag*=bilan-competences-FORMATION])",UICom.structure.ui[targetid].node);
+			for (let i=0;i<compnode.length;i++){
+				const nodeid = $(compnode[i]).attr("id");
+				const nodecode = UICom.structure.ui[nodeid].getCode();
+				if (nodecode==code)
+					UIFactory.Node.remove(nodeid);
+			}
+			UIFactory.Node.reloadStruct();
 		}
-		UIFactory.Node.reloadStruct();
+	} else {
+		$('#delete-window').modal('hide');
+		$('#wait-window').modal('hide');
 	}
+	return retour;
 }
 
 function specificEnterDisplayPortfolio()
@@ -243,8 +295,8 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 
 
 //=============== EVALUATION =======================
-function demanderEvaluation(nodeid) {
-	const pageid = $("#page").attr('uuid');
+function demanderEvaluation(nodeid,parentid) {
+	let pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
@@ -256,10 +308,17 @@ function demanderEvaluation(nodeid) {
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
 	const val = UICom.structure.ui[nodeid].resource.getValue();
-	if (val=='1')
+	if (val=='1') {
+		if (parentid!=null)
+			nodeid = parentid;
+		else
+			nodeid = pageid;
 		buildSaveVectorKAPC(nodeid,pageid,type+'-evaluation');
-	else
+	} else {
+		if (parentid!=null)
+			pageid = parentid;
 		deleteVector(null,type+'-evaluation',pageid);
+	}
 }
 
 
@@ -323,6 +382,13 @@ function soumettreEvaluation(nodeid){
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
 	buildSubmitVectorKAPC(nodeid,nodeid,type+"-evaluation-done");
+	let evalens = $("*:has(>metadata[semantictag*=evaluation-enseignant])",$(UICom.structure.ui[nodeid].node));
+	var date = $("*:has(>metadata[semantictag*=date-evaluation)",evalens)[0];
+	var dateid = $(date).attr("id");
+	var text = " " + new Date().toLocaleString();
+	UICom.structure.ui[dateid].resource.text_node[LANGCODE].text(text);
+	UICom.structure.ui[dateid].resource.save();
+
 }
 
 function supprimerEvaluation(nodeid){
@@ -366,11 +432,13 @@ function buildSubmitVectorKAPC(nodeid,pageid,type) {
 		if (pageids[0]==nodeid)
 			portfolioid = pageids[1];
 	}
-	saveVector(USER.username,type,nodeid,pageid,portfolioid,USER.id,today,selfcode);
+	saveVector(USER.username,type,nodeid,pageid,portfolioid,USER.username,today,selfcode);
 }
 
-function searchVectorEvalFB(enseignantid,type1,type2,date1,date2) {
-	const search1 = $("vector",searchVector(enseignantid,type1));
+function searchVectorEvalFB(enseignantid,type1,type2,date1,date2,enseignant2id) {
+	let search1 = $("vector",searchVector(enseignantid,type1));
+	if(enseignant2id!=null)
+		search1 = $("vector",searchVector(enseignantid,type1,null,null,null,enseignant2id));
 	let tableau = [];
 	// on ajoute tous les uuids qui ont type1
 	for (let i=0;i<search1.length;i++){
