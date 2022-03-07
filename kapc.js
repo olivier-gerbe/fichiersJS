@@ -1,4 +1,4 @@
-
+// === version 1.2.0 2022/03/04 ===
 
 function majEvaluation(nodeid,sharetoemail) {
 	var demande = $("*:has(>metadata[semantictag*='demande-eval'])",UICom.structure.ui[nodeid]. node)[0];
@@ -80,6 +80,27 @@ function setPrenomNom(nodeid) {
 	UICom.structure.ui[prenom_nomid].resource.save();
 }
 
+function ajouterPartage(nodeid) {
+	var node = UICom.structure.ui[nodeid].node
+	var metadatawad = $("metadata-wad",node)[0];
+	var text = "etudiant,pair,?,2,336,Demander une évaluation à un pair@fr;etudiant,tuteur,?,3,336,Demander une évaluation à un tuteur@fr";
+	$(metadatawad).attr("shareroles",text);
+	var xml = xml2string(metadatawad[0]);
+	$.ajax({
+		async : false,
+		type : "PUT",
+		contentType: "application/xml",
+		dataType : "text",
+		data : xml,
+		nodeid : nodeid,
+		url : serverBCK_API+"/nodes/node/" + nodeid+"/metadatawad",
+		success : function(data) {
+		},
+		error : function(data) {
+			console.log("ERROR update metadatawad("+this.nodeid+") -  attribute="+attribute+" value="+text);
+		}
+	});
+}
 
 
 //mise à jour du code et du libellé dela compétence dans la section 'mes compétences'
@@ -368,9 +389,12 @@ function soumettreFeedback(nodeid){
 	buildSubmitVectorKAPC(nodeid,pageid,type+"-feedback-done");
 }
 
+function soumettreEvaluation2(nodeid){
+	soumettreEvaluation(nodeid);
+}
 
 function soumettreEvaluation(nodeid){
-	const pageid = $("#page").attr('uuid');
+	let pageid = nodeid;
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
@@ -379,16 +403,19 @@ function soumettreEvaluation(nodeid){
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
 		type='action';
-	else if (semtag.indexOf('competence')>-1)
+	else if (semtag.indexOf('competence')>-1) {
 		type='competence';
-	buildSubmitVectorKAPC(nodeid,nodeid,type+"-evaluation-done");
-	let evalens = $("*:has(>metadata[semantictag*=evaluation-enseignant])",$(UICom.structure.ui[nodeid].node));
-	var date = $("*:has(>metadata[semantictag*=date-evaluation)",evalens)[0];
-	var dateid = $(date).attr("id");
-	var text = " " + new Date().toLocaleString();
-	UICom.structure.ui[dateid].resource.text_node[LANGCODE].text(text);
-	UICom.structure.ui[dateid].resource.save();
-
+		pageid = $("#page").attr('uuid');
+	}
+	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
+		buildSubmitVectorKAPC(nodeid,pageid,type+"-evaluation-done");
+		let evalens = $("*:has(>metadata[semantictag*=evaluation-enseignant])",$(UICom.structure.ui[nodeid].node));
+		var date = $("*:has(>metadata[semantictag*=date-evaluation)",evalens)[0];
+		var dateid = $(date).attr("id");
+		var text = " " + new Date().toLocaleString();
+		UICom.structure.ui[dateid].resource.text_node[LANGCODE].text(text);
+		UICom.structure.ui[dateid].resource.save();
+	}
 }
 
 function supprimerEvaluation(nodeid){
@@ -447,12 +474,13 @@ function searchVectorEvalFB(enseignantid,type1,type2,date1,date2,enseignant2id) 
 		let portfolioid = $("a5",search1[i]).text();
 		if (date1!=null || date2!=null) {
 			let date = $("a7",search1[i]).text();
-			if (date1!=null && date1<date) {
-				if (date2==null || (date2!=null && date<date2) ) {
+			if (date1!=null && date2!=null && date1<date && date<date2+86400000) {
 					if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
 						tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
-				}
-			} else if (date2==null || (date2!=null && date<date2) ) {
+			} else if (date1!=null && date2==null && date1<date) {
+					if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
+						tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
+			} else if (date1==null && date2!=null && date<date2+86400000) {
 				if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
 					tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
 			} 
@@ -463,9 +491,9 @@ function searchVectorEvalFB(enseignantid,type1,type2,date1,date2,enseignant2id) 
 		// on retire tous les uuids qui ont type2 et le même nodeid
 		const search2 = $("vector",searchVector(enseignantid,type2));
 		for (let i=0;i<search2.length;i++){
-			let nodeid = $("a3",search1[i]).text();
-			let pageid = $("a4",search1[i]).text();
-			let portfolioid = $("a5",search1[i]).text();
+			let nodeid = $("a3",search2[i]).text();
+			let pageid = $("a4",search2[i]).text();
+			let portfolioid = $("a5",search2[i]).text();
 			const indx = tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid);
 			if (indx>-1)
 				tableau.splice(indx,1);
@@ -481,6 +509,17 @@ function searchVectorKAPC(enseignantid,type1,type2,date1,date2) {
 		const elts = tableau[i].split("/");
 		if (result.indexOf(elts[2])<0)
 		result.push(elts[2]);
+	}
+	return result;
+}
+
+function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid) {
+	let tableau = searchVectorEvalFB(enseignantid,type1,type2,date1,date2);
+	let result = [];
+	for (let i=0;i<tableau.length;i++){
+		const elts = tableau[i].split("/");
+		if (result.indexOf(elts[1])<0 && elts[2]==portfolioid)
+		result.push(elts[1]);
 	}
 	return result;
 }
@@ -506,8 +545,18 @@ function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 			if (search1.length==0 && search2.length==0)
 				tab3.push(tab2[i]);
 		}
+	} else 	if (type1.indexOf('competence')>-1) {
+		for (let i=0;i<tab2.length;i++){
+			const elts = tab2[i].split("/");
+			let nodeid = elts[0];
+			let pageid = elts[1];
+			const search1 = $("vector",searchVector(null,type2,nodeid));
+			const search2 = $("vector",searchVector(null,type2.replace('competence','evaluation'),pageid));
+			if (search1.length==0 && search2.length==0)
+				tab3.push(tab2[i]);
+		}
 	}
-	return (type1.indexOf('feedback')>-1)? tab3.length:tab2.length;
+	return (type1.indexOf('feedback')>-1 || type1.indexOf('competence')>-1)? tab3.length:tab2.length;
 }
 
 
