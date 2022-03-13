@@ -163,56 +163,6 @@ function cacherColonnesVides(){
 
 }
 
-function specificDisplayPortfolios(){
-	if (USER.other!="etudiant")
-		throw 'non etudiant';
-	else {
-		let autoload = "";
-		let nb_visibleportfolios = 0;
-		for (var i=0;i<portfolios_list.length;i++){
-			//--------------------------
-			if (portfolios_list[i].visible || portfolios_list[i].ownerid==USER.id) {
-				nb_visibleportfolios++;
-			}
-			if (portfolios_list[i].autoload) {
-				autoload = portfolios_list[i].id;
-			}
-		}
-		// -- if there is no autoload portfolio, we search if any has the role set in USER.other ---
-		if (autoload=="") {
-			for (var i=0;i<portfolios_list.length;i++){
-				$.ajax({
-					async:false,
-					type : "GET",
-					dataType : "xml",
-					url : serverBCK_API+"/rolerightsgroups/all/users?portfolio="+portfolios_list[i].id,
-					success : function(data) {
-						if ($("rrg:has('user[id="+USER.id+"]'):has('label:contains(etudia)')",data).length>0)
-							autoload = portfolios_list[i].id;
-					}
-				});
-			}
-		}
-		//---------------------------------------------------------------------------------------------
-		if (nb_visibleportfolios>0 || autoload!="" )
-			if (nb_visibleportfolios>9 && portfoliosnotinfolders.length>9)
-				UIFactory.PortfolioFolder.displayPortfolios('project-portfolios','false','list',portfoliosnotinfolders);
-			else if (nb_visibleportfolios>1 && autoload=="")
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-			else if (autoload!="") {
-				display_main_page(autoload);
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-			}
-			else {  // nb_visibleportfolios == 1
-				display_main_page(visibleid);
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-			}
-		else if (portfolios_list.length==1) {
-			display_main_page(portfolios_list[0].id);
-			UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-		}
-	}
-}
 
 
 
@@ -264,6 +214,17 @@ function supprimerFormationMonBilan(uuid){
 	return retour;
 }
 
+function removeBackdropAndRelaod()
+{
+	$("#temp-window").remove();
+	$('#confirmbackdrop').remove();
+	fill_main_page();
+}
+
+//==================================================================
+//================= SPECIFIC FUNCTIONS =============================
+//==================================================================
+
 function specificEnterDisplayPortfolio()
 {
 	const fc = $("*:has(>metadata[semantictag*=fichier-consentement])",g_portfolio_current).not(":has(>metadata-wad[submitted=Y])");
@@ -292,12 +253,58 @@ function specificEnterDisplayPortfolio()
 	}
 }
 
-function removeBackdropAndRelaod()
-{
-	$("#temp-window").remove();
-	$('#confirmbackdrop').remove();
-	fill_main_page();
+
+function specificDisplayPortfolios(){
+	if (USER.other!="etudiant")
+		throw 'non etudiant';
+	else {
+		let autoload = "";
+		let nb_visibleportfolios = 0;
+		for (var i=0;i<portfolios_list.length;i++){
+			//--------------------------
+			if (portfolios_list[i].visible || portfolios_list[i].ownerid==USER.id) {
+				nb_visibleportfolios++;
+			}
+			if (portfolios_list[i].autoload) {
+				autoload = portfolios_list[i].id;
+			}
+		}
+		// -- if there is no autoload portfolio, we search if any has the role set in USER.other ---
+		if (autoload=="") {
+			for (var i=0;i<portfolios_list.length;i++){
+				$.ajax({
+					async:false,
+					type : "GET",
+					dataType : "xml",
+					url : serverBCK_API+"/rolerightsgroups/all/users?portfolio="+portfolios_list[i].id,
+					success : function(data) {
+						if ($("rrg:has('user[id="+USER.id+"]'):has('label:contains(etudia)')",data).length>0)
+							autoload = portfolios_list[i].id;
+					}
+				});
+			}
+		}
+		//---------------------------------------------------------------------------------------------
+		if (nb_visibleportfolios>0 || autoload!="" )
+			if (nb_visibleportfolios>9 && portfoliosnotinfolders.length>9)
+				UIFactory.PortfolioFolder.displayPortfolios('project-portfolios','false','list',portfoliosnotinfolders);
+			else if (nb_visibleportfolios>1 && autoload=="")
+				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
+			else if (autoload!="") {
+				display_main_page(autoload);
+				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
+			}
+			else {  // nb_visibleportfolios == 1
+				display_main_page(visibleid);
+				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
+			}
+		else if (portfolios_list.length==1) {
+			display_main_page(portfolios_list[0].id);
+			UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
+		}
+	}
 }
+
 
 //=========================================================
 //==================Specific Vector Functions==============
@@ -562,6 +569,6 @@ function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 	return (type1.indexOf('feedback')>-1)? tab3.length:tab2.length;
 }
 
-
+//# sourceURL=kapc.js
 
 
