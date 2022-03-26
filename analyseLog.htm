@@ -1,0 +1,32 @@
+<html>
+
+<head>
+	<script>
+		var tableau = new Array();
+		document.getElementById('file').onchange = function(){
+			var file = this.files[0];
+			var reader = new FileReader();
+			reader.onload = function(progressEvent){    
+				var fileContentArray = this.result.split(/\r\n|\n/);
+				for(var line = 0; line < fileContentArray.length-1; line++){
+					//console.log(line + " --> "+ fileContentArray[line]);
+					const linetext = fileContentArray[line];
+					const idx = linetext.indexOf("user:")+6
+					if (idx>-1) {
+						const userid = linetext.substring(idx);
+						const date = linetext.substring(0,20);
+						tableau.push(
+					}
+				}
+			};
+			reader.readAsText(file);
+		};
+	
+	</script>
+</head>
+<body>
+<input type="file" name="file" id="file" />
+<div id='result'></div>
+</body>
+
+</html>
