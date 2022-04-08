@@ -322,6 +322,7 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 		if (type=='competence-evaluation')
 			pageid = nodeid;
 		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,USER.username,today);
+//		UIFactory.Portfolio.sharePortfolio(g_portfolioid,"enseignant",enseignantid);
 	}
 }
 
