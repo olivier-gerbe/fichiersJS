@@ -1,5 +1,8 @@
 // === version 1.2.0 2022/03/04 ===
 
+//# sourceURL=kapc.js
+
+
 function majEvaluation(nodeid,sharetoemail) {
 	var demande = $("*:has(>metadata[semantictag*='demande-eval'])",UICom.structure.ui[nodeid]. node)[0];
 	var demandeid = $(demande).attr("id");
@@ -323,7 +326,29 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 }
 
 
-//=============== EVALUATION =======================
+//=============== EVALUATION COMPETENCE =======================
+
+
+function demanderEvaluationCompetence(evalid) {
+	const pageid = $("#page").attr('uuid');
+	var type = "competence";
+	const demandeid = $("*:has(>metadata[semantictag*=demande-evaluation])",$(UICom.structure.ui[evalid].node)).attr("id");
+	const val = UICom.structure.ui[demandeid].resource.getValue();
+	if (val=='1') {
+		buildSaveVectorKAPC(evalid,pageid,type+'-evaluation');
+	} else {
+		deleteVector(null,type+'-evaluation',evalid);
+	}
+}
+
+function soumettreEvaluationCompetence(evalid){
+	const type='competence';
+	if ($("vector",searchVector(null,type+"-evaluation-done",evalid)).length==0) {
+		buildSubmitVectorKAPC(evalid,evalid,type+"-evaluation-done");
+	}
+}
+
+//=============== EVALUATION SAE STAGE ACTION =======================
 function demanderEvaluation(nodeid,parentid) {
 	let pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
@@ -347,26 +372,6 @@ function demanderEvaluation(nodeid,parentid) {
 		if (parentid!=null)
 			pageid = parentid;
 		deleteVector(null,type+'-evaluation',pageid);
-	}
-}
-
-
-function demanderEvaluationCompetence(evalid) {
-	const pageid = $("#page").attr('uuid');
-	var type = "competence";
-	const demandeid = $("*:has(>metadata[semantictag*=demande-evaluation])",$(UICom.structure.ui[evalid].node)).attr("id");
-	const val = UICom.structure.ui[demandeid].resource.getValue();
-	if (val=='1') {
-		buildSaveVectorKAPC(evalid,pageid,type+'-evaluation');
-	} else {
-		deleteVector(null,type+'-evaluation',evalid);
-	}
-}
-
-function soumettreEvaluationCompetence(evalid){
-	const type='competence';
-	if ($("vector",searchVector(null,type+"-evaluation-done",evalid)).length==0) {
-		buildSubmitVectorKAPC(evalid,evalid,type+"-evaluation-done");
 	}
 }
 
@@ -555,7 +560,7 @@ function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 		if (search.length==0)
 			tab2.push(tab1[i]);
 	}
-	if (type1.indexOf('feedback')>-1) { // on vérfie que la page n'est pas soumise'
+	if (type1.indexOf('feedback')>-1) { // on vérifie que la page n'est pas soumise'
 		for (let i=0;i<tab2.length;i++){
 			const elts = tab2[i].split("/");
 			let nodeid = elts[0];

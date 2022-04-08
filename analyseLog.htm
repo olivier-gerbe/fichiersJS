@@ -1,8 +1,16 @@
 <html>
 
 <head>
+</head>
+<body>
+<input type="file" name="file" id="file" />
+<table id='result'>
+<tr><td>Userid</td><td>Nb jours</td></tr>
+</table>
+
 	<script>
-		var tableau = new Array();
+		var tableau1 = new Array();
+		var tableau2 = {};
 		document.getElementById('file').onchange = function(){
 			var file = this.files[0];
 			var reader = new FileReader();
@@ -11,22 +19,36 @@
 				for(var line = 0; line < fileContentArray.length-1; line++){
 					//console.log(line + " --> "+ fileContentArray[line]);
 					const linetext = fileContentArray[line];
-					const idx = linetext.indexOf("user:")+6
+					const idx = linetext.indexOf("user:");
 					if (idx>-1) {
-						const userid = linetext.substring(idx);
-						const date = linetext.substring(0,20);
-						tableau.push(
+						const userid = linetext.substring(idx+6);
+						const date = linetext.substring(1,12);
+						if (userid>3 && tableau1.indexOf(userid+"_"+date)<0) {
+							tableau1[tableau1.length] = userid+"_"+date;
+							if (tableau2[userid]==undefined)
+								tableau2[userid] = 1;
+							else
+								tableau2[userid]++;
+						}
 					}
+				}
+				var result = document.getElementById('result');
+/*				for (var i=0; i<tableau1.length;i++){
+					let div = document.createElement ("div");
+					div.innerHTML = tableau1[i];
+					result.appendChild(div);
+				} */
+				for (a in tableau2){
+					let div = document.createElement ("tr");
+					div.innerHTML = "<td>"+a+"</td><td>"+tableau2[a]+"</td>";
+					result.appendChild(div);
 				}
 			};
 			reader.readAsText(file);
 		};
 	
 	</script>
-</head>
-<body>
-<input type="file" name="file" id="file" />
-<div id='result'></div>
+
 </body>
 
 </html>
