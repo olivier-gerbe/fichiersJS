@@ -1,6 +1,33 @@
-// === version 1.2.0 2022/03/04 ===
+// === version 1.2.1 2022/04/14 ===
 
-//# sourceURL=kapc.js
+
+//=============== TEST SI EVALUATION DEMANDEE ==================
+function testSiEvalDemandee(nodeid)
+{
+	const demandeid = $("*:has(>metadata[semantictag*=demande-evaluation])",$(UICom.structure.ui[nodeid].node)).attr("id");
+	const val = UICom.structure.ui[demandeid].resource.getValue();
+	if (val=='1') {
+		alert("Impossible car vous avez demandé une évaluation à votre enseignant");
+		$("#wait-window").modal('hide');
+		return false;
+	} else {
+		return true;
+	}
+}
+
+//=============== TEST SI AFFICHAGE ==================
+function testSiAfficherDemandeEvaluation()
+{
+	const pageid = $("#page").attr('uuid');
+	const deadlineid = $("*:has(>metadata[semantictag*=deadline])",$(UICom.structure.ui[pageid].node)).attr("id");
+	const today = new Date().getTime();
+	const utc = UICom.structure.ui[deadlineid].resource.getAttributes()['utc'];
+	if (utc<today || USER.admin || g_userroles[0]=='designer' ) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 
 function majEvaluation(nodeid,sharetoemail) {
@@ -166,9 +193,6 @@ function cacherColonnesVides(){
 
 }
 
-
-
-
 function supprimerCompetenceMonBilan(uuid){
 	var retour = false;
 	if (confirm('ATTENTION. Cela va supprimer la compétence dans Mon bilan. Voulez-vous continuer?')) {
@@ -326,10 +350,7 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 	}
 }
 
-
 //=============== EVALUATION COMPETENCE =======================
-
-
 function demanderEvaluationCompetence(evalid) {
 	const pageid = $("#page").attr('uuid');
 	var type = "competence";
@@ -346,6 +367,10 @@ function soumettreEvaluationCompetence(evalid){
 	const type='competence';
 	if ($("vector",searchVector(null,type+"-evaluation-done",evalid)).length==0) {
 		buildSubmitVectorKAPC(evalid,evalid,type+"-evaluation-done");
+		// montrer
+		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
+		if (evalid!=undefined)
+			show(sectid);
 	}
 }
 
@@ -396,6 +421,10 @@ function soumettreEvaluation(nodeid){
 	}
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitVectorKAPC(nodeid,pageid,type+"-evaluation-done");
+		// montrer
+		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
+		if (evalid!=undefined)
+			show(sectid);
 	}
 }
 
@@ -576,5 +605,4 @@ function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 }
 
 //# sourceURL=kapc.js
-
 
