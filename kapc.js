@@ -31,7 +31,7 @@ function testSiAfficherDemandeEvaluation()
 
 
 function majEvaluation(nodeid,sharetoemail) {
-	var demande = $("*:has(>metadata[semantictag*='demande-eval'])",UICom.structure.ui[nodeid]. node)[0];
+	var demande = $("*:has(>metadata[semantictag*='demande-eval'])",UICom.structure.ui[nodeid].node)[0];
 	var demandeid = $(demande).attr("id");
 	var text = " " + new Date().toLocaleString() + " à " + sharetoemail;
 	UICom.structure.ui[demandeid].resource.text_node[LANGCODE].text(text);
@@ -369,7 +369,7 @@ function soumettreEvaluationCompetence(evalid){
 		buildSubmitVectorKAPC(evalid,evalid,type+"-evaluation-done");
 		// montrer
 		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
-		if (evalid!=undefined)
+		if (sectid!=undefined)
 			show(sectid);
 	}
 }
@@ -423,7 +423,7 @@ function soumettreEvaluation(nodeid){
 		buildSubmitVectorKAPC(nodeid,pageid,type+"-evaluation-done");
 		// montrer
 		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
-		if (evalid!=undefined)
+		if (sectid!=undefined)
 			show(sectid);
 	}
 }
