@@ -12,7 +12,7 @@ function demanderEvaluationAction(nodeid) {
 }
 
 function supprimerEvaluationAction(nodeid) {
-		deleteVector(null,'action-evaluation',nodeid);
+	deleteVector(null,'action-evaluation',nodeid);
 }
 
 
@@ -22,6 +22,16 @@ function majDemEvalAction(nodeid) {
 	var text = " " + new Date().toLocaleString();
 	UICom.structure.ui[demandeid].resource.text_node[LANGCODE].text(text);
 	UICom.structure.ui[demandeid].resource.save();
+}
+
+//=============== FEEDBACK ACTION =======================
+function demanderFeedbackAction(nodeid) {
+	const pageid = $("#page").attr('uuid');
+	buildSaveVectorKAPC(nodeid,pageid,'action-feedback');
+}
+
+function supprimerFeddbackAction(nodeid) {
+	deleteVector(null,'action-feedback',nodeid);
 }
 
 
