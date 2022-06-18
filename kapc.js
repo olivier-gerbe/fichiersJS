@@ -1,5 +1,5 @@
-// === version 1.2.1 2022/04/14 ===
-
+// === version 1.2.2 2022/06/17 ===
+// 1.2.2 Ajout évaluation péridode
 
 //=============== TEST SI EVALUATION DEMANDEE ==================
 function testSiEvalDemandee(nodeid)
@@ -374,7 +374,7 @@ function soumettreEvaluationCompetence(evalid){
 	}
 }
 
-//=============== EVALUATION SAE STAGE ACTION =======================
+//=============== EVALUATION SAE STAGE ACTION PERIODE =======================
 function demanderEvaluation(nodeid,parentid) {
 	let pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
@@ -387,6 +387,8 @@ function demanderEvaluation(nodeid,parentid) {
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	const val = UICom.structure.ui[nodeid].resource.getValue();
 	if (val=='1') {
 		if (parentid!=null)
@@ -415,6 +417,8 @@ function soumettreEvaluation(nodeid){
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
 		type='action';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	else if (semtag.indexOf('competence')>-1) {
 		type='competence';
 		pageid = $("#page").attr('uuid');
@@ -440,6 +444,8 @@ function supprimerEvaluation(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	deleteVector(null,type+"-evaluation",nodeid);
 }
 
@@ -455,6 +461,8 @@ function resetEvaluation(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	deleteVector(null,type+"-evaluation-done",nodeid);
 }
 
@@ -471,6 +479,8 @@ function demanderFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	buildSaveVectorKAPC(nodeid,pageid,type+"-feedback");
 }
 
@@ -486,6 +496,8 @@ function supprimerFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	deleteVector(null,type+"-feedback",nodeid);
 }
 
@@ -501,6 +513,8 @@ function soumettreFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
+	else if (semtag.indexOf('periode')>-1)
+		type='periode';
 	buildSubmitVectorKAPC(nodeid,pageid,type+"-feedback-done");
 }
 
