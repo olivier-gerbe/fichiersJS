@@ -387,8 +387,12 @@ function demanderEvaluation(nodeid,parentid) {
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	const val = UICom.structure.ui[nodeid].resource.getValue();
 	if (val=='1') {
 		if (parentid!=null)
@@ -417,8 +421,12 @@ function soumettreEvaluation(nodeid){
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
 		type='action';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	else if (semtag.indexOf('competence')>-1) {
 		type='competence';
 		pageid = $("#page").attr('uuid');
@@ -444,8 +452,12 @@ function supprimerEvaluation(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	deleteVector(null,type+"-evaluation",nodeid);
 }
 
@@ -461,8 +473,12 @@ function resetEvaluation(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	deleteVector(null,type+"-evaluation-done",nodeid);
 }
 
@@ -479,8 +495,12 @@ function demanderFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	buildSaveVectorKAPC(nodeid,pageid,type+"-feedback");
 }
 
@@ -496,8 +516,12 @@ function supprimerFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	deleteVector(null,type+"-feedback",nodeid);
 }
 
@@ -513,8 +537,12 @@ function soumettreFeedback(nodeid){
 		type='action';
 	else if (semtag.indexOf('competence')>-1)
 		type='competence';
-	else if (semtag.indexOf('periode')>-1)
-		type='periode';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
 	buildSubmitVectorKAPC(nodeid,pageid,type+"-feedback-done");
 }
 
