@@ -691,6 +691,11 @@ function displayVector2(enseignantid,type,pageid,label) {
 	$("#"+dashboard_current).append(html);
 }
 
+function numberOf(a1,a2) {
+	const nb = searchVector(a1,a2);
+	return nb;
+}
+
 
 
 
