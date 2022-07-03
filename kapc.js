@@ -645,6 +645,58 @@ function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 	}
 	return (type1.indexOf('feedback')>-1)? tab3.length:tab2.length;
 }
+//------------------ TEST -------------
+
+//==================================
+function saveVector2(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,w,d,r)
+//==================================
+{
+	var xml = "<vectors>";
+	xml += "<rights w='"+w+"' d='"+d+"' r='"+r+"'/>";
+	xml += "<vector><a1>"+((a1==undefined)?"":a1)+"</a1><a2>"+((a2==undefined)?"":a2)+"</a2><a3>"+((a3==undefined)?"":a3)+"</a3><a4>"+((a4==undefined)?"":a4)+"</a4><a5>"+((a5==undefined)?"":a5)+"</a5><a6>"+((a6==undefined)?"":a6)+"</a6><a7>"+((a7==undefined)?"":a7)+"</a7><a8>"+((a8==undefined)?"":a8)+"</a8><a9>"+((a9==undefined)?"":a9)+"</a9><a10>"+((a10==undefined)?"":a10)+"</a10>";
+	xml += "</vector></vectors>"
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "xml",
+		url : serverBCK+"/vector",
+		data : xml,
+		success : function(data) {
+			return true;
+		},
+		error : function(jqxhr,textStatus) {
+			return false;
+		}
+	});
+}
+
+function testVector_save(a1,a2,d) {
+	const pageid = $("#page").attr('uuid');
+	const pagelabel = UICom.structure.ui[pageid].getLabel(null,'none');
+	saveVector2(a1,a2,pageid,pagelabel,null,null,null,null,null,null,null,d);
+}
+
+function testVector_delete(a1,a2,a3,d) {
+	deleteVector(a1,a2,a3);
+	saveVector2(a1,a2+'-done',a3,null,null,null,null,null,null,null,null,d);
+}
+
+function displayVector2(enseignantid,type,pageid,label) {
+	let html = "<tr>";
+	html += "<td>";
+	html += label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+pageid+"',100,'standard',null,false)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span>";
+	html += "<span class='button fas fa-trash' onclick=\"testVector_delete('"+enseignantid+"','"+type+"','"+pageid+"','"+enseignantid+"')\" data-title='Valider' data-toggle='tooltip' data-placement='bottom' ></span>";
+	html += "</td>";
+	html += "</tr>";
+	$("#"+dashboard_current).append(html);
+}
+
+
+
+
+
+
+
 
 //# sourceURL=kapc.js
 
