@@ -110,6 +110,21 @@ function setPrenomNom(nodeid) {
 	UICom.structure.ui[prenom_nomid].resource.save();
 }
 
+function setMatricule(nodeid) {
+	var etudiant_matricule =  $("*:has(>metadata[semantictag*='etudiant-matricule'])",UICom.structure.ui[nodeid].node)[0];
+	var etudiant_matriculeid = $(etudiant_matricule).attr("id");
+	if (etudiant_matricule==undefined) {
+		const srcecode = replaceVariable("##dossier-etudiants-modeles##.composantes-competences")
+		etudiant_matriculeid = importBranch(nodeid,srcecode,"etudiant-matricule");
+		UIFactory.Node.reloadUnit(nodeid,false);
+	}
+	const matricule = $("*:has(>metadata[semantictag*='matricule-etudiant'])",g_portfolio_current)[0];
+	const matriculeid = $(matricule).attr("id");
+	$(UICom.structure.ui[etudiant_matriculeid].resource.text_node[LANGCODE]).text(UICom.structure.ui[matriculeid].resource.getView());
+	UICom.structure.ui[etudiant_matriculeid].resource.save();
+}
+
+
 function ajouterPartage(nodeid) {
 	var node = UICom.structure.ui[nodeid].node
 	var metadatawad = $("metadata-wad",node)[0];
@@ -350,6 +365,40 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 	}
 }
 
+function builSaveVectorKAPC2(nodeid,pageid,type) {
+	const action = UICom.structure.ui[pageid].getLabel(null,'none');
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
+	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	const note = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[pageid].node)).text();
+	const evaluation = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",UICom.structure.ui[pageid].node)).text();
+	const today = new Date().getTime();
+
+	for (let i=0;i<enseignants.length;i++){
+		const enseignantid = $("code",enseignants[i]).text();
+		if (type=='competence-evaluation')
+			pageid = nodeid;
+		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,etudiant,today,action,note,evaluation);
+//		UIFactory.Portfolio.sharePortfolio(g_portfolioid,"enseignant",enseignantid);
+	}
+}
+
+function builSaveVectorKAPC3(nodeid,pageid,type) {
+	const action = UICom.structure.ui[pageid].getLabel(null,'none');
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
+	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	const note = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[pageid].node)).text();
+	const evaluation = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",UICom.structure.ui[pageid].node)).text();
+	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
+
+	for (let i=0;i<enseignants.length;i++){
+		const enseignantid = $("code",enseignants[i]).text();
+		if (type=='competence-evaluation-done')
+			pageid = nodeid;
+		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,etudiant,matricule,action,note,evaluation);
+//		UIFactory.Portfolio.unsharePortfolio(g_portfolioid,"enseignant",enseignantid);
+	}
+}
+
 //=============== EVALUATION COMPETENCE =======================
 function demanderEvaluationCompetence(evalid) {
 	const pageid = $("#page").attr('uuid');
@@ -375,6 +424,38 @@ function soumettreEvaluationCompetence(evalid){
 }
 
 //=============== EVALUATION SAE STAGE ACTION PERIODE =======================
+function enregistrerEvaluation(nodeid,parentid) {
+	let pageid = $("#page").attr('uuid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	var type = "";
+	if (semtag.indexOf('sae')>-1)
+		type = 'sae';
+	else if (semtag.indexOf('stage')>-1)
+		type='stage';
+	else if (semtag.indexOf('autre')>-1)
+		type='action';
+	else if (semtag.indexOf('competence')>-1)
+		type='competence';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
+	const val = UICom.structure.ui[nodeid].resource.getValue();
+	if (val=='1') {
+		if (parentid!=null)
+			nodeid = parentid;
+		else
+			nodeid = pageid;
+		buildSaveVectorKAPC2(nodeid,pageid,type+'-evaluation');
+	} else {
+		if (parentid!=null)
+			pageid = parentid;
+		deleteVector(null,type+'-evaluation',pageid);
+	}
+}
+
 function demanderEvaluation(nodeid,parentid) {
 	let pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
@@ -681,12 +762,14 @@ function testVector_delete(a1,a2,a3,d) {
 	saveVector2(a1,a2+'-done',a3,null,null,null,null,null,null,null,null,d);
 }
 
-function displayVector2(enseignantid,type,pageid,label) {
+function displayVector2(enseignantid,type,pageid,label,etudiant,note,evaluation,date) {
 	let html = "<tr>";
-	html += "<td>";
-	html += label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+pageid+"',100,'standard',null,false)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span>";
-	html += "<span class='button fas fa-trash' onclick=\"testVector_delete('"+enseignantid+"','"+type+"','"+pageid+"','"+enseignantid+"')\" data-title='Valider' data-toggle='tooltip' data-placement='bottom' ></span>";
-	html += "</td>";
+	html += "<td>"+etudiant+"</td>";
+	html += "<td>"+date+"</td>";
+	html += "<td>"+label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+pageid+"',100,'standard',null,false)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+evaluation+"</td>";
+	html += "<td>"+note+"</td>";
+	html += "<span class='button' onclick=\"soumettreEvaluation3('"+enseignantid+"','"+type+"','"+pageid+"','"+enseignantid+"')\" data-title='Finaliser' data-toggle='tooltip' data-placement='bottom' ></span>";
 	html += "</tr>";
 	$("#"+dashboard_current).append(html);
 }
