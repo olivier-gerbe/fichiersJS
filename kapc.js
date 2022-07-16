@@ -90,7 +90,6 @@ function setVariable_code (node)
 	g_variables[variable+"_code"] = code;
 }
 
-
 //==============================================
 function setPrenomNom(nodeid) {
 	var prenom_nom =  $("*:has(>metadata[semantictag*='prenom_nom'])",UICom.structure.ui[nodeid].node)[0];
@@ -106,7 +105,7 @@ function setPrenomNom(nodeid) {
 	const prenomid = $(prenom).attr("id");
 	const nom = $("*:has(>metadata[semantictag*='nom-famille-etudiant'])",g_portfolio_current)[0];
 	const nomid = $(nom).attr("id");
-	$(UICom.structure.ui[prenom_nomid].resource.text_node[LANGCODE]).text(UICom.structure.ui[prenomid].resource.getView()+" "+UICom.structure.ui[nomid].resource.getView());
+	$(UICom.structure.ui[prenom_nomid].resource.text_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
 	UICom.structure.ui[prenom_nomid].resource.save();
 }
 
@@ -124,6 +123,7 @@ function setMatricule(nodeid) {
 	UICom.structure.ui[etudiant_matriculeid].resource.save();
 }
 
+//==============================================
 
 function ajouterPartage(nodeid) {
 	var node = UICom.structure.ui[nodeid].node
@@ -207,6 +207,40 @@ function cacherColonnesVides(){
 	$("td.colsvides").attr('colspan',colspan);
 
 }
+
+
+//==================================
+function sendNotification(subject,body,email) {
+//==================================
+	var message = "";
+//	var img = document.querySelector('#config-send-email-logo');
+//	var imgB64 = getDataUrl(img)//	$("#image-window-body").html("");
+//	var logo = "<img width='"+img.style.width+"' height='"+img.style.height+"' src=\""+imgB64+"\">";
+//	message = logo + "<br>" + body;
+	message = body;
+	message = message.replace("##firstname##",USER.firstname);
+	message = message.replace("##lastname##",USER.lastname);
+	//------------------------------
+	var xml ="<node>";
+	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
+	xml +="<recipient>"+email+"</recipient>";
+	xml +="<subject>"+USER.firstname+" "+USER.lastname+" "+subject+"</subject>";
+	xml +="<message>"+message+"</message>";
+	xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
+	xml +="</node>";
+	$.ajax({
+		contentType: "application/xml",
+		type : "POST",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/mail",
+		data: xml,
+		success : function(data) {
+			$('#edit-window').modal('hide');
+			alertHTML(karutaStr[LANG]['email-sent']);
+		}
+	});
+}
+
 
 function supprimerCompetenceMonBilan(uuid){
 	var retour = false;
@@ -352,7 +386,7 @@ function specificDisplayPortfolios(){
 //==================Specific Vector Functions==============
 //=========================================================
 
-function buildSaveVectorKAPC(nodeid,pageid,type) {
+function OLDbuildSaveVectorKAPC(nodeid,pageid,type) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const today = new Date().getTime();
 
@@ -365,39 +399,30 @@ function buildSaveVectorKAPC(nodeid,pageid,type) {
 	}
 }
 
-function builSaveVectorKAPC2(nodeid,pageid,type) {
+function buildSaveVectorKAPC(nodeid,pageid,type,email) {
 	const action = UICom.structure.ui[pageid].getLabel(null,'none');
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const note = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[pageid].node)).text();
 	const evaluation = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",UICom.structure.ui[pageid].node)).text();
-	const today = new Date().getTime();
-
+	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
+	if (date_dem_eval==null || date_dem_eval=='')
+		date_dem_eval = new Date().getTime();
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
+		const enseignantemail = $("value",enseignants[i]).text();
 		if (type=='competence-evaluation')
 			pageid = nodeid;
-		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,etudiant,today,action,note,evaluation);
+		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,etudiant,date_dem_eval,action,note,evaluation,enseignantid);
+		if (email) {
+			const object = "Demande étudiante";
+			const body = " ##firstname## ##lastname## vous a fait une demande pour son eportfolio.";
+			sendNotification(object,body,enseignantemail);
+		}
 //		UIFactory.Portfolio.sharePortfolio(g_portfolioid,"enseignant",enseignantid);
 	}
 }
 
-function builSaveVectorKAPC3(nodeid,pageid,type) {
-	const action = UICom.structure.ui[pageid].getLabel(null,'none');
-	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
-	const note = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[pageid].node)).text();
-	const evaluation = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",UICom.structure.ui[pageid].node)).text();
-	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
-
-	for (let i=0;i<enseignants.length;i++){
-		const enseignantid = $("code",enseignants[i]).text();
-		if (type=='competence-evaluation-done')
-			pageid = nodeid;
-		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,etudiant,matricule,action,note,evaluation);
-//		UIFactory.Portfolio.unsharePortfolio(g_portfolioid,"enseignant",enseignantid);
-	}
-}
 
 //=============== EVALUATION COMPETENCE =======================
 function demanderEvaluationCompetence(evalid) {
@@ -424,7 +449,7 @@ function soumettreEvaluationCompetence(evalid){
 }
 
 //=============== EVALUATION SAE STAGE ACTION PERIODE =======================
-function enregistrerEvaluation(nodeid,parentid) {
+function demanderEvaluation(nodeid,parentid,email) {
 	let pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
@@ -448,7 +473,7 @@ function enregistrerEvaluation(nodeid,parentid) {
 			nodeid = parentid;
 		else
 			nodeid = pageid;
-		buildSaveVectorKAPC2(nodeid,pageid,type+'-evaluation');
+		buildSaveVectorKAPC(nodeid,pageid,type+'-evaluation',email);
 	} else {
 		if (parentid!=null)
 			pageid = parentid;
@@ -456,7 +481,34 @@ function enregistrerEvaluation(nodeid,parentid) {
 	}
 }
 
-function demanderEvaluation(nodeid,parentid) {
+function modifierEvaluation(nodeid,parentid) {
+	let pageid = $("#page").attr('uuid');
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	var type = "";
+	if (semtag.indexOf('sae')>-1)
+		type = 'sae';
+	else if (semtag.indexOf('stage')>-1)
+		type='stage';
+	else if (semtag.indexOf('autre')>-1)
+		type='action';
+	else if (semtag.indexOf('competence')>-1)
+		type='competence';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
+	const val = UICom.structure.ui[nodeid].resource.getValue();
+	if (parentid!=null)
+		nodeid = parentid;
+	else
+		nodeid = pageid;
+	deleteVector(null,type+'-evaluation',pageid);
+	buildSaveVectorKAPC(nodeid,pageid,type+'-evaluation');
+}
+
+function OLDdemanderEvaluation(nodeid,parentid) {
 	let pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
@@ -492,7 +544,7 @@ function soumettreEvaluation2(nodeid){
 	soumettreEvaluation(nodeid);
 }
 
-function soumettreEvaluation(nodeid){
+function OLDsoumettreEvaluation(nodeid){
 	let pageid = nodeid;
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	var type = "";
@@ -521,6 +573,34 @@ function soumettreEvaluation(nodeid){
 	}
 }
 
+function soumettreEvaluation(nodeid){
+	let pageid = nodeid;
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	var type = "";
+	if (semtag.indexOf('sae')>-1)
+		type = 'sae';
+	else if (semtag.indexOf('stage')>-1)
+		type='stage';
+	else if (semtag.indexOf('autre')>-1)
+		type='action';
+	else if (semtag.indexOf('periode-universite')>-1)
+		type='periode-universite';
+	else if (semtag.indexOf('periode-entreprise')>-1)
+		type='periode-entreprise';
+	else if (semtag.indexOf('rapport-memoire')>-1)
+		type='rapport-memoire';
+	else if (semtag.indexOf('competence')>-1) {
+		type='competence';
+		pageid = $("#page").attr('uuid');
+	}
+	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
+		buildSubmitVectorKAPC(nodeid,pageid,type+"-evaluation-done");
+		// montrer
+		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
+		if (sectid!=undefined)
+			show(sectid);
+	}
+}
 function supprimerEvaluation(nodeid){
 	const pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
@@ -627,7 +707,9 @@ function soumettreFeedback(nodeid){
 	buildSubmitVectorKAPC(nodeid,pageid,type+"-feedback-done");
 }
 
-function buildSubmitVectorKAPC(nodeid,pageid,type) {
+//====================================================
+
+function OLDbuildSubmitVectorKAPC(nodeid,pageid,type) {
 	const today = new Date().getTime();
 	const portfolioidnodes = $(".portfolioid",document);
 	const tab = $(portfolioidnodes).map(function() {return $(this).text();}).get();
@@ -638,6 +720,16 @@ function buildSubmitVectorKAPC(nodeid,pageid,type) {
 			portfolioid = pageids[1];
 	}
 	saveVector(USER.username,type,nodeid,pageid,portfolioid,USER.username,today);
+}
+
+function buildSubmitVectorKAPC(nodeid,pageid,type) {
+	const action = UICom.structure.ui[pageid].getLabel(null,'none');
+	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	const note = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[pageid].node)).text();
+	const evaluation = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",UICom.structure.ui[pageid].node)).text();
+	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
+	saveVector(USER.username,type,nodeid,pageid,null,etudiant,matricule,action,note,evaluation,USER.username);
+	deleteVector(null,null,pageid)
 }
 
 function searchVectorEvalFB(enseignantid,type1,type2,date1,date2,enseignant2id) {
@@ -702,7 +794,7 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 	return result;
 }
 
-function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
+function OLDnumberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 	let tab1 = searchVectorEvalFB(enseignantid,type1,type2,date1,date2);
 	let tab2 = [];
 	let tab3 = [];
@@ -726,10 +818,27 @@ function numberVectorKAPC(enseignantid,type1,type2,date1,date2) {
 	}
 	return (type1.indexOf('feedback')>-1)? tab3.length:tab2.length;
 }
+
+function numberVectorKAPC(enseignantid,type,date1,date2) {
+	return searchVectorKAPC(enseignantid,type,date1,date2).length;
+}
+
+function searchVectorKAPC(enseignantid,type,date1,date2) {
+	let search = $("vector",searchVector(enseignantid,type));
+	if (date1!=null && date2!=null) {
+		for (let i=0;i<search.length;i++) {
+			const date = $(search[i]).attr('date');
+			if (date<date1 || date>date2)
+				search.splice(i,1);
+		}
+	}
+	return search;
+}
+
 //------------------ TEST -------------
 
 //==================================
-function saveVector2(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,w,d,r)
+function saveVector2(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,d,w,r)
 //==================================
 {
 	var xml = "<vectors>";
@@ -762,16 +871,16 @@ function testVector_delete(a1,a2,a3,d) {
 	saveVector2(a1,a2+'-done',a3,null,null,null,null,null,null,null,null,d);
 }
 
-function displayVector2(enseignantid,type,pageid,label,etudiant,note,evaluation,date) {
+function displayVector(destid,date,a1,a2,a4,a8,a6,a9,a10) {
 	let html = "<tr>";
-	html += "<td>"+etudiant+"</td>";
+	html += "<td>"+a6+"</td>";
 	html += "<td>"+date+"</td>";
-	html += "<td>"+label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+pageid+"',100,'standard',null,false)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	html += "<td>"+evaluation+"</td>";
-	html += "<td>"+note+"</td>";
-	html += "<span class='button' onclick=\"soumettreEvaluation3('"+enseignantid+"','"+type+"','"+pageid+"','"+enseignantid+"')\" data-title='Finaliser' data-toggle='tooltip' data-placement='bottom' ></span>";
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a10+"</td>";
+	html += "<td>"+a9+"</td>";
+	html += "<span class='button' onclick=\"soumettreEvaluation3('"+a1+"','"+a2+"','"+a4+"','"+a1+"')\" data-title='Finaliser' data-toggle='tooltip' data-placement='bottom' ></span>";
 	html += "</tr>";
-	$("#"+dashboard_current).append(html);
+	$("#"+destid).append(html);
 }
 
 function numberOf(a1,a2) {

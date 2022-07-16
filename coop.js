@@ -16,7 +16,8 @@ function majDemEvalAction(nodeid) {
 
 function demanderEvaluationAction(nodeid) {
 	const pageid = $("#page").attr('uuid');
-	buildSaveVectorKAPC(nodeid,pageid,'action-evaluation');
+	const sendEmail = true;
+	buildSaveVectorKAPC(nodeid,pageid,'action-evaluation',sendEmail);
 }
 
 function supprimerEvaluationAction(nodeid) {
@@ -137,4 +138,38 @@ function reloadPage()
 	displayPage(pageid);
 }
 
+//==================================
+function sendNotification(subject,body,email) {
+//==================================
+	var message = "";
+	var html = "<div id='config-send-email-logo' style='display:none'>" + g_configVar['send-email-logo'] +"</div>";
+	body.append(html);
+	var img = document.querySelector('#config-send-email-logo');
+	var imgB64 = getDataUrl(img)//	$("#image-window-body").html("");
+	var logo = "<img width='"+img.style.width+"' height='"+img.style.height+"' src=\""+imgB64+"\">";
+	img.remove();
+	message = logo + "<br>" + body;
+	message = body;
+	message = message.replace("##firstname##",USER.firstname);
+	message = message.replace("##lastname##",USER.lastname);
+	//------------------------------
+	var xml ="<node>";
+	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
+	xml +="<recipient>"+email+"</recipient>";
+	xml +="<subject>"+USER.firstname+" "+USER.lastname+" "+subject+"</subject>";
+	xml +="<message>"+message+"</message>";
+	xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
+	xml +="</node>";
+	$.ajax({
+		contentType: "application/xml",
+		type : "POST",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/mail",
+		data: xml,
+		success : function(data) {
+			$('#edit-window').modal('hide');
+			alertHTML(karutaStr[LANG]['email-sent']);
+		}
+	});
+}
 //# sourceURL=coop.js
