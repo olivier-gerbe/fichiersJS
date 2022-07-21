@@ -19,7 +19,7 @@ g_variables['var-report-table'] += ";#line;##var-report-instructions##";
 g_variables['var-report-table'] += ";#line;##var-report-operations##";
 
 g_variables['var-report-thead']  = "";
-g_variables['var-report-thead'] +=  "karuta.report-parts,model-row-thead,Head Row@en/Rangée d'en-tête@fr,reporter";
+g_variables['var-report-thead'] +=  "karuta.report-parts,model-rw-thead,Head Row@en/Rangée d'en-tête@fr,reporter";
 g_variables['var-report-thead'] += ";#line;##var-report-loops##";
 g_variables['var-report-thead'] += ";#line;##var-report-instructions##";
 g_variables['var-report-thead'] += ";#line;##var-report-operations##";
@@ -77,6 +77,7 @@ g_variables['var-report-loops'] += ";karuta.report-parts,for-each-portfolio,For 
 g_variables['var-report-loops'] += ";karuta.report-parts,for-each-portfolio-js,For Each Portfolio - JS@en/Pour chaque portfolio - JS@fr,reporter";
 g_variables['var-report-loops'] += ";karuta.report-parts,for-each-portfolios-nodes,For Each Portfolio Node@en/Pour chaque nœud de portfolio@fr,reporter";
 g_variables['var-report-loops'] += ";karuta.report-parts,for-each-line,For Each Line@en/Pour chaque ligne@fr,reporter";
+g_variables['var-report-loops'] += ";karuta.report-parts,for-each-vector,For Each Vector@en/Pour chaque vecteur@fr,reporter";
 g_variables['var-report-loops'] += ";karuta.report-parts,loop,Loop@en/Boucle@fr,reporter";
 
 // instructions
