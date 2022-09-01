@@ -8,6 +8,7 @@ g_variables['var-report-model'] += ";karuta.report-parts,model-europass,Europass
 g_variables['var-report-model'] += ";karuta.report-parts,refresh-button,Refresh Dashboard@en/Rafraîchir tableau de bord@fr,reporter";
 g_variables['var-report-model'] += ";#line;##var-report-loops##;#line;karuta.report-parts,model-svg,SVG@en/SVG@fr,reporter";
 g_variables['var-report-model'] += ";#line;##var-report-csv##";
+g_variables['var-report-model'] += ";#line;##var-report-other##";
 
 // composantes construction de tableau
 g_variables['var-report-table']  = "";
@@ -17,6 +18,7 @@ g_variables['var-report-table'] += ";karuta.report-parts,model-row,Row@en/Rangé
 g_variables['var-report-table'] += ";#line;##var-report-loops##";
 g_variables['var-report-table'] += ";#line;##var-report-instructions##";
 g_variables['var-report-table'] += ";#line;##var-report-operations##";
+g_variables['var-report-table'] += ";#line;##var-report-other##";
 
 g_variables['var-report-thead']  = "";
 g_variables['var-report-thead'] +=  "karuta.report-parts,model-rw-thead,Head Row@en/Rangée d'en-tête@fr,reporter";
@@ -29,6 +31,7 @@ g_variables['var-report-thead-row'] +=  "karuta.report-parts,model-th,Head Cell@
 g_variables['var-report-thead-row'] += ";#line;##var-report-loops##";
 g_variables['var-report-thead-row'] += ";#line;##var-report-instructions##";
 g_variables['var-report-thead-row'] += ";#line;##var-report-operations##";
+g_variables['var-report-thead-row'] += ";#line;##var-report-other##";
 
 g_variables['var-report-th']  = "";
 g_variables['var-report-th'] +=  "#line;##var-report-display##";
@@ -43,6 +46,7 @@ g_variables['var-report-tbody'] += ";#line;##var-report-loops##;#line;##var-repo
 g_variables['var-report-row']  = "";
 g_variables['var-report-row'] +=  "karuta.report-parts,model-cell,Cell@en/Cellule@fr,reporter";
 g_variables['var-report-row'] += ";#line;##var-report-loops##;#line;##var-report-instructions##;#line;##var-report-operations##";
+g_variables['var-report-row'] += ";#line;##var-report-other##";
 
 g_variables['var-report-cell']  = "";
 g_variables['var-report-cell'] +=  "karuta.report-parts,model-table,Table@en/Table@fr,reporter";
@@ -50,6 +54,7 @@ g_variables['var-report-cell'] += ";#line;##var-report-display##";
 g_variables['var-report-cell'] += ";#line;##var-report-loops##";
 g_variables['var-report-cell'] += ";#line;##var-report-instructions##";
 g_variables['var-report-cell'] += ";#line;##var-report-operations##";
+g_variables['var-report-cell'] += ";#line;##var-report-other##";
 
 
 // composantes d'affichage
@@ -95,3 +100,7 @@ g_variables['var-report-operations'] += ";karuta.report-parts,operation,Operatio
 g_variables['var-report-csv']  = "";
 g_variables['var-report-csv'] +=  "karuta.report-parts,csv-line,CSV Line@en/Ligne CSV@fr,reporter";
 g_variables['var-report-csv'] += ";karuta.report-parts,csv-value,CSV Value@en/Valeur CSV@fr,reporter";
+
+//Other
+g_variables['var-report-other']  = "";
+g_variables['var-report-other'] +=  "karuta.report-parts,jsfunction,Execute JS Function@en/Exécuter finction Javascipt@fr,reporter";

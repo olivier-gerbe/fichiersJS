@@ -90,7 +90,7 @@ function updateAutoEvalGlobale(data,code)
 }
 
 //==================================
-function checkParentCode(nodeid,query,value)
+function checkParentCode(nodeid,query,value) // recherche si le code du parent contient value
 //==================================
 {
 	let semtag_parent = query.substring(query.indexOf('.')+1);
@@ -172,4 +172,146 @@ function sendNotification(subject,body,email) {
 		}
 	});
 }
+
+
+//==================================
+function majcodes(uuid) {
+//==================================
+	var code = UICom.structure.ui[uuid].getCode();
+	var compnodes = $("*:has(>metadata[semantictag*='page-competence-personnalisee'])",UICom.structure.ui[uuid].node);
+	for (var i=0;i<compnodes.length;i++) {
+		const compnodeid = $(compnodes[i]).attr("id");
+		var resource = $("asmResource[xsi_type='nodeRes']",compnodes[i])[0];
+		var newnodecode = code+"-C";
+		if (i<9)
+			newnodecode += "0";
+		newnodecode += i+1;
+		$("code",resource).text(newnodecode);
+		var data = "<asmResource xsi_type='nodeRes'>" + $(resource).html() + "</asmResource>";
+		var strippeddata = data.replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/g,"");  // remove xmlns attribute
+		//-------------------
+		$.ajax({
+			async : false,
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : strippeddata,
+			url : serverBCK_API+"/nodes/node/" + compnodeid + "/noderesource",
+			success : function(data) {
+			},
+			error : function(data) {
+			}
+		});
+		//-------------------
+		var nodes = $("*:has(>metadata[semantictag*='section-niveau-developpement'])",UICom.structure.ui[compnodeid].node);
+		for (var j=0;j<nodes.length;j++) {
+			const nodeid = $(nodes[j]).attr("id");
+			var resource = $("asmResource[xsi_type='nodeRes']",nodes[j])[0];
+			var nodecode = newnodecode+"*N";
+			if (j<9)
+				nodecode += "0";
+			nodecode += j+1;
+			$("code",resource).text(nodecode);
+			var data = "<asmResource xsi_type='nodeRes'>" + $(resource).html() + "</asmResource>";
+			var strippeddata = data.replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/g,"");  // remove xmlns attribute
+			//-------------------
+			$.ajax({
+				async : false,
+				type : "PUT",
+				contentType: "application/xml",
+				dataType : "text",
+				data : strippeddata,
+				url : serverBCK_API+"/nodes/node/" + nodeid + "/noderesource",
+				success : function(data) {
+				},
+				error : function(data) {
+				}
+			});
+			//-------------------
+			
+		}
+		//-------------------
+		var nodes = $("*:has(>metadata[semantictag*='section-apprentissage-critique-competence-personnalisee'])",UICom.structure.ui[compnodeid].node);
+		for (var j=0;j<nodes.length;j++) {
+			const nodeid = $(nodes[j]).attr("id");
+			var resource = $("asmResource[xsi_type='nodeRes']",nodes[j])[0];
+			var nodecode = newnodecode+"*A";
+			if (j<9)
+				nodecode += "0";
+			nodecode += j+1;
+			$("code",resource).text(nodecode);
+			var data = "<asmResource xsi_type='nodeRes'>" + $(resource).html() + "</asmResource>";
+			var strippeddata = data.replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/g,"");  // remove xmlns attribute
+			//-------------------
+			$.ajax({
+				async : false,
+				type : "PUT",
+				contentType: "application/xml",
+				dataType : "text",
+				data : strippeddata,
+				url : serverBCK_API+"/nodes/node/" + nodeid + "/noderesource",
+				success : function(data) {
+				},
+				error : function(data) {
+				}
+			});
+			//-------------------
+			
+		}
+		//-------------------------------------------------------------------------
+
+	}
+	//-------------------------------------------------------------------------
+	if (UICom.structure.ui[uuid].asmtype=='asmStructure')
+		UIFactory.Node.reloadStruct();
+	else
+		UIFactory.Node.reloadUnit();
+}
+
+//==================================
+function creerAutoEvaluationGlobale() {
+//==================================
+	const autosection = $("*:has(>metadata[semantictag*='comps-auto-evals'])",g_portfolio_current)[0];
+	const autosectionid = $(autosection).attr("id");
+	let autocodes = [];
+	const autonodes = $("*:has(>metadata[semantictag*='auto-evaluation-globale'])",g_portfolio_current);
+	for (var i=0;i<autonodes.length;i++) {
+		const resource = $("asmResource[xsi_type='nodeRes']",autonodes[i])[0];
+		autocodes[i] = $("code",resource).text();
+	}
+	for (var i=0;i<g_variables['competence-code'].length;i++) {
+		const code = g_variables['competence-code'][i];
+		if (autocodes.indexOf(code)<0) {
+			// création autoévaluation
+			const srcecode = replaceVariable("##coop-dossier-etudiants-modeles##.composants-etudiants");
+			const autoevalid = importBranch(autosectionid,srcecode,"auto-evaluation-globale");
+			$.ajax({
+				async:false,
+				type : "GET",
+				dataType : "xml",
+				url : serverBCK_API+"/nodes/node/"+autoevalid,
+				success : function(data) {
+					const resource = $("asmResource[xsi_type='nodeRes']",data)[0];
+					$("code",resource).text(code);
+					var xml = "<asmResource xsi_type='nodeRes'>" + $(resource).html() + "</asmResource>";
+					var strippeddata = xml.replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/g,"");  // remove xmlns attribute
+					$.ajax({
+						async : false,
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : strippeddata,
+						url : serverBCK_API+"/nodes/node/" + autoevalid + "/noderesource",
+						success : function(data) {
+						},
+						error : function(data) {
+						}
+					});
+				}
+			});
+		}
+	}
+}
+
+
 //# sourceURL=coop.js
