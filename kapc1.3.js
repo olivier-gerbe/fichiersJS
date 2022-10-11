@@ -1,19 +1,18 @@
-// === version 1.2.2 2022/06/17 ===
-// 1.2.2 Ajout évaluation péridode
+// === version 1.3.1 2022/09/28 ===
+// 1.3.1 test si demande à un pair ou pro
+// 1.3.0 nouvelle gestion des vecteurs
+// 1.2.1.affichage date
 
 //=============== TESTS ==================
 
 function testSiEvalDemandee(nodeid)
 {
-	const demandeid = $("*:has(>metadata[semantictag*=demande-evaluation])",$(UICom.structure.ui[nodeid].node)).attr("id");
-	const val = UICom.structure.ui[demandeid].resource.getValue();
-	if (val=='1') {
-		alert("Impossible car vous avez demandé une évaluation à votre enseignant");
-		$("#wait-window").modal('hide');
+	const datedemandeid = $("*:has(>metadata[semantictag*=demande-eval])",$(UICom.structure.ui[nodeid].node)).attr("id");
+	const date = UICom.structure.ui[datedemandeid].resource.getAttributes()['text'];
+	if (date!="")
 		return false;
-	} else {
+	else
 		return true;
-	}
 }
 
 function testSiAfficherDemandeEvaluation()
@@ -290,17 +289,11 @@ function majEvaluation(nodeid,sharetoemail) {
 
 
 function majDemEvalSAE(nodeid) {
-//	const val = UICom.structure.ui[nodeid].resource.getValue();
 	var demande = $("*:has(>metadata[semantictag*='date-dem-eval'])",$(UICom.structure.ui[nodeid].node))[0];
 	var demandeid = $(demande).attr("id");
-//	if (val==1) {
-		const today = new Date();
-		UICom.structure.ui[demandeid].value_node.text(today.getTime());
-		UICom.structure.ui[demandeid].resource.text_node[LANGCODE].text(today.toLocaleString());
-//	} else {
-//		UICom.structure.ui[demandeid].value_node.text("");
-//		UICom.structure.ui[demandeid].resource.text_node[LANGCODE].text("");
-//	}
+	const today = new Date();
+	UICom.structure.ui[demandeid].value_node.text(today.getTime());
+	UICom.structure.ui[demandeid].resource.text_node[LANGCODE].text(today.toLocaleString());
 	UICom.structure.ui[demandeid].save();
 	UICom.structure.ui[demandeid].resource.save();
 }
@@ -528,18 +521,22 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
+	const previewURL = getPreviewSharedURL(pageid);
+	let candelete = "";
+	for (let i=0;i<enseignants.length;i++){
+		const enseignantid = $("code",enseignants[i]).text();
+		candelete += (i==0) ? enseignantid:","+enseignantid;
+		}
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
-		const candelete = enseignantid;
-		saveVector(enseignantid,type,nodeid,original_pageid,g_portfolioid,etudiant,date_dem_eval,action,note,evaluation,candelete);
+		saveVector(enseignantid,type,nodeid,original_pageid,previewURL,etudiant,date_dem_eval,action,note,evaluation,candelete);
 		//----envoi courriel à l'enseigant -----
-		if (g_variables['sendemail']=='true') {
+		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
-			const body = " ##firstname## ##lastname## vous a fait une demande pour son eportfolio.";
+			const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation pour son eportfolio.";
 			sendNotification(object,body,enseignantemail);
 		}
-//		UIFactory.Portfolio.sharePortfolio(g_portfolioid,"share_enseignant",enseignantid);
 	}
 }
 
@@ -557,7 +554,9 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
-	saveVector(USER.username,type,nodeid,pageid,matricule,etudiant,date_dem_eval,actioncode+"/"+action,note,evaluation);
+	const today = new Date().getTime();
+	const previewURL = getPreviewSharedURL(pageid);
+	saveVector(USER.username,type,nodeid,pageid,previewURL,matricule+"/"+etudiant,date_dem_eval+"/"+today,actioncode+"/"+action,note,evaluation);
 	const object = "Évaluation";
 	const body = action + "a été évalué(e).";
 	//----envoi courriel à l'enseigant -----
@@ -579,28 +578,62 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
+	const previewURL = getPreviewSharedURL(pageid);
+	let candelete = "";
+	for (let i=0;i<enseignants.length;i++){
+		const enseignantid = $("code",enseignants[i]).text();
+		candelete += (i==0) ? enseignantid:","+enseignantid;
+		}
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,pageid,g_portfolioid,etudiant,date_dem_eval,action,question,commentaires,enseignantid);
+		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires,candelete);
 		//----envoi courriel à l'enseigant -----
-		if (sendemail=='true') {
+		if (sendemail!=null && sendemail=='true') {
 			const object = "Demande étudiante";
 			const body = " ##firstname## ##lastname## vous a fait une demande de feedback pour son eportfolio.";
 			sendNotification(object,body,enseignantemail);
 		}
-//		UIFactory.Portfolio.sharePortfolio(g_portfolioid,"share_enseignant",enseignantid);
 	}
 }
 
-function buildSubmitFeebackVector(nodeid,pageid,type,sendemail) {
+//------------------------
+
+function buildSubmitFeebackVector(nodeid,pageid,type) {
 	const action = UICom.structure.ui[pageid].getLabel(null,'none');
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const commentaires = UICom.structure.ui[nodeid].resource.getView();
+	const previewURL = getPreviewSharedURL(pageid);
 	deleteVector(null,null,nodeid)
-	saveVector(USER.username,type,nodeid,pageid,null,etudiant,null,action,question,commentaires,USER.username);
+	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,null,action,question,commentaires,USER.username);
 }
+
+//------------------------
+
+function getPreviewSharedURL(uuid) {
+	const email = "";
+	const role = 'enseignant';
+	const showtorole = 'enseignant';
+	const sharerole = 'etudiant';
+	const level = '2';
+	const duration = '500';
+	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+showtorole+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
+	let url = "";
+	$.ajax({
+		async:false,
+		type : "POST",
+		dataType : "text",
+		contentType: "application/xml",
+		url : urlS,
+		success : function (data){
+			url = data;
+		}
+
+	});
+	return url;
+}
+
 //=============================================================
 //=============== EVALUATION COMPETENCE =======================
 //=============================================================
@@ -610,7 +643,7 @@ function displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+a6+"</td>";
 	const date_demande = new Date(parseInt(a7));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "</tr>";
@@ -633,19 +666,20 @@ function supprimerEvaluationCompetence2(nodeid) {
 	deleteVector(null,type+'-evaluation-done',nodeid);
 }
 
+function testDemanderEvaluationCompetence(nodeid) {
+	let parent = $(UICom.structure.ui[nodeid].node).parent(); 
+	nodeid = $(parent).attr('id'); // --- sous section auto-evalaution-bilan-referentiel
+	return testNotSubmitted(nodeid,'section-etudiant-soumission')
+}
+
 function demanderEvaluationCompetence(nodeid) {
-	let parent = $(UICom.structure.ui[nodeid].node).parent().parent(); 
+	let parent = $(UICom.structure.ui[nodeid].node).parent(); 
 	nodeid = $(parent).attr('id'); // --- sous section auto-evalaution-bilan-referentiel
 	const pageid = $("#page").attr('uuid');
 	var type = "competence";
-	const demandeid = $("*:has(>metadata[semantictag*=demande-evaluation])",$(UICom.structure.ui[nodeid].node)).attr("id");
-	const val = UICom.structure.ui[demandeid].resource.getValue();
-	if (val=='1') {
-		buildSaveEvaluationVector(nodeid,pageid,type+'-evaluation');
-		//-- submit
-	} else {
-		deleteVector(null,type+'-evaluation',nodeid);
-	}
+	const js = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation')";
+	const text = "Attention vous ne pourrez plus faire de modifications sur cette demande. Voulez-vous continuer?";
+	confirmSubmit(nodeid,false,js,text);
 }
 
 function modifierEvaluationCompetence(nodeid) {
@@ -697,7 +731,7 @@ function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+a6+"</td>";
 	const date_demande = new Date(parseInt(a7));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "</tr>";
@@ -707,9 +741,16 @@ function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
-	const date_demande = new Date(parseInt(a7));
-	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	html += "<td>"+ date +"</td>";
+	if (a7.indexOf("/")>-1) {
+		const date_demande = new Date(parseInt(a7.substring(0,a7.indexOf("/"))));
+		const date_evaluation = new Date(parseInt(a7.substring(a7.indexOf("/")+1)));
+		html += "<td>"+ date_demande.toLocaleString()+"</td>";
+		html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
+	} else {
+		const date_demande = new Date(parseInt(a7));
+		html += "<td>"+ date_demande.toLocaleString()+"</td>";
+		html += "<td>"+ date +"</td>";
+	}
 	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
@@ -719,10 +760,16 @@ function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 
 function displayEvaluationExport(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
-	html += "<td>"+a6+"</td>";
-	html += "<td>"+ a5 +"</td>";
-	html += "<td>"+ date +"</td>";
-	html += "<td>"+a3 +"</td>";
+	html += "<td>"+a6.substring(a6.indexOf("/")+1)+"</td>";
+	html += "<td>"+ a6.substring(0,a6.indexOf("/")) +"</td>";
+	if (a7.indexOf("/")>-1) {
+		const date_evaluation = new Date(parseInt(a7.substring(a7.indexOf("/")+1)));
+		html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
+	} else {
+		const date_demande = new Date(parseInt(a7));
+		html += "<td>"+ date +"</td>";
+	}
+	html += "<td>"+ a8.substring(0,a8.indexOf("/")) +"</td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "</tr>";
@@ -779,10 +826,8 @@ function demanderEvaluation2(nodeid,parentid,sendemail) { // par l'étudiant
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
-//	const section_evaluation_action_id = $("*:has(>metadata[semantictag='section-evaluation-action'])",UICom.structure.ui[pageid].node).attr("id");
 	const js = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation');majDemEvalSAE('"+nodeid+"')";
 	const text = "Attention vous ne pourrez plus faire de modifications sur cette page. Voulez-vous continuer?";
-//	const section_reflexivite_action_id = $("*:has(>metadata[semantictag='section-reflexivite-action'])",UICom.structure.ui[pageid].node).attr("id");
 	const section_etudiant_soumission_id = $("*:has(>metadata[semantictag='section-etudiant-soumission'])",UICom.structure.ui[pageid].node).attr("id");
 	confirmSubmit(section_etudiant_soumission_id,false,js,text);
 }
@@ -925,11 +970,12 @@ function soumettreAutres(nodeid,semtag) {
 //=============== FEEDBACK ========================
 //=================================================
 
-function displayFeedback(destid,date,a1,a2,a3,a4,a8,a6,a9,a10) {
+function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	html += "<td>"+date+"</td>";
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	const date_demande = new Date(parseInt(a7));
+	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "<td>"+a10+"</td>";
 //	html += "<td><span class='button' onclick=\"soumettreFeedback('"+a3+"','"+a4+"','"+a2+"','"+g_variables['sendemail']+"')\" data-title='Envoyer' data-toggle='tooltip' data-placement='bottom' ><i class='fa fa-paper-plane' aria-hidden='true'></i></span></td>";
@@ -1040,6 +1086,9 @@ function soumettreFeedback(nodeid){
 }
 
 //====================================================
+
+
+
 
 
 //------------------ TEST -------------
@@ -1259,5 +1308,5 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 }
 
 
-//# sourceURL=kapc.js
+//# sourceURL=kapc1.3.js
 
