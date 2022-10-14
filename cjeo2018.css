@@ -1,0 +1,45 @@
+
+/*------------------------
+vert : #81bc1f;
+violet : #56428b;
+bleu foncé : #385ba6;
+--------------------------*/
+
+.cjeo2018 td.buttons {background-color:#81bc1f;}
+.cjeo2018 .asmUnit > div[name=lbl-div] {background-color:#81bc1f;}
+.cjeo2018 .asmStructure > div[name=lbl-div] {background-color:#81bc1f;}
+
+.cjeo2018 td.td-resource {border: 1px solid #81bc1f;}
+.cjeo2018 .contenu-participant td.td-resource {color: #fff;background-color: #56428b;}
+.cjeo2018 .asmStructure .asmUnit div[name=lbl-div] {color: #81bc1f;background-color: #fff;margin-left:100px;font-size:90%}
+.cjeo2018 .asmStructure .asmStructure div[name=lbl-div] {color: #81bc1f;background-color: #fff;margin-left:100px;font-size:90%}
+.cjeo2018 #main-portfolio #portfolio-container .sharing-button {background-color:#81bc1f;}
+.cjeo2018 #main-portfolio #portfolio-container .menus a {background-color:#385ba6}
+.cjeo2018 #main-portfolio #portfolio-container .contenu-participant .add-button {background-color:#56428b;}
+.cjeo2018 #main-portfolio #portfolio-container .echanges-participant-conseiller .menus a.add-button {color:#fff;background-color:#385ba6}
+.cjeo2018 .echanges-participant-conseiller {color:#fff;background-color:#385ba6;}
+
+.cjeo2018 .contenu-participant div[name=lbl-div] {color:#fff;background-color:#56428b;}
+.cjeo2018 .page-experience-professionnelle .add-button {color:#56428b;background-color:#fff}
+.cjeo2018 #main-portfolio #portfolio-container .page-experience-professionnelle .menus a {color:#56428b;background-color:#fff}
+.cjeo2018 .bloc-sommaire-experiences-professionelles.contenu-participant {margin-top:50px;}
+
+.cjeo2018 .page-loisirs-implication .add-button {color:#56428b;background-color:#fff}
+.cjeo2018 #main-portfolio #portfolio-container .page-loisirs-implication .menus a {color:#56428b;background-color:#fff}
+.cjeo2018 .page-loisirs-implication.contenu-participant {margin-top:50px;}
+
+.cjeo2018 #main-portfolio #portfolio-container .section-bons-coups .menus a {background-color:#81bc1f;}
+
+.cjeo2018 .first-node .buttons .btn-group .button{color:#fff}
+.cjeo2018 #main-portfolio #portfolio-container a {color:#81bc1f;}
+
+.cjeo2018 .zebra-table .extra {margin-left:100px;}
+.cjeo2018 .page-synthese .extra {margin-left:100px;}
+
+.cjeo2018 #main-portfolio #portfolio-container .page-metiers-professions .menus a {color:#56428b;background-color:#fff}
+.cjeo2018 .bloc-metier-profession .content {padding-bottom:10px;}
+
+.cjeo2018 .page-presentation-projet>.content {margin-top:50px;}
+
+.cjeo2018 .page-plan-action .contenu-participant div[name=lbl-div] {padding-left:100px}
+.cjeo2018 .section-demarche .contenu-participant {padding-bottom:10px}
