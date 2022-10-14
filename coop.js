@@ -39,46 +39,60 @@ function getPreviewSharedURL(uuid) {
 
 //=============== EVALUATION ACTION =======================
 function buildSaveEvaluationVectorCOOP(nodeid,pageid,type) {
-	const parent = $(UICom.structure.ui[nodeid].node).parent().parent().parent().parent();
-	const parentid = $(parent).attr("id");
-	const action = UICom.structure.ui[pageid].getLabel(null,'none') + "/" + UICom.structure.ui[parentid].getLabel(null,'none')
+	//------------
+	const action = $(UICom.structure.ui[nodeid].node).parent().parent().parent().parent();
+	const actionid = $(action).attr("id");
+	const situation_action_label = UICom.structure.ui[pageid].getLabel(null,'none') + "/" + UICom.structure.ui[actionid].getLabel(null,'none')
+	//------------
+	const ac = $(action).parent();
+	const acid = $(ac).attr("id");
+	const ac_label = UICom.structure.ui[acid].getLabel(null,'none');
+	//------------
+	const comp = $(ac).parent().parent();
+	const compid = $(comp).attr("id");
+	const comp_label = UICom.structure.ui[compid].getLabel(null,'none');
+	//------------
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const evalid = nodeid;
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='niveau-expert'])",UICom.structure.ui[evalid].node))[1]).text();
-	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
+	deleteVector(null,null,nodeid);
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
 		const candelete = enseignantid;
-		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,null,evaluation,candelete);
+		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,comp_label,ac_label,situation_action_label,evaluation,candelete);
 		//----envoi courriel à l'enseigant -----
 		if (g_variables['sendemail'] && g_variables['sendemail']=='true') {
 			const object = "Demande étudiante - Évaluation";
 			const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation.";
 			sendNotification(object,body,enseignantemail);
-		}
+		}("1")
 	}
 }
 
 function buildSubmitEvaluationVectorCOOP(nodeid,pageid,type) {
-	const parent = $(UICom.structure.ui[nodeid].node).parent().parent().parent().parent();
-	const parentid = $(parent).attr("id");
-	const action = UICom.structure.ui[pageid].getLabel(null,'none') + "/" + UICom.structure.ui[parentid].getLabel(null,'none')
-	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
+	//------------
+	const action = $(UICom.structure.ui[nodeid].node).parent().parent().parent().parent();
+	const actionid = $(action).attr("id");
+	const situation_action_label = UICom.structure.ui[pageid].getLabel(null,'none') + "/" + UICom.structure.ui[actionid].getLabel(null,'none')
+	//------------
+	const ac = $(action).parent();
+	const acid = $(ac).attr("id");
+	const ac_label = UICom.structure.ui[acid].getLabel(null,'none');
+	//------------
+	const comp = $(ac).parent().parent();
+	const compid = $(comp).attr("id");
+	const comp_label = UICom.structure.ui[compid].getLabel(null,'none');
+	//------------
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
-	const etudiant_courriel = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
+//	const etudiant_courriel = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const evalid = nodeid;
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='niveau-expert'])",UICom.structure.ui[evalid].node))[1]).text();
-	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
-	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,null,evaluation);
-	//----envoi courriel à l'enseigant -----
+	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,comp_label,ac_label,situation_action_label,evaluation);
+	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 		const object = "Évaluation";
 		const body = action + "a été évalué(e).";
@@ -89,11 +103,11 @@ function buildSubmitEvaluationVectorCOOP(nodeid,pageid,type) {
 function displayEvaluationCOOP(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
-	const date_demande = new Date(parseInt(a7));
-	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	const situation_action = a9.split("/");
+	html += "<td>"+ situation_action[0]+"</td>";
+	html += "<td>"+a7+" / "+a8+"</td>";
+	html += "<td>"+situation_action[1]+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
-//	html += "<td>"+a9+"</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
