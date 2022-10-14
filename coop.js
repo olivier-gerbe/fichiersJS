@@ -1,3 +1,5 @@
+// coop.js - version 14/10/22
+
 //---- fonction pour modifier les codes des situations ----
 function majVarCoopCode(code){
 	if (code.indexOf("##coop-")==-1)
@@ -169,14 +171,16 @@ function buildSaveFeedbackVectorCOOP(nodeid,pageid,type,sendemail) {
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const commentaires = UICom.structure.ui[nodeid].resource.getView();
-	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
+	let date_demande= new Date().getTime();
+	const search = $("vector",searchVector(null,type,nodeid));
+	if (search.length>0 && g_userroles[0]!='etudiant')
+		date_demande = $("a7",search[0]).text();
+	deleteVector(null,null,nodeid);
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires,enseignantid);
+		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,date_demande,action,question,commentaires,enseignantid);
 		//----envoi courriel à l'enseigant -----
 		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const object = "Demande étudiante - Feedback";
@@ -195,8 +199,12 @@ function buildSubmitFeebackVectorCOOP(nodeid,pageid,type) {
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const commentaires = UICom.structure.ui[nodeid].resource.getView();
 	const previewURL = getPreviewSharedURL(pageid);
-	deleteVector(null,null,nodeid)
-	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,null,action,question,commentaires,USER.username);
+	let date_demande= new Date().getTime();
+	const search = $("vector",searchVector(null,type,nodeid));
+	if (search.length>0 && g_userroles[0]!='etudiant')
+		date_demande = $("a7",search[0]).text();
+	deleteVector(null,null,nodeid);
+	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_demande,action,question,commentaires,USER.username);
 	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail'] && g_variables['sendemail']=='true') {
 		const object = "Feedback";
@@ -209,7 +217,8 @@ function displayFeedbackCOOP(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
 	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	html += "<td>"+date+"</td>";
+	const date_demande = new Date(parseInt(a7));
+	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "<td>"+a10+"</td>";
 //	html += "<td><span class='button' onclick=\"soumettreFeedback('"+a3+"','"+a4+"','"+a2+"','"+g_variables['sendemail']+"')\" data-title='Envoyer' data-toggle='tooltip' data-placement='bottom' ><i class='fa fa-paper-plane' aria-hidden='true'></i></span></td>";
@@ -222,18 +231,17 @@ function demanderFeedbackAction(nodeid) {
 	buildSaveFeedbackVectorCOOP(nodeid,pageid,'action-feedback');
 }
 
-function supprimerFeddbackAction(nodeid) {
+function supprimerFeedbackAction(nodeid) {
 	deleteVector(null,'action-feedback',nodeid);
 }
 
-function modifierFeedback(nodeid) { // par l'enseignant
+function modifierFeedbackAction(nodeid) { // par l'enseignant
 	//---------------------------
 	let parent = UICom.structure.ui[nodeid].node;
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
 	}
 	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
-	deleteVector(null,'action-feedback',nodeid);
 	buildSaveFeedbackVectorCOOP(nodeid,pageid,'action-feedback');
 }
 
@@ -246,7 +254,7 @@ function soumettreFeedbackAction(nodeid){
 	buildSubmitFeebackVectorCOOP(nodeid,pageid,"action-feedback-done");
 }
 
-function enregisterDemFeedback () {
+function enregistrerDemFeedbackAction () {
 	alert('Demande enregistrée');
 	eval("demanderFeedbackAction("+replaceVariable('##lastimported##')+")");
 }

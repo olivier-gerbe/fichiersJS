@@ -1,208 +1,27 @@
-<vectors>
-	<vector uid=1 date='12/31/21 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>61643775-ebf4-432f-8a64-3962733224d8</a3>
-		<a4>1</a4>
-		<a5>2021</a5>
-	</vector>
-	<vector uid=1 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>61643775-ebf4-432f-8a64-3962733224d8</a3>
-		<a4>ca3ed41a-6a56-11ec-95ff-fa163e81ee47</a4>
-		<a5>1</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=1 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>61643775-ebf4-432f-8a64-3962733224d8</a3>
-		<a4>9c7af562-6b26-11ec-95ff-fa163e81ee47</a4>
-		<a5>1</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=1 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>61643775-ebf4-432f-8a64-3962733224d8</a3>
-		<a4>257acc45-6b27-11ec-95ff-fa163e81ee47</a4>
-		<a5>1</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=1 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>5b906f44-6b32-11ec-95ff-fa163e81ee47</a2>
-		<a3>61643775-ebf4-432f-8a64-3962733224d8</a3>
-		<a4>sae-feedback</a4>
-		<a5>1</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=228 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>8e59af3d-6b3b-11ec-95ff-fa163e81ee47</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>sae-feedback</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=228 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>26a6eac1-6b44-11ec-95ff-fa163e81ee47</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>sae-feedback</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=228 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>18bb2744-6b45-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=228 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>a6e6d9e4-6b48-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=228 date='1/1/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-feedback</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>4fa1196e-6b4a-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=1 date='1/4/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>a24433e6-6d86-11ec-95ff-fa163e81ee47</a4>
-		<a5>1</a5>
-		<a6>2022</a6>
-	</vector>
-	<vector uid=228 date='1/4/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>a24433e6-6d86-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/4/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>6cafe341-6b3b-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>2fcc8e55-6dd8-11ec-95ff-fa163e81ee47</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>sae-feedback</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>24da2c42-6dd8-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>06585247-6dda-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>1c947bf0-6e3a-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>2739e122-6e3e-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>c059ccf1-6e3f-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>0e796e98-6e40-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=227 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation-done</a2>
-		<a3>e9050d82-3691-42bf-8cb1-dfb5af695c31</a3>
-		<a4>0e796e98-6e40-11ec-95ff-fa163e81ee47</a4>
-		<a5>227</a5>
-		<a6>2022</a6>
-		<a7>portfolios-enseignants/but-INFO.modele-portfolio-enseignant-vector-og
-		</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>d3eac3f0-6e40-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-	<vector uid=227 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation-done</a2>
-		<a3>e9050d82-3691-42bf-8cb1-dfb5af695c31</a3>
-		<a4>d3eac3f0-6e40-11ec-95ff-fa163e81ee47</a4>
-		<a5>227</a5>
-		<a6>2022</a6>
-		<a7>portfolios-enseignants/but-INFO.modele-portfolio-enseignant-vector-og
-		</a7>
-	</vector>
-	<vector uid=228 date='1/5/22 12:00:00 AM'>
-		<a1>gerbe</a1>
-		<a2>sae-evaluation</a2>
-		<a3>210c2736-af43-42a0-9d50-739d913b13b9</a3>
-		<a4>84c0aeba-6e41-11ec-95ff-fa163e81ee47</a4>
-		<a5>228</a5>
-		<a6>2022</a6>
-		<a7>portfolios-etudiants/but-INFO/2021-3.portfolio-isabelle</a7>
-	</vector>
-</vectors>
+<?xml version="1.0" encoding="UTF-8"?><portfolios count="12" ><portfolio id="355813ce-1345-4ea0-a864-7d605ecfa084" root_node_id="8bc9dad0-4a58-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 14:06:08"><asmRoot id="8bc9dad0-4a58-11ed-9450-fa163ebfbd00"><metadata-wad csstext="" menuroles="" seenoderoles="all" /><metadata-epm displayview="" /><metadata display-type="standard" editmode="Y" menu-type="vertical" multilingual-node="Y" semantictag="root karuta-model" sharedNode="N" sharedResource="N" /><code>edpn-2022.portfolio-nemo-gestion</code><label/><description/><semanticTag>root karuta-model</semanticTag><asmResource id='8bcd4212-4a58-11ed-9450-fa163ebfbd00' contextid='8bc9dad0-4a58-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.<portfolio-nemo-gestion</code>
+  <label lang="fr">Modèle portfolio enseignant</label>
+  <label lang="en">Modèle portfolio enseignant</label></asmResource><asmResource id='8bccc1e3-4a58-11ed-9450-fa163ebfbd00' contextid='8bc9dad0-4a58-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="1f7dfc88-ae24-4eb7-a2b5-746a5dde4ba6" root_node_id="596d0eaf-458a-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 14:02:31"><asmRoot id="596d0eaf-458a-11ed-9450-fa163ebfbd00"><metadata-wad defaultrole="" editnoderoles="batcher" menulabels="Add Batch Components@en/Ajouter composantes de batch@fr,batcher" menuroles="karuta.batch-parts,for-each-line,For Each Line@en/Pour chaque ligne@fr,batcher;karuta.batch-parts,for-each-tree,For Each Tree@en/Pour chaque arbre@fr,batcher;karuta.batch-parts,for-each-person,For Each User@en/Pour chaque utilisateur@fr,batcher;karuta.batch-parts,if-then-else,If Then Else@en/Si Alors Sinon@fr,batcher;#line;##var-batch-all##" seenoderoles="all" /><metadata-epm/><metadata display-type="model" multilingual-node="Y" public="Y" semantictag="root batch karuta-batch" sharedNode="N" sharedResource="N" /><code>edpn-2022.batch-creer-enseignants</code><label/><description/><semanticTag>root batch karuta-batch</semanticTag><asmResource id='596d6dd5-458a-11ed-9450-fa163ebfbd00' contextid='596d0eaf-458a-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.batch-creer-enseignants</code>
+  <label lang="fr">Batch créer enseignants</label>
+  <label lang="en">Batch créer enseignants</label></asmResource><asmResource id='596d524a-458a-11ed-9450-fa163ebfbd00' contextid='596d0eaf-458a-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="fc88b8e5-bda8-482a-a5f7-ddea6cd635fb" root_node_id="7420889c-4589-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 13:58:15"><asmRoot id="7420889c-4589-11ed-9450-fa163ebfbd00"><metadata-wad defaultrole="" editnoderoles="batcher" menulabels="Add Batch Components@en/Ajouter composantes de batch@fr,batcher" menuroles="karuta.batch-parts,for-each-line,For Each Line@en/Pour chaque ligne@fr,batcher;karuta.batch-parts,for-each-tree,For Each Tree@en/Pour chaque arbre@fr,batcher;karuta.batch-parts,for-each-person,For Each User@en/Pour chaque utilisateur@fr,batcher;karuta.batch-parts,if-then-else,If Then Else@en/Si Alors Sinon@fr,batcher;#line;##var-batch-all##" seenoderoles="all" /><metadata-epm/><metadata display-type="model" multilingual-node="Y" public="Y" semantictag="root batch karuta-batch" sharedNode="N" sharedResource="N" /><code>edpn-2022.batch-creer-participants</code><label/><description/><semanticTag>root batch karuta-batch</semanticTag><asmResource id='742253ae-4589-11ed-9450-fa163ebfbd00' contextid='7420889c-4589-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.batch-creer-participants</code>
+  <label lang="fr">Batch créer participants EDPN</label>
+  <label lang="en">Batch créer participants</label></asmResource><asmResource id='7421f321-4589-11ed-9450-fa163ebfbd00' contextid='7420889c-4589-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="c0f82727-f17c-4956-a3f4-810a06121346" root_node_id="d25dbb07-4a53-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 13:34:39"><asmRoot id="d25dbb07-4a53-11ed-9450-fa163ebfbd00"><metadata-wad menuroles="" seenoderoles="all" /><metadata-epm/><metadata multilingual-node="Y" public="Y" semantictag="root karuta-components" sharedNode="N" sharedResource="N" /><code>edpn-2022.composantes-reutilisables</code><label/><description/><semanticTag>root karuta-components</semanticTag><asmResource id='d25e5716-4a53-11ed-9450-fa163ebfbd00' contextid='d25dbb07-4a53-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.composantes-reutilisables</code>
+  <label lang="fr">Composantes réutilisables</label>
+  <label lang="en">Composantes générales</label></asmResource><asmResource id='d25e2e69-4a53-11ed-9450-fa163ebfbd00' contextid='d25dbb07-4a53-11ed-9450-fa163ebfbd00' xsi_type='context'></asmResource></asmRoot></portfolio><portfolio id="d0cfb24c-dbc5-402e-bd28-57a6c6304f3c" root_node_id="a80c358e-45a2-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 14:01:14"><asmRoot id="a80c358e-45a2-11ed-9450-fa163ebfbd00"><metadata-wad menuroles="function,execBatchForm,Exécuter@fr/Execute@en,batcher" seenoderoles="all" /><metadata-epm/><metadata multilingual-node="Y" semantictag="root karuta-batch-form" sharedNode="N" sharedResource="N" /><code>edpn-2022.formulaire-creer-enseignant</code><label/><description/><semanticTag>root karuta-batch-form</semanticTag><asmResource id='a80c97e0-45a2-11ed-9450-fa163ebfbd00' contextid='a80c358e-45a2-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.formulaire-creer-enseignant</code>
+  <label lang="fr">FORMULAIRE créer enseignant</label>
+  <label lang="en">Formulaire créer enseignant</label></asmResource><asmResource id='a80c7eeb-45a2-11ed-9450-fa163ebfbd00' contextid='a80c358e-45a2-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="en"/><text lang="fr"/></asmResource></asmRoot></portfolio><portfolio id="d1fc52a6-937d-4d65-abfc-74428ae9449c" root_node_id="1f0ea8a5-4a42-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 13:25:52"><asmRoot id="1f0ea8a5-4a42-11ed-9450-fa163ebfbd00"><metadata-wad csstext="" menuroles="" seenoderoles="all" /><metadata-epm displayview="" /><metadata display-type="standard" editmode="Y" menu-type="vertical" multilingual-node="Y" semantictag="root karuta-model" sharedNode="N" sharedResource="N" /><code>edpn-2022.modele-portfolio-admin-soutien</code><label/><description/><semanticTag>root karuta-model</semanticTag><asmResource id='1f1052c0-4a42-11ed-9450-fa163ebfbd00' contextid='1f0ea8a5-4a42-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.modele-portfolio-admin-soutien</code>
+  <label lang="fr">Modèle portfolio récapitulatifs et soutien</label>
+  <label lang="en">Modèle portfolio récapitulatifs et soutien</label></asmResource><asmResource id='1f0febe9-4a42-11ed-9450-fa163ebfbd00' contextid='1f0ea8a5-4a42-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="08d7b04c-8950-4afc-8682-894ce859d692" root_node_id="1efb4cd9-457e-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 13:58:00"><asmRoot id="1efb4cd9-457e-11ed-9450-fa163ebfbd00"><metadata-wad csstext="" menuroles="" seenoderoles="all" /><metadata-epm displayview="" /><metadata display-type="standard" editmode="Y" menu-type="vertical" multilingual-node="Y" semantictag="root karuta-model" sharedNode="N" sharedResource="N" /><code>edpn-2022.modele-portfolio-enseignant</code><label/><description/><semanticTag>root karuta-model</semanticTag><asmResource id='1efee51d-457e-11ed-9450-fa163ebfbd00' contextid='1efb4cd9-457e-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.modele-portfolio-enseignant</code>
+  <label lang="fr">Modèle portfolio enseignant</label>
+  <label lang="en">Modèle portfolio enseignant</label></asmResource><asmResource id='1efd2c35-457e-11ed-9450-fa163ebfbd00' contextid='1efb4cd9-457e-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="c356c5cf-00ce-4928-a61d-216d029dd85e" root_node_id="93ff636a-4a34-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 10:46:50"><asmRoot id="93ff636a-4a34-11ed-9450-fa163ebfbd00"><metadata-wad csstext="" menuroles="" seenoderoles="all" /><metadata-epm displayview="" /><metadata display-type="standard" editmode="Y" menu-type="vertical" multilingual-node="Y" semantictag="root karuta-model" sharedNode="N" sharedResource="N" /><code>edpn-2022.modele-portfolio-participant-MBA</code><label/><description/><semanticTag>root karuta-model</semanticTag><asmResource id='940a9325-4a34-11ed-9450-fa163ebfbd00' contextid='93ff636a-4a34-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.modele-portfolio-participant-MBA</code>
+  <label lang="fr">Modèle portfolio participant MBA (base)</label>
+  <label lang="en">Modèle portfolio participant MBA (base)</label></asmResource><asmResource id='94085e90-4a34-11ed-9450-fa163ebfbd00' contextid='93ff636a-4a34-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="72218689-8053-43c4-bd82-939f0a793af6" root_node_id="95cf6993-44dc-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 13:05:39"><asmRoot id="95cf6993-44dc-11ed-9450-fa163ebfbd00"><metadata-wad csstext="" menuroles="" seenoderoles="all" /><metadata-epm displayview="" /><metadata display-type="standard" editmode="Y" menu-type="vertical" multilingual-node="Y" semantictag="root karuta-model" sharedNode="N" sharedResource="N" /><code>edpn-2022.modele-portfolio-participant</code><label/><description/><semanticTag>root karuta-model</semanticTag><asmResource id='95d0740b-44dc-11ed-9450-fa163ebfbd00' contextid='95cf6993-44dc-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.modele-portfolio-participant</code>
+  <label lang="fr">Modèle portfolio participant EDPN</label>
+  <label lang="en">Modèle portfolio participant EDPN</label></asmResource><asmResource id='95d01c1e-44dc-11ed-9450-fa163ebfbd00' contextid='95cf6993-44dc-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="fr"/><text lang="en"/></asmResource></asmRoot></portfolio><portfolio id="265c11d4-80ce-4198-8082-8bd5bd0d59b6" root_node_id="d8ee46c8-457f-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-06 11:12:49"><asmRoot id="d8ee46c8-457f-11ed-9450-fa163ebfbd00"><metadata-wad defaultrole="reporter" editnoderoles="reporter" menulabels="Add Report Components@en/Ajouter composantes de rapport@fr,reporter" menuroles="##var-report-model##" seenoderoles="all reporter" /><metadata-epm/><metadata display-type="model" multilingual-node="Y" public="Y" semantictag="root karuta-report report" sharedNode="N" sharedResource="N" /><code>edpn-2022.rapport-enseignant</code><label/><description/><semanticTag>root karuta-report report</semanticTag><asmResource id='d8ee9e31-457f-11ed-9450-fa163ebfbd00' contextid='d8ee46c8-457f-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.rapport-enseignant</code>
+  <label lang="fr">Rapport pour l'enseignant</label>
+  <label lang="en">Rapport pour l'enseignant</label></asmResource><asmResource id='d8ee8dff-457f-11ed-9450-fa163ebfbd00' contextid='d8ee46c8-457f-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="en"/>
+  <text lang="fr"/></asmResource></asmRoot></portfolio><portfolio id="5324a8c2-568e-49a0-9489-985f2560973f" root_node_id="0c86752a-4a44-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 12:14:15"><asmRoot id="0c86752a-4a44-11ed-9450-fa163ebfbd00"><metadata-wad defaultrole="reporter" editnoderoles="reporter" menulabels="Add Report Components@en/Ajouter composantes de rapport@fr,reporter" menuroles="##var-report-model##" seenoderoles="all reporter" /><metadata-epm/><metadata display-type="model" multilingual-node="Y" public="Y" semantictag="root karuta-report report" sharedNode="N" sharedResource="N" /><code>edpn-2022.rapport-recapitulatif-carnets</code><label/><description/><semanticTag>root karuta-report report</semanticTag><asmResource id='0c87c653-4a44-11ed-9450-fa163ebfbd00' contextid='0c86752a-4a44-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.rapport-recapitulatif-carnets</code>
+  <label lang="fr">Rapport récapitulatif carnets</label>
+  <label lang="en">Rapport récapitulatif carnets</label></asmResource><asmResource id='0c87500f-4a44-11ed-9450-fa163ebfbd00' contextid='0c86752a-4a44-11ed-9450-fa163ebfbd00' xsi_type='context'><text lang="en"/>
+  <text lang="fr"/></asmResource></asmRoot></portfolio><portfolio id="947126fc-70f3-4f0e-9203-3e949ece1fc6" root_node_id="afc4d8e3-4594-11ed-9450-fa163ebfbd00" owner="Y" ownerid="1" modified="2022-10-12 13:55:26"><asmRoot id="afc4d8e3-4594-11ed-9450-fa163ebfbd00"><metadata-wad seenoderoles="all" /><metadata-epm/><metadata multilingual-node="Y" public="Y" semantictag="root karuta-rubrics" sharedNode="N" sharedResource="N" /><code>edpn-2022.repertoire-cohortes</code><label/><description/><semanticTag>root karuta-rubrics</semanticTag><asmResource id='afc503b4-4594-11ed-9450-fa163ebfbd00' contextid='afc4d8e3-4594-11ed-9450-fa163ebfbd00' xsi_type='nodeRes'><code>edpn-2022.repertoire-cohortes</code>
+  <label lang="fr">Répertoire de cohortes</label>
+  <label lang="en">Référentiel général</label></asmResource><asmResource id='afc4f729-4594-11ed-9450-fa163ebfbd00' contextid='afc4d8e3-4594-11ed-9450-fa163ebfbd00' xsi_type='context'></asmResource></asmRoot></portfolio></portfolios>
