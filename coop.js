@@ -87,7 +87,7 @@ function buildSubmitEvaluationVectorCOOP(nodeid,pageid,type) {
 	const comp_label = UICom.structure.ui[compid].getLabel(null,'none');
 	//------------
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
-//	const etudiant_courriel = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
+	const etudiant_courriel = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const evalid = nodeid;
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='niveau-expert'])",UICom.structure.ui[evalid].node))[1]).text();
 	const previewURL = getPreviewSharedURL(pageid);
