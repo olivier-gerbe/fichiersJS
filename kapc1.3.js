@@ -18,6 +18,22 @@ function testSiEvalDemandee(nodeid)
 		return true;
 }
 
+function testSiEvalEnseignantDemandee(nodeid)
+{
+	const pageid = $("#page").attr('uuid');
+	const datedemandeid = $("*:has(>metadata[semantictag*=date-dem-eval])",$(UICom.structure.ui[pageid].node)).attr("id");
+	const date = UICom.structure.ui[datedemandeid].resource.getAttributes()['text'];
+	if (date!="")
+		return false;
+	else
+		return true;
+}
+
+function testSiAfficherDemande(nodeid)
+{
+	return testSiEvalDemandee(nodeid) && testSiEvalEnseignantDemandee(nodeid);
+}
+
 function testSiAfficherDemandeEvaluation()
 {
 	const pageid = $("#page").attr('uuid');
@@ -679,9 +695,9 @@ function supprimerEvaluationCompetence2(nodeid) {
 }
 
 function testDemanderEvaluationCompetence(nodeid) {
-	let parent = $(UICom.structure.ui[nodeid].node).parent(); 
-	parentid = $(parent).attr('id'); // --- sous section auto-evalaution-bilan-referentiel
-	return testNotSubmitted(parentid);
+	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); 
+	const sct_soumissionid = $("*:has(>metadata[semantictag*=section-etudiant-soumission])",$(UICom.structure.ui[parentid].node)).attr("id");
+	return testNotSubmitted(sct_soumissionid);
 }
 
 function testSiPartageCompetence(nodeid)
@@ -696,14 +712,14 @@ function testSiPartageCompetence(nodeid)
 
 
 function demanderEvaluationCompetence(nodeid) {
-	let parent = $(UICom.structure.ui[nodeid].node).parent(); 
-	nodeid = $(parent).attr('id'); // --- sous section auto-evalaution-bilan-referentiel
+	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); 
+	const sct_soumissionid = $("*:has(>metadata[semantictag*=section-etudiant-soumission])",$(UICom.structure.ui[parentid].node)).attr("id");
 	const pageid = $("#page").attr('uuid');
 	var type = "competence";
 	const js1 = "majDemEvalCompetence('"+nodeid+"')";
 	const js2 = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation')";
 	const text = "Attention vous ne pourrez plus faire de modifications sur cette demande. Voulez-vous continuer?";
-	confirmSubmit(nodeid,false,js1,text,js2);
+	confirmSubmit(sct_soumissionid,false,js1,text,js2);
 }
 
 function modifierEvaluationCompetence(nodeid) {
