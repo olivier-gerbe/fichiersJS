@@ -1,4 +1,5 @@
-// === version 1.3.2 2022/10/13 ===
+// === version 1.3.3 2022/10/20 ===
+// 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
 // 1.3.1 test si demande à un pair ou pro
 // 1.3.0 nouvelle gestion des vecteurs
@@ -601,10 +602,10 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
-	const commentaires = UICom.structure.ui[nodeid].resource.getView();
-	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
+	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+//	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
+//	if (date_dem_eval==null || date_dem_eval=='')
+	let date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
@@ -630,10 +631,10 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	const action = UICom.structure.ui[pageid].getLabel(null,'none');
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
-	const commentaires = UICom.structure.ui[nodeid].resource.getView();
-	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
+	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+//	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
+//	if (date_dem_eval==null || date_dem_eval=='')
+	let date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires,USER.username);
@@ -712,26 +713,26 @@ function testSiPartageCompetence(nodeid)
 
 
 function demanderEvaluationCompetence(nodeid) {
-	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); 
+	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); // --- sous section auto-evalaution-bilan-referentiel
 	const sct_soumissionid = $("*:has(>metadata[semantictag*=section-etudiant-soumission])",$(UICom.structure.ui[parentid].node)).attr("id");
 	const pageid = $("#page").attr('uuid');
 	var type = "competence";
-	const js1 = "majDemEvalCompetence('"+nodeid+"')";
-	const js2 = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation')";
+	const js1 = "majDemEvalCompetence('"+parentid+"')";
+	const js2 = "buildSaveEvaluationVector('"+parentid+"','"+pageid+"','"+type+"-evaluation')";
 	const text = "Attention vous ne pourrez plus faire de modifications sur cette demande. Voulez-vous continuer?";
 	confirmSubmit(sct_soumissionid,false,js1,text,js2);
 }
 
 function modifierEvaluationCompetence(nodeid) {
-	let parent = $(UICom.structure.ui[nodeid].node).parent().parent().parent(); 
-	nodeid = $(parent).attr('id'); // --- sous section auto-evalaution-bilan-referentiel
+	let parent = $(UICom.structure.ui[nodeid].node).parent().parent().parent(); // --- sous section auto-evalaution-bilan-referentiel
+	const parentid = $(parent).attr("id");
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
 	}
 	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
 	const type = "competence";
-	deleteVector(null,type+'-evaluation',nodeid);
-	buildSaveEvaluationVector(nodeid,pageid,type+'-evaluation');
+	deleteVector(null,type+'-evaluation',parentid);
+	buildSaveEvaluationVector(parentid,pageid,type+'-evaluation');
 }
 
 function soumettreEvaluationCompetence(nodeid){ // --- sous section auto-evalaution-bilan-referentiel
