@@ -526,14 +526,19 @@ function numberVectorKAPC(enseignantid,type,date1,date2) {
 function searchVectorKAPC(enseignantid,type,date1,date2) {
 	enseignantid = replaceVariable(enseignantid);
 	let search = $("vector",searchVector(enseignantid,type));
+	let result = [];
 	if (date1!=null && date2!=null) {
 		for (let i=0;i<search.length;i++) {
-			const date = $(search[i]).attr('date');
-			if (date<date1 || date>date2)
-				search.splice(i,1);
+			const a7 = $("a7",search[i]).text();
+			let date = a7;
+			if (a7.indexOf("/")>-1) {
+				date = a7.substring(a7.indexOf("/")+1);
+			}
+			if (date1<=date && date<=date2)
+				result.push(search[i]);
 		}
 	}
-	return search;
+	return result;
 }
 
 //-------------------
