@@ -107,6 +107,7 @@ function buildSubmitEvaluationVectorCOOP(nodeid,pageid,type) {
 function displayEvaluationCOOP(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
+	html += "<td>"+date.substring(0,date.length-8)+"</td>";
 	const situation_action = a9.split("/");
 	html += "<td>"+ situation_action[0]+"</td>";
 	html += "<td>"+a7+" / "+a8+"</td>";
