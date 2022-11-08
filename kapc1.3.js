@@ -537,6 +537,8 @@ function searchVectorKAPC(enseignantid,type,date1,date2) {
 			if (date1<=date && date<=date2)
 				result.push(search[i]);
 		}
+	} else {
+		result = search;
 	}
 	return result;
 }
@@ -679,6 +681,8 @@ function displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+a6+"</td>";
 	const date_demande = new Date(parseInt(a7));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
+	if (a8.indexOf("@")>0) // --- compétence personnalisée
+		a8 = a8.substring(a8.indexOf("/")+1);
 	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
@@ -797,6 +801,8 @@ function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 		html += "<td>"+ date_demande.toLocaleString()+"</td>";
 		html += "<td>"+ date +"</td>";
 	}
+	if (a8.indexOf("/")==0) // autre action
+		a8 = a8.substring(a8.indexOf("/")+1);
 	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
@@ -1354,6 +1360,15 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 	}
 	return result;
 }
+
+//=====================================================
+function reloadPreviewPage() {
+	let previewpageid = $(".preview-window").attr('preview-uuid');
+	$('#preview-'+previewpageid).remove();
+	$('#previewbackdrop-'+previewpageid).remove();
+	previewPage(previewpageid,100,"",null,g_report_edit); 
+}
+
 
 
 //# sourceURL=kapc1.3.js
