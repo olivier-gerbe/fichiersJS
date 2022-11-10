@@ -104,6 +104,7 @@ function setInformation(nodeid) {
 	setMatricule(nodeid);
 	setCourriel(nodeid);
 	setPageUUID(nodeid);
+	setPortfolioUUID(nodeid);
 }
 
 function setPrenomNom(nodeid) {
@@ -161,6 +162,17 @@ function setPageUUID(nodeid) {
 	}
 	$(UICom.structure.ui[pageUUID].resource.text_node[LANGCODE]).text(nodeid);
 	UICom.structure.ui[pageUUID].resource.save();
+}
+
+function setPortfolioUUID(nodeid) {
+	var portfolioUUID = $($("*:has(>metadata[semantictag*='portfolio-uuid'])",UICom.structure.ui[nodeid].node)[0]).attr("id");
+	if (portfolioUUID==undefined) {
+		const srcecode = replaceVariable("##dossier-etudiants-modeles##.composantes-competences")
+		portfolioUUID = importBranch(nodeid,srcecode,"portfolio-uuid");
+		UIFactory.Node.reloadUnit(nodeid,false);
+	}
+	$(UICom.structure.ui[portfolioUUID].resource.text_node[LANGCODE]).text(g_portfolioid);
+	UICom.structure.ui[portfolioUUID].resource.save();
 }
 
 //======================================================================================
@@ -683,7 +695,7 @@ function displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	if (a8.indexOf("@")>0) // --- compétence personnalisée
 		a8 = a8.substring(a8.indexOf("/")+1);
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPageCompetence('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "</tr>";
@@ -772,6 +784,83 @@ function resetEvaluationCompetence(nodeid){ // --- sous section auto-evalaution-
 	buildSaveEvaluationVector(nodeid,pageid,type+'-evaluation');
 }
 
+//==================================
+function previewPageCompetence(uuid,depth,type,langcode,edit) 
+//==================================
+{
+	//---------------------
+	if (langcode==null)
+		langcode = LANGCODE;
+	//---------------------
+	if (type=='previewURL') {
+		$.ajax({
+			async:false,
+			type : "GET",
+			url : serverBCK+"/direct?i=" + uuid,
+			success : function(data) {
+				uuid = data;
+			}
+		});
+	}
+	var previewbackdrop = document.createElement("DIV");
+	previewbackdrop.setAttribute("class", "preview-backdrop");
+	previewbackdrop.setAttribute("id", "previewbackdrop-"+uuid);
+	$('body').append(previewbackdrop);
+
+	var previewwindow = document.createElement("DIV");
+	previewwindow.setAttribute("id", "preview-"+uuid);
+	previewwindow.setAttribute("class", "preview-window");
+	previewwindow.setAttribute("preview-uuid", uuid);
+	previewwindow.setAttribute("preview-edit", edit);
+	previewwindow.innerHTML =  previewBox(uuid);
+	$('body').append(previewwindow);
+	$("#preview-"+uuid).hide();
+	$("#preview-window-body-"+uuid).html("");
+	let url = serverBCK_API+"/nodes/node/" + uuid + "?resources=true";
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : url,
+		success : function(data) {
+			const portfolioid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='portfolio-uuid'])",data)).text();
+			var header = "<button class='btn add-button' style='float:right' onclick=\"$('#"+portfolioid+"').remove();$('#preview-"+uuid+"').remove();$('#previewbackdrop-"+uuid+"').remove();\">"+karutaStr[LANG]['Close']+"</button>";
+			$("#preview-window-header-"+uuid).html(header);
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : serverBCK_API+"/portfolios/portfolio/" + portfolioid + "?resources=true",
+				success : function(data) {
+					UICom.parseStructure(data,false);
+					if (edit==null)
+						g_report_edit = false;
+					else
+						g_report_edit = edit;
+					UICom.structure["ui"][uuid].displayNode('standard',UICom.structure['tree'][uuid],"preview-window-body-"+uuid,depth,langcode,g_report_edit);
+					g_report_edit = g_edit;
+					$("#preview-"+uuid).show();
+					$("#previewbackdrop-"+uuid).show();
+					window.scrollTo(0,0);
+				},
+				error : function() {
+					var html = "";
+					html += "<div>" + karutaStr[languages[langcode]]['error-notfound'] + "</div>";
+					$("#preview-window-body-"+uuid).html(html);
+					$("#previewbackdrop-"+uuid).show();
+					$("#preview-window-"+uuid).show();
+					window.scrollTo(0,0);
+				}
+			});
+		},
+		error : function() {
+			var html = "";
+			html += "<div>" + karutaStr[languages[langcode]]['error-notfound'] + "</div>";
+			$("#preview-window-body-"+uuid).html(html);
+			$("#previewbackdrop-"+uuid).show();
+			$("#preview-window-"+uuid).show();
+			window.scrollTo(0,0);
+		}
+	});
+}
 //===========================================================================
 //=============== EVALUATION SAE STAGE ACTION PERIODE =======================
 //===========================================================================
