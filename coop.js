@@ -88,10 +88,14 @@ function buildSubmitEvaluationVectorCOOP(nodeid,pageid,type) {
 	//------------
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const etudiant_courriel = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
+	//------------
 	const evalid = nodeid;
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='niveau-expert'])",UICom.structure.ui[evalid].node))[1]).text();
+	//------------
 	const previewURL = getPreviewSharedURL(pageid);
-	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,comp_label,ac_label,situation_action_label,evaluation);
+	const today = new Date();
+	//------------
+	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,comp_label,ac_label,situation_action_label,evaluation+"|"+today.toLocaleString());
 	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 		const object = "Évaluation";
@@ -103,11 +107,18 @@ function buildSubmitEvaluationVectorCOOP(nodeid,pageid,type) {
 function displayEvaluationCOOP(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
+	html += "<td>"+date.substring(0,date.length-8)+"</td>";
 	const situation_action = a9.split("/");
 	html += "<td>"+ situation_action[0]+"</td>";
 	html += "<td>"+a7+" / "+a8+"</td>";
 	html += "<td>"+situation_action[1]+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	html += "<td>"+a10+"</td>";
+	if (a10.indexOf("|")<0)
+		html += "<td>"+a10+"</td>";
+	else {
+		const eval = a10.substring(0,a10.indexOf("|"));
+		const date_eval = new Date(parseInt(a10.substring(0,a10.indexOf("|")+1))).toLocaleString();
+		html += "<td>"+ eval + "<br>" + date_eval + "</td>";
+	}
 	html += "</tr>";
 	$("#"+destid).append(html);
 }

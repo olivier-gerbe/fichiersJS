@@ -1,4 +1,5 @@
-// === version 1.3.2 2022/10/13 ===
+// === version 1.3.3 2022/10/20 ===
+// 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
 // 1.3.1 test si demande à un pair ou pro
 // 1.3.0 nouvelle gestion des vecteurs
@@ -103,6 +104,7 @@ function setInformation(nodeid) {
 	setMatricule(nodeid);
 	setCourriel(nodeid);
 	setPageUUID(nodeid);
+	setPortfolioUUID(nodeid);
 }
 
 function setPrenomNom(nodeid) {
@@ -160,6 +162,17 @@ function setPageUUID(nodeid) {
 	}
 	$(UICom.structure.ui[pageUUID].resource.text_node[LANGCODE]).text(nodeid);
 	UICom.structure.ui[pageUUID].resource.save();
+}
+
+function setPortfolioUUID(nodeid) {
+	var portfolioUUID = $($("*:has(>metadata[semantictag*='portfolio-uuid'])",UICom.structure.ui[nodeid].node)[0]).attr("id");
+	if (portfolioUUID==undefined) {
+		const srcecode = replaceVariable("##dossier-etudiants-modeles##.composantes-competences")
+		portfolioUUID = importBranch(nodeid,srcecode,"portfolio-uuid");
+		UIFactory.Node.reloadUnit(nodeid,false);
+	}
+	$(UICom.structure.ui[portfolioUUID].resource.text_node[LANGCODE]).text(g_portfolioid);
+	UICom.structure.ui[portfolioUUID].resource.save();
 }
 
 //======================================================================================
@@ -525,14 +538,21 @@ function numberVectorKAPC(enseignantid,type,date1,date2) {
 function searchVectorKAPC(enseignantid,type,date1,date2) {
 	enseignantid = replaceVariable(enseignantid);
 	let search = $("vector",searchVector(enseignantid,type));
+	let result = [];
 	if (date1!=null && date2!=null) {
 		for (let i=0;i<search.length;i++) {
-			const date = $(search[i]).attr('date');
-			if (date<date1 || date>date2)
-				search.splice(i,1);
+			const a7 = $("a7",search[i]).text();
+			let date = a7;
+			if (a7.indexOf("/")>-1) {
+				date = a7.substring(a7.indexOf("/")+1);
+			}
+			if (date1<=date && date<=date2)
+				result.push(search[i]);
 		}
+	} else {
+		result = search;
 	}
-	return search;
+	return result;
 }
 
 //-------------------
@@ -601,10 +621,10 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
-	const commentaires = UICom.structure.ui[nodeid].resource.getView();
-	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
+	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+//	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
+//	if (date_dem_eval==null || date_dem_eval=='')
+	let date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
@@ -630,10 +650,10 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	const action = UICom.structure.ui[pageid].getLabel(null,'none');
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
-	const commentaires = UICom.structure.ui[nodeid].resource.getView();
-	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
-		date_dem_eval = new Date().getTime();
+	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+//	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
+//	if (date_dem_eval==null || date_dem_eval=='')
+	let date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires,USER.username);
@@ -673,7 +693,9 @@ function displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+a6+"</td>";
 	const date_demande = new Date(parseInt(a7));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	if (a8.indexOf("@")>0) // --- compétence personnalisée
+		a8 = a8.substring(a8.indexOf("/")+1);
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPageCompetence('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
 	html += "</tr>";
@@ -712,26 +734,26 @@ function testSiPartageCompetence(nodeid)
 
 
 function demanderEvaluationCompetence(nodeid) {
-	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); 
+	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); // --- sous section auto-evalaution-bilan-referentiel
 	const sct_soumissionid = $("*:has(>metadata[semantictag*=section-etudiant-soumission])",$(UICom.structure.ui[parentid].node)).attr("id");
 	const pageid = $("#page").attr('uuid');
 	var type = "competence";
-	const js1 = "majDemEvalCompetence('"+nodeid+"')";
-	const js2 = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation')";
+	const js1 = "majDemEvalCompetence('"+parentid+"')";
+	const js2 = "buildSaveEvaluationVector('"+parentid+"','"+pageid+"','"+type+"-evaluation')";
 	const text = "Attention vous ne pourrez plus faire de modifications sur cette demande. Voulez-vous continuer?";
 	confirmSubmit(sct_soumissionid,false,js1,text,js2);
 }
 
 function modifierEvaluationCompetence(nodeid) {
-	let parent = $(UICom.structure.ui[nodeid].node).parent().parent().parent(); 
-	nodeid = $(parent).attr('id'); // --- sous section auto-evalaution-bilan-referentiel
+	let parent = $(UICom.structure.ui[nodeid].node).parent().parent().parent(); // --- sous section auto-evalaution-bilan-referentiel
+	const parentid = $(parent).attr("id");
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
 	}
 	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
 	const type = "competence";
-	deleteVector(null,type+'-evaluation',nodeid);
-	buildSaveEvaluationVector(nodeid,pageid,type+'-evaluation');
+	deleteVector(null,type+'-evaluation',parentid);
+	buildSaveEvaluationVector(parentid,pageid,type+'-evaluation');
 }
 
 function soumettreEvaluationCompetence(nodeid){ // --- sous section auto-evalaution-bilan-referentiel
@@ -762,6 +784,83 @@ function resetEvaluationCompetence(nodeid){ // --- sous section auto-evalaution-
 	buildSaveEvaluationVector(nodeid,pageid,type+'-evaluation');
 }
 
+//==================================
+function previewPageCompetence(uuid,depth,type,langcode,edit) 
+//==================================
+{
+	//---------------------
+	if (langcode==null)
+		langcode = LANGCODE;
+	//---------------------
+	if (type=='previewURL') {
+		$.ajax({
+			async:false,
+			type : "GET",
+			url : serverBCK+"/direct?i=" + uuid,
+			success : function(data) {
+				uuid = data;
+			}
+		});
+	}
+	var previewbackdrop = document.createElement("DIV");
+	previewbackdrop.setAttribute("class", "preview-backdrop");
+	previewbackdrop.setAttribute("id", "previewbackdrop-"+uuid);
+	$('body').append(previewbackdrop);
+
+	var previewwindow = document.createElement("DIV");
+	previewwindow.setAttribute("id", "preview-"+uuid);
+	previewwindow.setAttribute("class", "preview-window");
+	previewwindow.setAttribute("preview-uuid", uuid);
+	previewwindow.setAttribute("preview-edit", edit);
+	previewwindow.innerHTML =  previewBox(uuid);
+	$('body').append(previewwindow);
+	$("#preview-"+uuid).hide();
+	$("#preview-window-body-"+uuid).html("");
+	let url = serverBCK_API+"/nodes/node/" + uuid + "?resources=true";
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : url,
+		success : function(data) {
+			const portfolioid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='portfolio-uuid'])",data)).text();
+			var header = "<button class='btn add-button' style='float:right' onclick=\"$('#"+portfolioid+"').remove();$('#preview-"+uuid+"').remove();$('#previewbackdrop-"+uuid+"').remove();\">"+karutaStr[LANG]['Close']+"</button>";
+			$("#preview-window-header-"+uuid).html(header);
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : serverBCK_API+"/portfolios/portfolio/" + portfolioid + "?resources=true",
+				success : function(data) {
+					UICom.parseStructure(data,false);
+					if (edit==null)
+						g_report_edit = false;
+					else
+						g_report_edit = edit;
+					UICom.structure["ui"][uuid].displayNode('standard',UICom.structure['tree'][uuid],"preview-window-body-"+uuid,depth,langcode,g_report_edit);
+					g_report_edit = g_edit;
+					$("#preview-"+uuid).show();
+					$("#previewbackdrop-"+uuid).show();
+					window.scrollTo(0,0);
+				},
+				error : function() {
+					var html = "";
+					html += "<div>" + karutaStr[languages[langcode]]['error-notfound'] + "</div>";
+					$("#preview-window-body-"+uuid).html(html);
+					$("#previewbackdrop-"+uuid).show();
+					$("#preview-window-"+uuid).show();
+					window.scrollTo(0,0);
+				}
+			});
+		},
+		error : function() {
+			var html = "";
+			html += "<div>" + karutaStr[languages[langcode]]['error-notfound'] + "</div>";
+			$("#preview-window-body-"+uuid).html(html);
+			$("#previewbackdrop-"+uuid).show();
+			$("#preview-window-"+uuid).show();
+			window.scrollTo(0,0);
+		}
+	});
+}
 //===========================================================================
 //=============== EVALUATION SAE STAGE ACTION PERIODE =======================
 //===========================================================================
@@ -791,6 +890,8 @@ function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 		html += "<td>"+ date_demande.toLocaleString()+"</td>";
 		html += "<td>"+ date +"</td>";
 	}
+	if (a8.indexOf("/")==0) // autre action
+		a8 = a8.substring(a8.indexOf("/")+1);
 	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a4+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a10+"</td>";
 	html += "<td>"+a9+"</td>";
@@ -1349,6 +1450,15 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 	}
 	return result;
 }
+
+//=====================================================
+function reloadPreviewPage() {
+	let previewpageid = $(".preview-window").attr('preview-uuid');
+	$('#preview-'+previewpageid).remove();
+	$('#previewbackdrop-'+previewpageid).remove();
+	previewPage(previewpageid,100,"",null,g_report_edit); 
+}
+
 
 
 //=======================================
