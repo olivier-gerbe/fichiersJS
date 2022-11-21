@@ -965,7 +965,8 @@ function supprimerEvaluation(nodeid){  // parl'étudiant
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
-	deleteVector(null,type+"-evaluation",nodeid);
+//	deleteVector(null,type+"-evaluation",nodeid);
+	deleteVector(null,type+"-evaluation",null,pageid); // supprimer aussi les demandes de feedback
 }
 
 function resetEvaluation(nodeid){
@@ -1349,6 +1350,25 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 	return result;
 }
 
+
+//=======================================
+function addBackdrop(id)
+{
+	$('#edit-window').modal('hide');
+	if (id==null)
+		id = "";
+	var confirmbackdrop = document.createElement("DIV");
+	confirmbackdrop.setAttribute("id", "backdrop"+id);
+	confirmbackdrop.setAttribute("class", "preview-backdrop");
+	$('body').append(confirmbackdrop);
+}
+
+function delBackdrop(id)
+{
+	if (id==null)
+		id = "";
+	$('#backdrop'+id).remove();
+}
 
 //# sourceURL=kapc1.3.js
 
