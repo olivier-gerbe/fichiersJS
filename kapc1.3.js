@@ -1,4 +1,5 @@
-// === version 1.3.3 2022/10/20 ===
+// === version 1.3.4 2022/11/24 ===
+// 1.3.4 fermeture balises xml <br> et <img>
 // 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
 // 1.3.1 test si demande à un pair ou pro
@@ -190,7 +191,6 @@ function verifier_presence_traces() {
 	kapc_to_be_deleted = [];
 	const traces = $("*:has(>metadata[semantictag*='trace-etudiant'])",g_portfolio_current);
 	const select_traces = $("*:has(>metadata[semantictag*='select-trace'])",g_portfolio_current);
-	let to_be_deleted = [];
 	for (let i=0;i<traces.length;i++){
 		const traceid = $(traces[i]).attr('id');
 		const code = UICom.structure.ui[traceid].getCode();
@@ -215,7 +215,7 @@ function confirm_delete_trace() {
 	if (kapc_to_be_deleted.length>0) {
 		const traceid = kapc_to_be_deleted[0].id;
 		const label = kapc_to_be_deleted[0].label;
-		kapc_to_be_deleted = kapc_to_be_deleted.slice(1); // on retire le promier
+		kapc_to_be_deleted = kapc_to_be_deleted.slice(1); // on retire le premier
 		document.getElementById('message-window-header').innerHTML = "ATTENTION";
 		document.getElementById('message-window-body').innerHTML = "La trace <b>"+label+"</b> n'est pas utilisée dans le portfolio.<br/>Voulez-vous la supprimer ? <br/>ATTENTION cette action est irréversible.";
 		var buttons = "<button class='btn' onclick=\"confirm_delete_trace();\">" + karutaStr[LANG]["Cancel"] + "</button>";
@@ -622,6 +622,9 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	const commentaires1 = commentaires.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const commentaires2 = commentaires1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+
 //	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
 //	if (date_dem_eval==null || date_dem_eval=='')
 	let date_dem_eval = new Date().getTime();
@@ -634,7 +637,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires,candelete);
+		saveVector(enseignantid,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires2,candelete);
 		//----envoi courriel à l'enseigant -----
 		if (sendemail!=null && sendemail=='true') {
 			const object = "Demande étudiante";
