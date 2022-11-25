@@ -1,5 +1,5 @@
 // === version 1.3.4 2022/11/24 ===
-// 1.3.4 fermeture balises xml <br> et <img>
+// 1.3.4 fermeture balises xml <br> et <img> dans feedback
 // 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
 // 1.3.1 test si demande à un pair ou pro
@@ -624,7 +624,6 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
 	const commentaires1 = commentaires.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const commentaires2 = commentaires1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
-
 //	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
 //	if (date_dem_eval==null || date_dem_eval=='')
 	let date_dem_eval = new Date().getTime();
@@ -654,12 +653,15 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	const commentaires1 = commentaires.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const commentaires2 = commentaires1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 //	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
 //	if (date_dem_eval==null || date_dem_eval=='')
 	let date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	deleteVector(null,null,nodeid)
-	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires,USER.username);
+	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires2,USER.username);
 }
 
 //------------------------
@@ -928,6 +930,8 @@ function demanderEvaluation(nodeid,parentid,sendemail) { // par l'étudiant
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -960,6 +964,8 @@ function demanderEvaluation2(nodeid,parentid,sendemail) { // par l'étudiant
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1005,6 +1011,8 @@ function modifierEvaluation(nodeid,sendemail) { // par l'enseignant
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1028,6 +1036,8 @@ function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1057,6 +1067,8 @@ function supprimerEvaluation(nodeid){  // parl'étudiant
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1079,6 +1091,8 @@ function resetEvaluation(nodeid){
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1138,6 +1152,8 @@ function demanderFeedback(nodeid){
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1166,6 +1182,8 @@ function modifierFeedback(nodeid) { // par l'enseignant
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1190,6 +1208,8 @@ function supprimerFeedback(nodeid){
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1217,6 +1237,8 @@ function soumettreFeedback(nodeid){
 	var type = "";
 	if (semtag.indexOf('sae')>-1)
 		type = 'sae';
+	else if (semtag.indexOf('sie')>-1)
+		type='sie';
 	else if (semtag.indexOf('stage')>-1)
 		type='stage';
 	else if (semtag.indexOf('autre')>-1)
@@ -1336,7 +1358,7 @@ function OLDdemanderEvaluation(nodeid,parentid) {
 function soumettreEvaluation2(nodeid){
 	soumettreEvaluation(nodeid);
 }
-
+/*
 function OLDsoumettreEvaluation(nodeid){
 	let pageid = nodeid;
 	const semtag = UICom.structure.ui[pageid].semantictag;
@@ -1401,7 +1423,7 @@ function OLDsearchVectorKAPC(enseignantid,type1,type2,date1,date2) {
 	}
 	return result;
 }
-
+*/
 
 function searchVectorEvalFB(enseignantid,type1,type2,date1,date2,enseignant2id) {
 	let search1 = $("vector",searchVector(enseignantid,type1));
