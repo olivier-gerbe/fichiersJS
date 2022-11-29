@@ -653,7 +653,6 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
-	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
 	const commentaires1 = commentaires.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const commentaires2 = commentaires1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 //	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
@@ -1052,7 +1051,7 @@ function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
 		type='competence';
 		pageid = $("#page").attr('uuid');
 	}
-	deleteVector(null,type+'-evaluation',pageid);
+	deleteVector(null,type+'-evaluation',null,pageid);
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",sendemail);
 		// montrer
