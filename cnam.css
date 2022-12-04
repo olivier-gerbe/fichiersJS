@@ -1,0 +1,242 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); 
+
+html, body, #main-body, #main-container, #global-row, #main-row, #main-page {
+	height: 100%;
+	min-height: 102%;
+} 
+
+.row {margin-right: 0;  margin-left: 0;}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
+.col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
+.col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+	position: relative;
+	min-height: 1px;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.panel-collapse {margin-top: 8px;  margin-bottom: -8px;}
+
+#sidebar-content {
+	padding-top: 0;
+	min-height: 100%;
+	padding-left: 0;
+	padding-right: 0px;
+}
+
+.sidebar-item {
+	padding-left: 0;
+	padding-top: 10px;
+	padding-bottom: 8px;
+}
+
+.panel-body {padding: 0;}
+
+.sidebar-link {
+	padding-left: 20px;
+	margin-top: -10px;
+	padding-top: 10px;
+	margin-bottom: -8px;
+	padding-bottom: 8px;
+}
+
+.glyphicon-plus, .glyphicon-minus {top: 3px;}
+
+@media print {
+	.collapsible, .ihelp {display: none;}
+}
+
+
+/* ==== couleurs CNAM ==== */
+body.CNAM {
+	font-family: "Montserrat", "Open Sans", sans-serif;
+	max-width: 1200px;
+	margin: auto;
+	background-color: #fbf8fb;
+	color: #812f85;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+body.CNAM #sidebar .selected {background: #fbec8f;}
+
+body.CNAM .welcome-subbox {
+	background-color: rgba(255, 255, 255, 0.9);
+	opacity: 1;
+}
+
+body.CNAM .welcome-box {border: none;}
+body.CNAM .page-welcome .welcome-title {color: #812f85;}
+body.CNAM .welcome-line {border-bottom: 1px solid #cec8be;}
+
+body.CNAM .row-resource td.resource {border: 1px solid #fdf4bc;}
+
+body.CNAM .directives .row-resource td.resource {background: #fdf4bc;}
+
+.page-experiences-professionnelles-presentes .date-fin, 
+.page-experiences-benevolat-presentes .date-fin,
+.page-experiences-personnelles-presentes .date-fin,
+.page-unites-enseignement-presentes .date-fin,
+.page-diplomes-presents .date-fin {
+	display: none;
+}
+
+body.CNAM .sidebar-item {
+	font-weight: 500;
+	font-size: 16px;
+	border-bottom: none;
+}
+
+body.CNAM .selected a, .selected a:hover {
+	color: #812f85;
+	font-weight: 500;
+}
+
+body.CNAM .sidebar-link a:hover, a.sidebar-link:hover {text-decoration: none;}
+body.CNAM .sidebar-item:hover {background-color: #807fb7;}
+body.CNAM .sidebar-item:hover .sidebar-item {background-color: #6869af;}
+body.CNAM .sidebar-item .sidebar-item:hover {background-color: #807fb7;}
+
+body.CNAM .asmUnit .title, .node-label {font-weight: 500;} 
+
+body.CNAM .selected .glyphicon-plus, .selected .glyphicon-minus {color: #812f85;}
+
+.panel-body .sidebar-link {
+	padding-left: 20px;
+	margin-top: -6px;
+	padding-top: 6px;
+	margin-bottom: -4px;
+	padding-bottom: 4px;
+}
+
+.panel-body .panel-collapse {
+	margin-top: 5px;
+	margin-bottom: -5px;
+}
+
+#sidebar a {display: block;}
+
+.panel-body .sidebar-item a {
+	padding-left: 20px;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.panel-body .sidebar-item .panel-body .sidebar-item a {padding-left: 60px;}
+.sidebar-item .panel-body > .sidebar-item > a {padding-left: 40px;}
+.panel-group > .sidebar-item:first-child {padding-top: 15px;  padding-bottom: 11px;}
+
+.navbar-brand .btn-lg {
+	position: absolute;
+	top: 0;  left: 0;
+	padding-top: 16px;
+	padding-left: 19px;
+	line-height: 1.3333333;
+	border-radius: 6px;
+}
+
+.navbar-brand > a.sidebar {
+	display: block;
+	padding-left: 60px;
+	padding-right: 5px;
+	font-weight: 500;
+	text-transform: uppercase;
+	padding-bottom: 10px;
+	font-size: 20px;
+}
+
+body.CNAM .row-resource td.resource, .row-resource td.buttons {border: 3px solid #fdf4bc !important;}
+
+.collapsible .glyphicon-plus, .collapsible .glyphicon-minus {padding-left: 5px;}
+
+#navigation-bar, #sub-bar {flex: 1 1 100%;}
+#sub-bar .navbar-inner {flex: 1 1 50%; }
+
+#collapse-2 {
+	flex: 1 0 40%;
+	padding-right: 20px;
+	padding-left: 0;
+	text-align: right;
+}
+
+#sidebar {flex: 1 0 305px;}
+#contenu {flex: 10 5 463px;}
+#welcome-baseline {font-weight: 400 !important;}
+#main-row {display: flex;  flex-wrap: wrap;}
+
+.col-md-1.collapsible {
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.asmUnit .row-node {display: flex;}
+
+.col-md-8 {margin-right: 21px;}
+
+.button.text-button {white-space: normal;}
+
+@media only screen and (max-width: 768px) {
+	#collapse-2 {flex: 1 0 70%;  } 
+	#sub-bar .navbar-inner {flex: 1 1 100%;}
+} 
+
+.nav-bar-header {display: flex;  flex-wrap: nowrap;  justify-content: space-between;}
+#sub-bar .container-fluid {flex-wrap: wrap;  display: flex;}
+.navbar-toggle {order: 3;}
+#navigation-bar .container-fluid {display: flex;  flex-wrap: wrap;}
+#navigation-bar .container-fluid .nav-bar-header {flex: 1 1 205px;} 
+#sub-bar .dropdown-menu {float: right;  text-align: right;}
+
+#collapse-1 {
+	flex: 1 0 70%;
+	text-align: right;
+	padding-right: 20px;
+	padding-left: 0;
+}
+
+.navbar-nav {float: right;}
+.navbar-right {margin-right: 0;}
+
+@media only screen and (max-width: 768px) {
+	#navigation-bar .container-fluid .nav-bar-header {flex: 1 1 100%;}
+}
+
+body.CNAM .navbar-default .navbar-nav > li > a {color: white;}
+body.CNAM .navbar-default {
+	background-color: #812f85;
+	border-color: #812f85;
+	color: white;
+}
+
+body.CNAM #navigation-bar .navbar-default .nav-bar-header .navbar-brand img {
+	content: url("http://www.cnam.fr/html/thevenin-2021/karuta-2021/logo_cnam_blanc_transp.png");
+	max-width: 208px;
+	margin-top: 9px;
+	margin-left: 18px;
+	margin-bottom: 0px;
+}
+#navigation-bar .navbar-default .nav-bar-header .navbar-brand a {display: block;  max-width: 208px;}
+
+#main-body {flex: 1;}
+
+body.CNAM #welcome-blocks .welcome-resources .col-md-12 img {height: 0; border-bottom: 1px solid #cec8db;}
+
+@-moz-document url-prefix() {
+	#navigation-bar .navbar-default .nav-bar-header .navbar-brand img {display: none;}
+	#navigation-bar .navbar-default .nav-bar-header .navbar-brand a::after {
+		content: url("http://www.cnam.fr/html/thevenin-2021/karuta-2021/logo_cnam_blanc_transp.png");
+		margin-top: 9px;   margin-left: 18px;   margin-bottom: 0px;   display: inline-flex;   height: 52px;
+	}
+}
+
+
+#sidebar .selected {background: #FBEC8F;}
+.directives .td-resource {background: #fdf4bc;}
+.td-resource, td.buttons {border: 3px solid #fdf4bc !important;}
+.sidebar-item, .sidebar-link .sidebar-link {padding-left: 0px !important;}
+.createreport {margin-left:8%}
+
+
