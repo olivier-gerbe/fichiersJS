@@ -1,0 +1,77 @@
+
+#login-karuta {display:none}
+
+/*************************************/
+/**** AJOUT KAPC AMU ****/
+/*************************************/
+
+
+#main-portfolio #portfolio-container .lien a {color:white;}
+
+/**** url ****/
+.URL2Unit {width:20px;}
+.URL2Unit .resource, .URL2Portfolio .resource {color:white;}
+.URL .resource img {display:none}
+
+/**** print ****/
+@media print { @page{margin: 0;} }
+
+
+/**** enlever code ****/
+#get_get_multiple div * {font-size:medium;padding-left:5px !important;}
+#get_get_multiple div {font-size: 0 !important;}
+
+/* évaluation des pages actions et compétences */
+.auto-eval .EA01:hover:after, .eval-pair .EA01:hover:after, .eval-tuteur .EA01:hover:after {content: "Mention Très bien"}
+.auto-eval .EA01:hover, .eval-pair .EA01:hover, .eval-tuteur .EA01:hover {font-size:50%}
+.auto-eval .EN01:hover:after, .eval-pair .EN01:hover:after, .eval-tuteur .EN01:hover:after {content: "Mention Très bien"}
+.auto-eval .EN01:hover, .eval-pair .EN01:hover, .eval-tuteur .EN01:hover {font-size:50%}
+.EA01,.EN01 {
+  color:#FFFFFF !important; background-color:#4ABF08 !important; padding:6px;
+}
+.auto-eval .EA02:hover:after, .eval-pair .EA02:hover:after, .eval-tuteur .EA02:hover:after {content: "Mention Bien"}
+.auto-eval .EA02:hover, .eval-pair .EA02:hover, .eval-tuteur .EA02:hover {font-size:50%}
+.auto-eval .EN02:hover:after, .eval-pair .EN02:hover:after, .eval-tuteur .EN02:hover:after {content: "Mention Bien"}
+.auto-eval .EN02:hover, .eval-pair .EN02:hover, .eval-tuteur .EN02:hover {font-size:50%}
+.EA02, .EN02 {
+  color:#FFFFFF !important; background-color:#668753 !important; padding:6px;
+}
+.auto-eval .EA03:hover:after, .eval-pair .EA03:hover:after, .eval-tuteur .EA03:hover:after  {content: "Mention assez bien"}
+.auto-eval .EA03:hover, .eval-pair .EA03:hover, .eval-tuteur .EA03:hover {font-size:50%}
+.auto-eval .EN03:hover:after, .eval-pair .EN03:hover:after, .eval-tuteur .EN03:hover:after  {content: "Mention assez bien"}
+.auto-eval .EN03:hover, .eval-pair .EN03:hover, .eval-tuteur .EN03:hover {font-size:50%}
+.EA03, .EN03 {
+  color:#FFFFFF !important; background-color:#9AA495 !important; padding:6px;
+}
+.auto-eval .EA04:hover:after, .eval-pair .EA04:hover:after, .eval-tuteur .EA04:hover:after {content: "Validé"}
+.auto-eval .EA04:hover, .eval-pair .EA04:hover, .eval-tuteur .EA04:hover {font-size:50%}
+.auto-eval .EN04:hover:after, .eval-pair .EN04:hover:after, .eval-tuteur .EN04:hover:after {content: "Validé"}
+.auto-eval .EN04:hover, .eval-pair .EN04:hover, .eval-tuteur .EN04:hover {font-size:50%}
+.EA04, .EN04 {
+  color:#000000 !important; background-color:#E6E6E6 !important; padding:6px;
+}
+
+.auto-eval .EA05:hover:after, .eval-pair .EA05:hover:after, .eval-tuteur .EA05:hover:after {content: "Non validé"}
+.auto-eval .EA05:hover, .eval-pair .EA05:hover, .eval-tuteur .EA05:hover {font-size:50%}
+.auto-eval .EN05:hover:after, .eval-pair .EN05:hover:after, .eval-tuteur .EN05:hover:after {content: "Non validé"}
+.auto-eval .EN05:hover, .eval-pair .EN05:hover, .eval-tuteur .EN05:hover {font-size:50%}
+.EA05, .EN05 {
+  color:#FFFFFF !important; background-color:#FE0303 !important; padding:6px;
+}
+
+div.evaluateur-element .input-code {display:none}
+div.formation-element .input-code {display:none}
+div.select-formation-element .li-code {display:none}
+
+.ligne-planning .node-header {height:0px;padding:0px}
+.ligne-planning .fa-trash-alt {position:absolute;top:5px;left:-50px}
+
+/* on cache le +/- d'apprentissage critique car il n'y a pas de dommaine de ressources */
+.apprentissage-critique .collapsible {display:none !important}
+
+/************* cacher feedback dans stage ******/
+.page-action-stage-evaluateurs-etudiant .section-feedback {display:none}
+.page-action-stage-evaluateurs-auteur .section-feedback {display:none}
+
+/************* cacher barre de recherche dans portfolio enseignant ******/
+body[userrole=enseignant] #portfolio-navbars li.input-group {display:none}

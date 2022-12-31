@@ -448,9 +448,38 @@ function supprimerFormationMonBilan(uuid){
 
 function specificEnterDisplayPortfolio()
 {
+	/*
+	var html = "";
+	html += "\n<!-- ==================== box ==================== -->";
+	html += "\n<div id='temp-window' style='display:none'>";
+	html += "\n		<div class='modal-content'>";
+	html += "\n			<div style='padding:10px;height:50px;font-size:120%;background-color:#E4E3E3'>Vous devez accepter les conditions d'utilisation pour accéder à votre portfolio.</div>";
+	html += "\n			<div id='temp-window-body' style='padding:10px'>";
+	html += "\n			</div>";
+	html += "\n		</div>";
+	html += "\n</div>";
+	html += "\n<!-- ============================================== -->";
+	var tempwindow = document.createElement("DIV");
+	tempwindow.setAttribute("class", "preview-window");
+	tempwindow.innerHTML = html;
+	$('body').append(tempwindow);
+	const fc = $("*:has(>metadata[semantictag*=fichier-consentement])",g_portfolio_current).not(":has(>metadata-wad[submitted=Y])");
+	for (let i=0; i<fc.length; i++){
+		if (g_userroles[0]!='designer') {
+			const nop = UICom.structure.ui[$(fc[i]).attr("id")].getView();
+			UICom.structure.ui[$(fc[i]).attr("id")].displayAsmContext('temp-window-body',null,LANGCODE,true);
+			var confirmbackdrop = document.createElement("DIV");
+			confirmbackdrop.setAttribute("id", "confirmbackdrop");
+			confirmbackdrop.setAttribute("class", "preview-backdrop");
+			$('body').append(confirmbackdrop);
+			$("#temp-window").show();
+		}
+	}
+	*/
+	
 	const fc = $("*:has(>metadata[semantictag*=fichier-consentement])",g_portfolio_current).not(":has(>metadata-wad[submitted=Y])");
 	if (fc.length!=0 && g_userroles[0]!='designer') {
-		const nop = UICom.structure.ui[$(fc).attr("id")].getView();
+		const nop = UICom.structure.ui[$(fc[0]).attr("id")].getView();
 		var html = "";
 		html += "\n<!-- ==================== box ==================== -->";
 		html += "\n<div id='temp-window'>";
@@ -465,7 +494,7 @@ function specificEnterDisplayPortfolio()
 		tempwindow.setAttribute("class", "preview-window");
 		tempwindow.innerHTML = html;
 		$('body').append(tempwindow);
-		UICom.structure.ui[$(fc).attr("id")].displayAsmContext('temp-window-body',null,LANGCODE,true);
+		UICom.structure.ui[$(fc[0]).attr("id")].displayAsmContext('temp-window-body',null,LANGCODE,true);
 		var confirmbackdrop = document.createElement("DIV");
 		confirmbackdrop.setAttribute("id", "confirmbackdrop");
 		confirmbackdrop.setAttribute("class", "preview-backdrop");
