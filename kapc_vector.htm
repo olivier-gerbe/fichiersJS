@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+<meta charset="UTF-8">
+<script src="../../other/js/jquery-3.3.1.min.js"></script>
+<script src="../js/karuta.js"></script>
+<style>
+	input {width:100px}
+	table{table-layout: fixed;}
+	td {width:8%;word-break:break-all;font-size:80%;}
+	.rechercheEns {background-color:#F5F5F5;padding:10px;}
+	body {font-family:sans-serif}
+	.danger {background-color:red;color:white;border:2px solid red}
+</style>
+
+<script>
+
+//------------------- fonctions de recherche
+function rechercherEnseignant() {
+	rechercheLibelle($("#enseignantid").val(),$("#libelle").val());
+}
+
+
+function rechercheLibelle(enseignantid,libelle) {
+	enseignantid = replaceVariable(enseignantid);
+	let search = $("vector",searchVector(enseignantid));
+	let nb = 0;
+	for (let i=0; i<search.length;i++) {
+		const a8 = $("a8",search[i]).text();
+		if (a8.indexOf(libelle)>-1) {
+			nb++;
+			const date = $("date",search[i]).text();
+			const a1 = $("a1",search[i]).text();
+			const a2 = $("a2",search[i]).text();
+			const a3 = $("a3",search[i]).text();
+			const a4 = $("a4",search[i]).text();
+			const a5 = $("a5",search[i]).text();
+			const a6 = $("a6",search[i]).text();
+			const a7 = $("a7",search[i]).text();
+			const a9 = $("a9",search[i]).text();
+			const a10 = $("a10",search[i]).text();
+			displayVector('report',a1,a2,a3,a4,a5,a6,a7,a8,a9,a10)		}
+	}
+	if (nb==0)
+		$("#report").html("no result");
+	
+}
+
+function rechercheEtudiant(destid,enseignantid,etudiant) {
+	enseignantid = replaceVariable(enseignantid);
+	let search = $("vector",searchVector(enseignantid));
+	let result = [];
+	for (let i=0; i<search.length;i++) {
+		const a6 = $("a6",search[i]).text();
+		if (a8.indexOf(etudiant)>-1) {
+			const date = $("date",search[i]).text();
+			const a1 = $("a1",search[i]).text();
+			const a2 = $("a2",search[i]).text();
+			const a3 = $("a3",search[i]).text();
+			const a4 = $("a4",search[i]).text();
+			const a5 = $("a5",search[i]).text();
+			const a7 = $("a7",search[i]).text();
+			const a8 = $("a8",search[i]).text();
+			const a9 = $("a9",search[i]).text();
+			const a10 = $("a10",search[i]).text();
+			if (a2.indexOf('competence')>-1)
+				displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+			else if (a2.indexOf('feedback')>-1)
+				displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+			else
+				if (a2.indexOf('-evaluation-done')>-1)
+					displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+				else if (a2.indexOf('-evaluation')>-1)
+					displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+		}
+	}
+}
+var param = "";
+//==================================
+function getVectorElt(vector)
+//==================================
+{
+	let html = "";
+	let nbelts =  $("*",vector).length;
+	for (var j=1;j<11;j++){
+		const elt = $("a"+j,vector);
+		if (elt.length>0){
+			html += "<td id='td-"+j+"'style='background-color:#F5F5F5'>";
+			html += $(elt).text();
+			if (!isNaN($(elt).text())){
+				try {
+					if (parseInt($(elt).text())>10000000) {
+						const date = new Date(parseInt($(elt).text()))
+						html += "<br><span style='font-style:italic'>" + date.toLocaleDateString() + "</span>";
+					}
+				}
+				catch(e){};
+			}
+			html += "<input id='chck"+j+"' type='checkbox'/>";
+			html += "</td>";
+			param += "'"+$(elt).text()+"'";
+			if (j<nbelts)
+				param += ",";
+		} else {
+			html += "<td></td>";
+			if (j<nbelts){
+				param += "'',";
+				nbelts++; // element vide
+			}
+		}
+	}
+	return html;
+}
+
+//==================================
+function displayVector(destid,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10)
+//==================================
+{
+	var html = "";
+	const vectors = $("vector",searchVector(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10));
+	if (vectors.length==0)
+		html += "no result";
+	else {
+		//---------------------
+		for (var i=0;i<vectors.length;i++){
+			html += "<tr id='tr-"+i+"'>";
+			param = "";
+			html += "<td style='background-color:#D7D7D7'>userid:"+$(vectors[i]).attr('uid')+"<br>"+$(vectors[i]).attr('date')+"</td>"
+			html += getVectorElt(vectors[i]);
+			html += "<td><button class='danger' onclick=\'if (confirm(\"Delete?\")){deleteVectorNo("+i+")}\'>Del</button>"
+			html += " <button  onclick=\"copyPasteVector("+param+")\">Copy-Paste</button></td>"
+			html += "</tr>";
+		}
+	}
+	$("#"+destid).html(html);
+}
+
+function displayvectors() {
+	var tabas = [];
+	for (var i=1;i<11;i++){
+		const val = document.getElementById("a"+i).value;
+		tabas[i] = (val!="")? val : null;
+	}
+	displayVector('report',tabas[1],tabas[2],tabas[3],tabas[4],tabas[5],tabas[6],tabas[7],tabas[8],tabas[9],tabas[10]);
+}
+
+function deleteVectorNo(no) {
+	var tabas = [];
+	for (var i=1;i<11;i++){
+		const tr = document.getElementById("tr-"+no);
+		const val = $("#td-"+i, tr).text();
+		tabas[i] = (val!="")? val : null;
+	}
+	deleteVector(tabas[1],tabas[2],tabas[3],tabas[4],tabas[5],tabas[6],tabas[7],tabas[8],tabas[9],tabas[10]);
+}
+
+function deletevectors() {
+	var tabas = [];
+	for (var i=1;i<11;i++){
+		const val = document.getElementById("a"+i).value;
+		tabas[i] = (val!="")? val : null;
+	}
+	deleteVector(tabas[1],tabas[2],tabas[3],tabas[4],tabas[5],tabas[6],tabas[7],tabas[8],tabas[9],tabas[10]);
+}
+
+function saveNewVector() {
+	var tabas = [];
+	for (var i=1;i<11;i++){
+		const val = document.getElementById("a"+i).value;
+		tabas[i] = (val!="")? val : undefined;
+	}
+	saveVector(tabas[1],tabas[2],tabas[3],tabas[4],tabas[5],tabas[6],tabas[7],tabas[8],tabas[9],tabas[10])
+}
+
+function copyPasteVector(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+	if (a1!=undefined && document.getElementById("chck1").checked) document.getElementById("a1").value = a1;
+	if (a2!=undefined && document.getElementById("chck2").checked) document.getElementById("a2").value = a2;
+	if (a3!=undefined && document.getElementById("chck3").checked) document.getElementById("a3").value = a3;
+	if (a4!=undefined && document.getElementById("chck4").checked) document.getElementById("a4").value = a4;
+	if (a5!=undefined && document.getElementById("chck5").checked) document.getElementById("a5").value = a5;
+	if (a6!=undefined && document.getElementById("chck6").checked) document.getElementById("a6").value = a6;
+	if (a7!=undefined && document.getElementById("chck7").checked) document.getElementById("a7").value = a7;
+	if (a8!=undefined && document.getElementById("chck8").checked) document.getElementById("a8").value = a8;
+	if (a9!=undefined && document.getElementById("chck9").checked) document.getElementById("a9").value = a9;
+	if (a10!=undefined && document.getElementById("chck10").checked) document.getElementById("a10").value = a10;
+}
+
+function clearAll() {
+	document.getElementById("a1").value = "";
+	document.getElementById("a2").value = "";
+	document.getElementById("a3").value = "";
+	document.getElementById("a4").value = "";
+	document.getElementById("a5").value = "";
+	document.getElementById("a6").value = "";
+	document.getElementById("a7").value = "";
+	document.getElementById("a8").value = "";
+	document.getElementById("a9").value = "";
+	document.getElementById("a10").value = "";
+}
+
+var pathname = window.location.pathname;
+var appliname = pathname.substring(0,pathname.substring(1).indexOf('/')+1);
+var url = "../../.." + appliname + "-config/_init.js"
+$.ajax({
+	async:false,
+	url: url,
+	dataType: "script",
+	error : function(jqxhr,textStatus) {
+		alert(appliname + "-config/_init.js not found");
+	}
+});
+
+</script>
+</head>
+<body>
+<h2>KAPC 1.3 Vector Management</h2>
+<div class='rechercheEns'>
+	Enseignant ID <input type='text' id='enseignantid'> Action (partie) <input type='text' id='libelle'> <button onclick="rechercherEnseignant()">Rechercher</button>
+</div>
+<br>
+<button style='background-color:green;color:white' onclick='displayvectors()'>Search</button>
+<button class='danger' onclick="if (confirm('Delete?'))deletevectors()">Delete</button>
+<button onclick='$("#report").html("")'>Clear</button>
+<button onclick='location.reload()'>Reload</button>
+<br>
+<table>
+<tr>
+	<th>userid/date</th><th>Enseignant</th><th>Type</th><th>nodeid</th><th>pageid</th><th>previewURL</th><th>Étudiant</th><th>Dem. Éval.</th><th>Action</th><th>Note</th><th>Évaluation</th>
+</tr>
+<tr>
+	<td></td>
+	<td><input type='text' id='a1'></td>
+	<td>
+		<select id='a2'>
+			<option value=""></option>
+			<option value="sae-evaluation">sae-evaluation</option>
+			<option value="sae-evaluation-done">sae-evaluation-done</option>
+			<option value="sie-evaluation">sie-evaluation</option>
+			<option value="sie-evaluation-done">sie-evaluation-done</option>
+			<option value="stage-evaluation">stage-evaluation</option>
+			<option value="stage-evaluation-done">stage-evaluation-done</option>
+			<option value="autre-evaluation">autre-evaluation</option>
+			<option value="autre-evaluation-done">autre-evaluation-done</option>
+			<option value="competence-evaluation">competence-evaluation</option>
+			<option value="competence-evaluation-done">competence-evaluation-done</option>
+			<option value="feedback-evaluation">feedback-evaluation</option>
+			<option value="feedback-evaluation-done">feedback-evaluation-done</option>
+		</select>
+	</td>
+	<td><input type='text' id='a3'></td><td><input type='text' id='a4'></td>
+	<td><input type='text' id='a5'></td><td><input type='text' id='a6'></td>
+	<td><input type='text' id='a7'></td><td><input type='text' id='a8'></td>
+	<td><input type='text' id='a9'></td><td><input type='text' id='a10'></td>
+	<td><button onclick="clearAll()">Clear</button> <button class='danger' onclick='saveNewVector()'>Save</button>
+	</td>
+</tr>
+<tbody id="report">
+</tbody>
+</table>
+</body>
+</html>

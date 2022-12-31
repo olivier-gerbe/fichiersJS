@@ -583,7 +583,66 @@ function searchVectorKAPC(enseignantid,type,date1,date2) {
 	}
 	return result;
 }
+//------------------- fonctions de recherche
+function rechercheLibelle(destid,enseignantid,libelle) {
+	enseignantid = replaceVariable(enseignantid);
+	let search = $("vector",searchVector(enseignantid));
+	let result = [];
+	for (let i=0; i<search.length;i++) {
+		const a8 = $("a8",search[i]).text();
+		if (a8.indexOf(libelle)>-1) {
+			const date = $("date",search[i]).text();
+			const a1 = $("a1",search[i]).text();
+			const a2 = $("a2",search[i]).text();
+			const a3 = $("a3",search[i]).text();
+			const a4 = $("a4",search[i]).text();
+			const a5 = $("a5",search[i]).text();
+			const a6 = $("a6",search[i]).text();
+			const a7 = $("a7",search[i]).text();
+			const a9 = $("a9",search[i]).text();
+			const a10 = $("a10",search[i]).text();
+			if (a2.indexOf('competence')>-1)
+				displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+			else if (a2.indexOf('feedback')>-1)
+				displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+			else
+				if (a2.indexOf('-evaluation-done')>-1)
+					displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+				else if (a2.indexOf('-evaluation')>-1)
+					displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+		}
+	}
+}
 
+function rechercheEtudiant(destid,enseignantid,etudiant) {
+	enseignantid = replaceVariable(enseignantid);
+	let search = $("vector",searchVector(enseignantid));
+	let result = [];
+	for (let i=0; i<search.length;i++) {
+		const a6 = $("a6",search[i]).text();
+		if (a8.indexOf(etudiant)>-1) {
+			const date = $("date",search[i]).text();
+			const a1 = $("a1",search[i]).text();
+			const a2 = $("a2",search[i]).text();
+			const a3 = $("a3",search[i]).text();
+			const a4 = $("a4",search[i]).text();
+			const a5 = $("a5",search[i]).text();
+			const a7 = $("a7",search[i]).text();
+			const a8 = $("a8",search[i]).text();
+			const a9 = $("a9",search[i]).text();
+			const a10 = $("a10",search[i]).text();
+			if (a2.indexOf('competence')>-1)
+				displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+			else if (a2.indexOf('feedback')>-1)
+				displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+			else
+				if (a2.indexOf('-evaluation-done')>-1)
+					displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+				else if (a2.indexOf('-evaluation')>-1)
+					displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10);
+		}
+	}
+}
 //-------------------
 
 function buildSaveEvaluationVector(nodeid,pageid,type) {
