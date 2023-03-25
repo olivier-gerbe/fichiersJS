@@ -1,4 +1,5 @@
-// === version 1.3.4 2022/11/24 ===
+// === version 1.3.5 2022/02/15 ===
+// 1.3.5 test si submitall dans soumettreAutres()
 // 1.3.4 fermeture balises xml <br> et <img> dans feedback
 // 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
@@ -1207,11 +1208,12 @@ function confirmsoumettreAutres(nodeid,semtag) {
 }
 
 function soumettreAutres(nodeid,semtag) {
-	submit(nodeid);
+	submit(nodeid,UICom.structure.ui[nodeid].submitall=='Y');
 	const pageid = $("#page").attr('uuid');
 	var autres = $("*:has(>metadata[semantictag*='"+semtag+"'])",UICom.structure.ui[pageid].node);
 	for (var i=0;i<autres.length;i++){
-		submit($(autres).attr("id"));
+		const autresid = $(autres).attr("id")
+		submit(autresid,UICom.structure.ui[autresid].submitall=='Y');
 	}
 }
 
