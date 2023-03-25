@@ -1,4 +1,6 @@
-// === version 1.3.4 2022/11/24 ===
+// === version 1.3.6 2022/03/18 ===
+// 1.3.6 valeurs du vecteur enrichi (formation,cohorte)
+// 1.3.5 test si submitall dans soumettreAutres()
 // 1.3.4 fermeture balises xml <br> et <img> dans feedback
 // 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
@@ -7,7 +9,7 @@
 // 1.2.1.affichage date
 
 
-//# sourceURL=kapc1.3.js
+//# sourceURL=kapc1.3.5.js
 //=============== TESTS ==================
 
 function testSiEvalDemandee(nodeid)
@@ -185,7 +187,6 @@ function setNodeCodewDate(nodeid) {
 	$(UICom.structure.ui[nodeid].code_node).text(code);
 	UICom.structure.ui[nodeid].save();
 }
-
 var kapc_to_be_deleted = [];
 
 function verifier_presence_traces() {
@@ -560,6 +561,31 @@ function specificDisplayPortfolios(){
 //=========================================================
 //==================Specific Vector Functions==============
 //=========================================================
+function KAPCevaluation(previewURL,date_demande,date_eval,code,label,matricule,note,evaluation,commentaires)
+{
+	this.previewURL = previewURL;
+	this.date_demande = date_demande;
+	this.date_eval = date_eval;
+	this.code = code;
+	this.label = label;
+	this.matricule = matricule;
+	this.note = note;
+	this.evaluation = evaluation;
+	this.commentaires = commentaires;
+}
+
+function KAPCfeedback(previewURL,date_demande,date_eval,code,label,matricule,question,reponse)
+{
+	this.previewURL = previewURL;
+	this.date_demande = date_demande;
+	this.date_eval = date_eval;
+	this.code = code;
+	this.label = label;
+	this.question = question;
+	this.reponse = reponse;
+	this.matricule = matricule;
+}
+
 
 function numberVectorKAPC(enseignantid,type,date1,date2) {
 	return searchVectorKAPC(enseignantid,type,date1,date2).length;
@@ -590,16 +616,16 @@ function rechercheLibelle(destid,enseignantid,libelle) {
 	let search = $("vector",searchVector(enseignantid));
 	let result = [];
 	for (let i=0; i<search.length;i++) {
-		const a8 = $("a8",search[i]).text();
-		if (a8.indexOf(libelle)>-1) {
+		const a5 = JSON.parse($("a5",search[i]).text());
+		if (a5.label.indexOf(libelle)>-1) {
 			const date = $("date",search[i]).text();
 			const a1 = $("a1",search[i]).text();
 			const a2 = $("a2",search[i]).text();
 			const a3 = $("a3",search[i]).text();
 			const a4 = $("a4",search[i]).text();
-			const a5 = $("a5",search[i]).text();
 			const a6 = $("a6",search[i]).text();
 			const a7 = $("a7",search[i]).text();
+			const a8 = $("a8",search[i]).text();
 			const a9 = $("a9",search[i]).text();
 			const a10 = $("a10",search[i]).text();
 			if (a2.indexOf('competence')>-1)
@@ -621,13 +647,13 @@ function rechercheEtudiant(destid,enseignantid,etudiant) {
 	let result = [];
 	for (let i=0; i<search.length;i++) {
 		const a6 = $("a6",search[i]).text();
-		if (a8.indexOf(etudiant)>-1) {
+		if (a6.indexOf(etudiant)>-1) {
 			const date = $("date",search[i]).text();
 			const a1 = $("a1",search[i]).text();
 			const a2 = $("a2",search[i]).text();
 			const a3 = $("a3",search[i]).text();
 			const a4 = $("a4",search[i]).text();
-			const a5 = $("a5",search[i]).text();
+			const a5 = JSON.parse($("a5",search[i]).text());
 			const a7 = $("a7",search[i]).text();
 			const a8 = $("a8",search[i]).text();
 			const a9 = $("a9",search[i]).text();
@@ -647,8 +673,11 @@ function rechercheEtudiant(destid,enseignantid,etudiant) {
 //-------------------
 
 function buildSaveEvaluationVector(nodeid,pageid,type) {
-	const original_pageid = pageid;
-	const action = UICom.structure.ui[pageid].getLabel(null,'none');
+	//----------------------
+	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
+	let actioncode = UICom.structure.ui[pageid].getCode();
+	if (actioncode.indexOf('*')>-1)
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	let evalid = (type.indexOf("competence")>-1)? nodeid:pageid
@@ -658,6 +687,11 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
+	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
+	const formation = "?";
+	const cohorte = "?";
+	let a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,note,evaluation,""));
+	//----------------------
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
@@ -666,7 +700,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,original_pageid,previewURL,etudiant,date_dem_eval,action,note,evaluation,candelete);
+		saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
 		//----envoi courriel à l'enseigant -----
 		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
@@ -677,7 +711,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 }
 
 function buildSubmitEvaluationVector(nodeid,pageid,type) {
-	const action = UICom.structure.ui[pageid].getLabel(null,'none');
+	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
@@ -692,7 +726,11 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
-	saveVector(USER.username,type,nodeid,pageid,previewURL,matricule+"/"+etudiant,date_dem_eval+"/"+today,actioncode+"/"+action,note,evaluation);
+	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
+	const formation = "?";
+	const cohorte = "?";
+	let a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,today,actioncode,actionlabel,matricule,note,evaluation,""));
+	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
 	const object = "Évaluation";
 	const body = action + "a été évalué(e).";
 	//----envoi courriel à l'enseigant -----
@@ -710,11 +748,9 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
-	const commentaires = UICom.structure.ui[nodeid].resource.getView(null,'vector');
-	const commentaires1 = commentaires.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
-	const commentaires2 = commentaires1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
-//	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
-//	if (date_dem_eval==null || date_dem_eval=='')
+	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	const reponse1 = commentaires.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const reponse2 = commentaires1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	let date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	let candelete = "";
@@ -1207,11 +1243,12 @@ function confirmsoumettreAutres(nodeid,semtag) {
 }
 
 function soumettreAutres(nodeid,semtag) {
-	submit(nodeid);
+	submit(nodeid,UICom.structure.ui[nodeid].submitall=='Y');
 	const pageid = $("#page").attr('uuid');
 	var autres = $("*:has(>metadata[semantictag*='"+semtag+"'])",UICom.structure.ui[pageid].node);
 	for (var i=0;i<autres.length;i++){
-		submit($(autres).attr("id"));
+		const autresid = $(autres).attr("id")
+		submit(autresid,UICom.structure.ui[autresid].submitall=='Y');
 	}
 }
 
