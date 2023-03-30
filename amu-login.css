@@ -1,0 +1,63 @@
+	#signin {
+		background-color: white;
+		max-width: 400px;
+		padding: 19px 29px 29px;
+		margin-top: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		text-align:center;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		}
+	
+	#connexion {
+		max-width:500px;
+		padding:50px;
+		background-color: #e9ecef ;
+		margin-left: auto;
+		margin-right: auto;
+}
+
+	#acces-cas,
+	#acces-invites,
+	#button-login {
+			background-color: #5a0cb8; /* violet: #5a0cb8  orange: #FF8000 */
+			color: white;
+			-moz-user-select: none;
+			background-image: none;
+			border: 1px solid transparent;
+			border-radius: 4px;
+			cursor: pointer;
+			display: inline-block;
+			margin-bottom: 0;
+			padding: 6px 12px;
+			text-align: center;
+			vertical-align: middle;
+			white-space: nowrap;
+			margin-top:20px;
+			width:300px;
+			font-weight: bold;
+	}
+
+	#useridentifier {
+		margin-top: 20px;
+	}
+	
+	#useridentifier, #password{
+		width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	
+	.cas-title{
+		margin-top:10px;
+	}
+
+	#login-title {
+		color: #07910e;
+    	font-size: 140%;
+   		font-weight: bold;
+ 	}
+
+ 	#password{margin-top:5px;}

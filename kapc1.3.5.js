@@ -1,6 +1,6 @@
-// === version 1.4.0 2022/03/25 ===
-// 1.4.0 valeurs du vecteur enrichi json (formation,cohorte)
-// 1.3.5 test si submitall dans soumettreAutres()
+// === version 1.3.5.2  2022/03/30 ===
+// 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
+// 1.3.5.1 test si submitall dans soumettreAutres()
 // 1.3.4 fermeture balises xml <br> et <img> dans feedback
 // 1.3.3 évaluation compétence
 // 1.3.2 test demande compétence
@@ -9,7 +9,7 @@
 // 1.2.1.affichage date
 
 
-//# sourceURL=kapc1.4.js
+//# sourceURL=kapc1.3.5.js
 
 //=============== UTILS ==================
 
@@ -1304,5 +1304,5 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 
 
 
-//# sourceURL=kapc1.4.js
+//# sourceURL=kapc1.3.5.js
 
