@@ -168,6 +168,14 @@ function testFeedbacksNonRepondus(pageid) {
 	return (nodes.length==0) ? true:false;;
 }
 
+function testSiDateEcheancePassee (page) {
+	const node = $("*:has(>metadata[semantictag='date-echeance'])",page);
+	const date = $("utc",node).text();
+	let result = false;
+	if (date<new Date().getTime())
+		result = true;
+	return result;
+}
 //====================================================
 
 function setVariable_code (node)
@@ -557,7 +565,23 @@ function specificEnterDisplayPortfolio()
 
 
 function specificDisplayPortfolios(){
-	if (USER.other!="etudiant")
+	if (USER.other=="enseignant") {
+		let nb_visibleportfolios = 0;
+		let visibleportfolios = [];
+		for (var i=0;i<portfolios_list.length;i++){
+			//--------------------------
+			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 ) {
+				visibleportfolios.push(portfolios_list[i].node);
+				nb_visibleportfolios++;
+			}
+		}
+		//---------------------------------------------------------------------------------------------
+		if (nb_visibleportfolios>1)
+				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',visibleportfolios);
+		else if (nb_visibleportfolios==1){
+			display_main_page(portfolios_list[0].id);
+		}
+	} else if (USER.other!="etudiant")
 		throw 'non etudiant';
 	else {
 		let autoload = "";
@@ -650,11 +674,9 @@ function searchVectorKAPC(enseignantid,type,date1,date2) {
 	let result = [];
 	if (date1!=null && date2!=null) {
 		for (let i=0;i<search.length;i++) {
-			const a7 = $("a7",search[i]).text();
-			let date = a7;
-			if (a7.indexOf("/")>-1) {
-				date = a7.substring(a7.indexOf("/")+1);
-			}
+			a5 = JSON.parse($("a5",search[i]).text());
+//			const date = new Date(parseInt(a5.date_eval));
+			const date = a5.date_eval;
 			if (date1<=date && date<=date2)
 				result.push(search[i]);
 		}
@@ -667,7 +689,6 @@ function searchVectorKAPC(enseignantid,type,date1,date2) {
 function rechercheLibelle(destid,enseignantid,libelle) {
 	enseignantid = replaceVariable(enseignantid);
 	let search = $("vector",searchVector(enseignantid));
-	let result = [];
 	for (let i=0; i<search.length;i++) {
 		const a5 = JSON.parse($("a5",search[i]).text());
 		if (a5.label.indexOf(libelle)>-1) {
@@ -697,7 +718,6 @@ function rechercheLibelle(destid,enseignantid,libelle) {
 function rechercheEtudiant(destid,enseignantid,etudiant) {
 	enseignantid = replaceVariable(enseignantid);
 	let search = $("vector",searchVector(enseignantid));
-	let result = [];
 	for (let i=0; i<search.length;i++) {
 		const a6 = $("a6",search[i]).text();
 		if (a6.indexOf(etudiant)>-1) {
@@ -783,8 +803,6 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,today,actioncode,actionlabel,matricule,note,evaluation,"",etudiant_email));
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
-	const object = "Évaluation";
-	const body = action + "a été évalué(e).";
 	//----envoi courriel à l'enseigant -----
 	if (g_variables['sendemail']=='true') {
 		const object = "Évaluation";
@@ -864,15 +882,16 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 //=============================================================
 
 function displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+	a5 = JSON.parse(a5);
+	const date_demande = new Date(parseInt(a5.date_demande));
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
-	const date_demande = new Date(parseInt(a7));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	if (a8.indexOf("@")>0) // --- compétence personnalisée
-		a8 = a8.substring(a8.indexOf("/")+1);
-	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPageCompetence('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	html += "<td>"+a10+"</td>";
-	html += "<td>"+a9+"</td>";
+	if (a5.label.indexOf("@")>0) // --- compétence personnalisée
+		a5.label = a5.label.substring(a8.indexOf("/")+1);
+	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPageCompetence('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a5.evaluation+"</td>";
+	html += "<td>"+a5.note+"</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1044,9 +1063,9 @@ function previewPageCompetence(uuid,depth,type,langcode,edit)
 
 function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	a5 = JSON.parse(a5);
+	const date_demande = new Date(parseInt(a5.date_demande));
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
-	const date_demande = new Date(parseInt(a5.date_demande));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a5.evaluation+"</td>";
@@ -1057,15 +1076,15 @@ function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 
 function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	a5 = JSON.parse(a5);
+	const date_demande = new Date(parseInt(a5.date_demande));
+	const date_evaluation = new Date(parseInt(a5.date_eval));
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
-	const date_demande = new Date(parseInt(a5.date_demande));
-	const date_evaluation = new Date(parseInt(a5.date_evaluation));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
 	if (a8.indexOf("/")==0) // autre action
 		a8 = a8.substring(a8.indexOf("/")+1);
-	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'standard',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a5.evaluation+"</td>";
 	html += "<td>"+a5.note+"</td>";
 	html += "</tr>";
@@ -1073,10 +1092,11 @@ function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 }
 
 function displayEvaluationExport(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+	a5 = JSON.parse(a5);
+	const date_evaluation = new Date(parseInt(a5.date_eval));
 	let html = "<tr>";
-	html += "<td>"+a5.matricule+"</td>";
 	html += "<td>"+ a6 +"</td>";
-	const date_evaluation = new Date(parseInt(a5.date_evaluation));
+	html += "<td>"+a5.matricule+"</td>";
 	html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
 	html += "<td>"+ a5.code +"</td>";
 	html += "<td>"+a5.evaluation+"</td>";
@@ -1172,10 +1192,11 @@ function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	const date_demande = new Date(parseInt(a5.date_demande));
-	html += "<td>"+ date_demande.toLocaleString()+"</td>";
+	const date2 = (a2.indexOf("-done")>-1)? new Date(parseInt(a5.date_eval)):new Date(parseInt(a5.date_demande));
+	html += "<td>"+ date2.toLocaleString()+"</td>";
 	html += "<td>"+a5.question+"</td>";
-	html += "<td>"+reponse[0]+"<div class='author-date'>"+reponse[1]+" - "+reponse[2]+"</div></td>";
+	const separateur = (reponse[1]!="")?" - ":"";
+	html += "<td>"+reponse[0]+"<div class='author-date'>"+reponse[1]+separateur+reponse[2]+"</div></td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
