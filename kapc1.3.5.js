@@ -564,8 +564,10 @@ function specificEnterDisplayPortfolio()
 }
 
 
-function specificDisplayPortfolios(){
+function specificDisplayPortfolios(type){
 	if (USER.other=="enseignant") {
+		if (type==null)
+			type = 'card';
 		let nb_visibleportfolios = 0;
 		let visibleportfolios = [];
 		for (var i=0;i<portfolios_list.length;i++){
@@ -577,7 +579,7 @@ function specificDisplayPortfolios(){
 		}
 		//---------------------------------------------------------------------------------------------
 		if (nb_visibleportfolios>1)
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',visibleportfolios);
+				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false',type,visibleportfolios);
 		else if (nb_visibleportfolios==1){
 			display_main_page(portfolios_list[0].id);
 		}
