@@ -32,6 +32,8 @@ function getType(semtag)
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
+	else if (semtag.indexOf('batir-mon-projet')>-1)
+		type='projet-pro';
 	return type;
 }
 
@@ -127,6 +129,20 @@ function testSiAfficherDemandeEvaluation()
 function testPrevGGRCodeNotEmpty(node) {
 	// le GGR précédent doit avoir la métadonnée Recharger la page cochée
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
+}
+
+function testConseillerCodeNotEmpty(uuid) {
+	if (uuid == null)
+		uuid = $("#page").attr('uuid');
+	const conseiller = $("asmContext:has(metadata[semantictag='conseiller-select'])",UICom.structure.ui[uuid].node);
+	return (conseiller.length>0);
+}
+
+function testTuteurCodeNotEmpty(uuid) {
+	if (uuid == null)
+		uuid = $("#page").attr('uuid');
+	const tuteur = $("asmContext:has(metadata[semantictag='tuteur-select'])",UICom.structure.ui[uuid].node);
+	return (tuteur.length>0);
 }
 
 function testEnseignantCodeNotEmpty(uuid) {

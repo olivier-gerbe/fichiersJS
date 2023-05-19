@@ -32,6 +32,8 @@ function getType(semtag)
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
+	else if (semtag.indexOf('batir-mon-projet')>-1)
+		type='projet-pro';
 	return type;
 }
 
@@ -1188,9 +1190,9 @@ function demanderFeedback(nodeid){
 	UICom.UpdateMetadata(nodeid);
 	//---------------------------
 	const pageid = $("#page").attr('uuid');
-	//---------------------------
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
+	//---------------------------
 	deleteVector(null,type+'-feedback',nodeid);
 	buildSaveFeedbackVector(nodeid,pageid,type+"-feedback");
 }
