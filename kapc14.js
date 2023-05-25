@@ -1,12 +1,4 @@
-// === version 1.3.5.2  2022/03/30 ===
-// 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
-// 1.3.5.1 test si submitall dans soumettreAutres()
-// 1.3.4 fermeture balises xml <br> et <img> dans feedback
-// 1.3.3 évaluation compétence
-// 1.3.2 test demande compétence
-// 1.3.1 test si demande à un pair ou pro
-// 1.3.0 nouvelle gestion des vecteurs
-// 1.2.1.affichage date
+// === version 1.4.0  2022/05/25 ===
 
 
 //# sourceURL=kapc1.3.5.js
@@ -880,17 +872,30 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
-	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
-	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
+	//--------------------------
+	let question = "";
+	let reponse = "";
+	if (UICom.structure.ui[nodeid].semtag=='commentaires-feedback') { // KAPC
+		question = UICom.structure.ui[nodeid].getLabel(null,'none');
+		reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	} else { // Projet Pro
+		question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
+		reponse = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node)).text();
+
+	}
+	//-------
+	const question1 = question.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const question2 = question1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
-	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
+	//--------------------------
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
 	const previewURL = getPreviewSharedURL(pageid);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
-	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question,reponse2,"",etudiant_email));
+	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question2,reponse2,"",etudiant_email));
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
@@ -918,11 +923,24 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
-	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const date_dem_eval = $(UICom.structure.ui[nodeid].node).attr("date-demande");
-	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	//--------------------------
+	let question = "";
+	let reponse = "";
+	if (UICom.structure.ui[nodeid].semtag=='commentaires-feedback') { // KAPC
+		question = UICom.structure.ui[nodeid].getLabel(null,'none');
+		reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
+	} else { // Projet Pro
+		question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
+		reponse = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node)).text();
+
+	}
+	//-------
+	const question1 = question.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const question2 = question1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	//--------------------------
 	const date_evaluation = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();

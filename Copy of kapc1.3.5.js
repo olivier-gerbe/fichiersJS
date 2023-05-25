@@ -32,8 +32,6 @@ function getType(semtag)
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
-	else if (semtag.indexOf('batir-mon-projet')>-1)
-		type='projet-pro';
 	return type;
 }
 
@@ -131,20 +129,6 @@ function testPrevGGRCodeNotEmpty(node) {
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
 }
 
-function testConseillerCodeNotEmpty(uuid) {
-	if (uuid == null)
-		uuid = $("#page").attr('uuid');
-	const conseiller = $("asmContext:has(metadata[semantictag='conseiller-select'])",UICom.structure.ui[uuid].node);
-	return (conseiller.length>0);
-}
-
-function testTuteurCodeNotEmpty(uuid) {
-	if (uuid == null)
-		uuid = $("#page").attr('uuid');
-	const tuteur = $("asmContext:has(metadata[semantictag='tuteur-select'])",UICom.structure.ui[uuid].node);
-	return (tuteur.length>0);
-}
-
 function testEnseignantCodeNotEmpty(uuid) {
 	if (uuid == null)
 		uuid = $("#page").attr('uuid');
@@ -183,29 +167,6 @@ function testFeedbacksNonRepondus(pageid) {
 	const nodes = $("*:has(>metadata[semantictag='commentaires-feedback'])",UICom.structure.ui[pageid].node).has("asmResource[xsi_type!='context'][xsi_type!='nodeRes'] > text[lang="+LANG+"]:not(:empty)");
 	return (nodes.length==0) ? true:false;;
 }
-
-function testSiDateEcheancePassee (page) {
-	const node = $("*:has(>metadata[semantictag='date-echeance'])",page);
-	const date = $("utc",node).text();
-	let result = false;
-	if (date<new Date().getTime())
-		result = true;
-	return result;
-}
-
-function testSiEnvoiConseillerExterne(nodeid) {
-	let result = true;
-	const sections = $("*:has(>metadata[semantictag='section-const-externe'])",UICom.structure.ui[nodeid].node)
-	if (sections.length>0) {
-		for (let i=0; i<sections.length; i++){
-			const submitted = ($("metadata-wad",sections[i]).attr('submitted')==undefined)?'N':$("metadata-wad",sections[i]).attr('submitted');
-			if (submitted!="Y")
-				result = false;
-		}
-	}
-	return result;
-}
-
 
 //====================================================
 
@@ -420,14 +381,6 @@ function demandeEnregistree(nodeid){
 	alert('Demande enregistrée')
 }
 
-function ifSubmittedDeleleDelParentButton(nodeid){
-	if (UICom.structure.ui[nodeid].submitted=='Y') {
-		const parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id");
-		$("#del-"+parentid).remove();
-	}
-	return true;
-}
-//---------------
 //======================================================================================
 //========================== Mises à jour dates ========================================
 //======================================================================================
@@ -485,24 +438,6 @@ function majDateEvaluation(nodeid) {
 	UICom.structure.ui[dateid].resource.save();
 }
 
-
-//----------------
-function majResText(nodeid,semtag,text) {
-	var res = $("*:has(>metadata[semantictag*='"+semtag+"'])",$(UICom.structure.ui[nodeid].node).parent())[0];
-	var resid = $(res).attr("id");
-	UICom.structure.ui[resid].resource.text_node[LANGCODE].text(text);
-	UICom.structure.ui[resid].resource.save();
-}
-
-function majDateEmail (nodeid,sharetoemail) {
-	var email_envoi = $("*:has(>metadata[semantictag*='email-envoi'])",$(UICom.structure.ui[nodeid].node))[0];
-	var email_envoiid = $(email_envoi).attr("id");
-	majResText(email_envoiid,'email-envoi',sharetoemail);
-	var question = $("*:has(>metadata[semantictag*='question'])",$(UICom.structure.ui[nodeid].node))[0];
-	var questionid = $(question).attr("id");
-	submit(questionid);
-	$("#del-"+nodeid).hide();
-}
 
 //=============================================================
 //================= ENVOI NOTIFICATION ========================
@@ -621,26 +556,56 @@ function specificEnterDisplayPortfolio()
 }
 
 
-function specificDisplayPortfolios(type){
-	if (USER.other=="enseignant") {
+function specificDisplayPortfoliosOLD(type){
+	if (USER.other!="enseignant")
+		throw 'non enseignant';
+	else {
+		$("#card-deck-portfolios").html("");
 		if (type==null)
-			type = 'card';
-		let nb_visibleportfolios = 0;
-		let visibleportfolios = [];
-		for (var i=0;i<portfolios_list.length;i++){
-			//--------------------------
-			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 ) {
-				visibleportfolios.push(portfolios_list[i].node);
-				nb_visibleportfolios++;
+				type = 'card';
+		if (type=='card' && (USER.admin || USER.creator))
+			type = 'card-admin'
+		$("#card-deck-portfolios").show();
+		var html = "";
+		html += "<div class='row row-label'>";
+		html += "	<div class='col-6 folder-label'>"+karutaStr[LANG]['portfolios']+"</div>";
+		//---------------------------------------
+		html += "	<div class='col-2'>";
+		html += "		<span class='fa fa-th' style='cursor:pointer;font-size:130%;margin-top:4px' onclick=\"specificDisplayPortfolios('card');" +
+				";\"></span>&nbsp;";
+		html += "		<span class='fa fa-list' style='cursor:pointer;font-size:130%' onclick=\"specificDisplayPortfolios('list');\"></span>";
+		html += "	</div>";
+		html += "</div>";
+		$("#portfolio-rightside-header").html("<div class='folder-header'>"+html+"</div>");
+		var langcode = LANGCODE;
+		if (type=='card' || type=='card-admin')
+			$("#portfolio-rightside-content2").html("<div class='card-deck' id='porfolios-deck'></div>");
+		else
+			$("#portfolio-rightside-content2").html("<div class='portfolios-content' id='portfolios-content'></div>");
+		for (var j=0; j<portfoliosnotinfolders.length;j++){
+			var portfolioid = $(portfoliosnotinfolders[j]).attr('id');
+			var portfolio = portfolios_byid[portfolioid];
+			var portfoliocode = portfolio.code_node.text();
+			if (portfoliocode.indexOf('portfolio-etu-')<0) {
+				//-------------------- PORTFOLIO ----------------------
+				if (portfolio.visible || (USER.creator && !USER.limited) ) {
+					if (type=='card')
+						$("#porfolios-deck").append($("<div class='card portfolio-card' parentid id='portfolio_"+portfolio.id+"' onclick=\"display_main_page('"+portfolioid+"')\"></div>"));
+					else if (type=='card-admin')
+						$("#porfolios-deck").append($("<div class='card portfolio-card' parentid id='portfolio_"+portfolio.id+"' draggable='true' ondragstart='dragPortfolio(event)'></div>"));
+					else
+						$("#portfolios-content").append($("<div class='row portfolio-row'   id='portfolio_"+portfolio.id+"' draggable='true' ondragstart='dragPortfolio(event)'></div>"));
+					$("#portfolio_"+portfolio.id).html(portfolio.getPortfolioView("portfolio_"+portfolio.id,type,LANGCODE,null));
+				}
 			}
 		}
-		//---------------------------------------------------------------------------------------------
-		if (nb_visibleportfolios>1)
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false',type,visibleportfolios);
-		else if (nb_visibleportfolios==1){
-			display_main_page(portfolios_list[0].id);
-		}
-	} else if (USER.other!="etudiant")
+		$(window).scrollTop(0);
+		$("#wait-window").modal('hide');
+	}
+}
+
+function specificDisplayPortfolios(){
+	if (USER.other!="etudiant")
 		throw 'non etudiant';
 	else {
 		let autoload = "";
@@ -690,7 +655,6 @@ function specificDisplayPortfolios(type){
 	}
 }
 
-
 //=========================================================
 //================== KAPC Vector Functions=================
 //=========================================================
@@ -733,9 +697,11 @@ function searchVectorKAPC(enseignantid,type,date1,date2) {
 	let result = [];
 	if (date1!=null && date2!=null) {
 		for (let i=0;i<search.length;i++) {
-			a5 = JSON.parse($("a5",search[i]).text());
-//			const date = new Date(parseInt(a5.date_eval));
-			const date = a5.date_eval;
+			const a7 = $("a7",search[i]).text();
+			let date = a7;
+			if (a7.indexOf("/")>-1) {
+				date = a7.substring(a7.indexOf("/")+1);
+			}
 			if (date1<=date && date<=date2)
 				result.push(search[i]);
 		}
@@ -748,6 +714,7 @@ function searchVectorKAPC(enseignantid,type,date1,date2) {
 function rechercheLibelle(destid,enseignantid,libelle) {
 	enseignantid = replaceVariable(enseignantid);
 	let search = $("vector",searchVector(enseignantid));
+	let result = [];
 	for (let i=0; i<search.length;i++) {
 		const a5 = JSON.parse($("a5",search[i]).text());
 		if (a5.label.indexOf(libelle)>-1) {
@@ -777,6 +744,7 @@ function rechercheLibelle(destid,enseignantid,libelle) {
 function rechercheEtudiant(destid,enseignantid,etudiant) {
 	enseignantid = replaceVariable(enseignantid);
 	let search = $("vector",searchVector(enseignantid));
+	let result = [];
 	for (let i=0; i<search.length;i++) {
 		const a6 = $("a6",search[i]).text();
 		if (a6.indexOf(etudiant)>-1) {
@@ -941,16 +909,15 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 //=============================================================
 
 function displayCompetence(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
-	a5 = JSON.parse(a5);
-	const date_demande = new Date(parseInt(a5.date_demande));
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
+	const date_demande = new Date(parseInt(a7));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
-	if (a5.label.indexOf("@")>0) // --- compétence personnalisée
-		a5.label = a5.label.substring(a8.indexOf("/")+1);
-	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPageCompetence('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	html += "<td>"+a5.evaluation+"</td>";
-	html += "<td>"+a5.note+"</td>";
+	if (a8.indexOf("@")>0) // --- compétence personnalisée
+		a8 = a8.substring(a8.indexOf("/")+1);
+	html += "<td>"+a8+"<span class='button fas fa-binoculars' onclick=\"previewPageCompetence('"+a5+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "<td>"+a10+"</td>";
+	html += "<td>"+a9+"</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1122,9 +1089,9 @@ function previewPageCompetence(uuid,depth,type,langcode,edit)
 
 function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	a5 = JSON.parse(a5);
-	const date_demande = new Date(parseInt(a5.date_demande));
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
+	const date_demande = new Date(parseInt(a5.date_demande));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a5.evaluation+"</td>";
@@ -1135,10 +1102,10 @@ function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 
 function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	a5 = JSON.parse(a5);
-	const date_demande = new Date(parseInt(a5.date_demande));
-	const date_evaluation = new Date(parseInt(a5.date_eval));
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
+	const date_demande = new Date(parseInt(a5.date_demande));
+	const date_evaluation = new Date(parseInt(a5.date_evaluation));
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
 	if (a8.indexOf("/")==0) // autre action
@@ -1151,11 +1118,10 @@ function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 }
 
 function displayEvaluationExport(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
-	a5 = JSON.parse(a5);
-	const date_evaluation = new Date(parseInt(a5.date_eval));
 	let html = "<tr>";
-	html += "<td>"+ a6 +"</td>";
 	html += "<td>"+a5.matricule+"</td>";
+	html += "<td>"+ a6 +"</td>";
+	const date_evaluation = new Date(parseInt(a5.date_evaluation));
 	html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
 	html += "<td>"+ a5.code +"</td>";
 	html += "<td>"+a5.evaluation+"</td>";
@@ -1251,11 +1217,10 @@ function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
-	const date2 = (a2.indexOf("-done")>-1)? new Date(parseInt(a5.date_eval)):new Date(parseInt(a5.date_demande));
-	html += "<td>"+ date2.toLocaleString()+"</td>";
+	const date_demande = new Date(parseInt(a5.date_demande));
+	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+a5.question+"</td>";
-	const separateur = (reponse[1]!="")?" - ":"";
-	html += "<td>"+reponse[0]+"<div class='author-date'>"+reponse[1]+separateur+reponse[2]+"</div></td>";
+	html += "<td>"+reponse[0]+"<div class='author-date'>"+reponse[1]+" - "+reponse[2]+"</div></td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
