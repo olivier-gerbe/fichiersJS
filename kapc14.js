@@ -1,7 +1,15 @@
-// === version 1.4.0  2022/05/25 ===
+// === version 1.4 2022/05/26 ===
+// 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
+// 1.3.5.1 test si submitall dans soumettreAutres()
+// 1.3.4 fermeture balises xml <br> et <img> dans feedback
+// 1.3.3 évaluation compétence
+// 1.3.2 test demande compétence
+// 1.3.1 test si demande à un pair ou pro
+// 1.3.0 nouvelle gestion des vecteurs
+// 1.2.1.affichage date
 
 
-//# sourceURL=kapc1.3.5.js
+//# sourceURL=kapc1.4.js
 
 //=============== UTILS ==================
 
@@ -54,13 +62,11 @@ function removeBackdropAndRelaod()
 	fill_main_page();
 }
 
-function getPreviewSharedURL(uuid) {
-	const role = 'enseignant';
-	const showtorole = 'enseignant';
+function getPreviewSharedURL(uuid,role) {
 	const sharerole = 'etudiant';
 	const level = '2';
 	const duration = '500';
-	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+showtorole+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
+	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+role+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
 	let url = "";
 	$.ajax({
 		async:false,
@@ -614,14 +620,14 @@ function specificEnterDisplayPortfolio()
 
 
 function specificDisplayPortfolios(type){
-	if (USER.other=="enseignant") {
+	if (USER.other=="enseignant" || USER.other=="cons-interne") {
 		if (type==null)
 			type = 'card';
 		let nb_visibleportfolios = 0;
 		let visibleportfolios = [];
 		for (var i=0;i<portfolios_list.length;i++){
 			//--------------------------
-			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 ) {
+			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp-etu')<0) {
 				visibleportfolios.push(portfolios_list[i].node);
 				nb_visibleportfolios++;
 			}
@@ -810,7 +816,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedURL(pageid,'enseignant');
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -848,7 +854,7 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedURL(pageid,'enseignant');
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -872,30 +878,17 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
-	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
-	//--------------------------
-	let question = "";
-	let reponse = "";
-	if (UICom.structure.ui[nodeid].semtag=='commentaires-feedback') { // KAPC
-		question = UICom.structure.ui[nodeid].getLabel(null,'none');
-		reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
-	} else { // Projet Pro
-		question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
-		reponse = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node)).text();
-
-	}
-	//-------
-	const question1 = question.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
-	const question2 = question1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
+	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
-	//--------------------------
+	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedURL(pageid,'enseignant');
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
-	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question2,reponse2,"",etudiant_email));
+	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question,reponse2,"",etudiant_email));
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
@@ -923,26 +916,13 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const date_dem_eval = $(UICom.structure.ui[nodeid].node).attr("date-demande");
-	//--------------------------
-	let question = "";
-	let reponse = "";
-	if (UICom.structure.ui[nodeid].semtag=='commentaires-feedback') { // KAPC
-		question = UICom.structure.ui[nodeid].getLabel(null,'none');
-		reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
-	} else { // Projet Pro
-		question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
-		reponse = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node)).text();
-
-	}
-	//-------
-	const question1 = question.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
-	const question2 = question1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
-	//--------------------------
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedURL(pageid,'enseignant');
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -1265,15 +1245,19 @@ function soumettreAutres(nodeid,semtag) {
 
 function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	a5 = JSON.parse(a5);
-	const reponse = a5.reponse.split("|");
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	const date2 = (a2.indexOf("-done")>-1)? new Date(parseInt(a5.date_eval)):new Date(parseInt(a5.date_demande));
 	html += "<td>"+ date2.toLocaleString()+"</td>";
 	html += "<td>"+a5.question+"</td>";
-	const separateur = (reponse[1]!="")?" - ":"";
-	html += "<td>"+reponse[0]+"<div class='author-date'>"+reponse[1]+separateur+reponse[2]+"</div></td>";
+	const reponse = a5.reponse.split("|");
+	html += "<td>"+reponse[0];
+	if (reponse.length>1) {
+		const separateur = (reponse[1]!="")?" - ":"";
+		html += "<div class='author-date'>"+reponse[1]+separateur+reponse[2]+"</div>";
+	}
+	html += "</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1402,5 +1386,5 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 
 
 
-//# sourceURL=kapc1.3.5.js
+//# sourceURL=kapc1.4.js
 
