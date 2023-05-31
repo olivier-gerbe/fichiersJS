@@ -627,7 +627,7 @@ function specificDisplayPortfolios(type){
 		let visibleportfolios = [];
 		for (var i=0;i<portfolios_list.length;i++){
 			//--------------------------
-			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp-etu')<0) {
+			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp')<0 && $(portfolios_list[i].code_node).text().indexOf('alternance-')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp-etu')<0) {
 				visibleportfolios.push(portfolios_list[i].node);
 				nb_visibleportfolios++;
 			}
@@ -1126,7 +1126,8 @@ function displayEvaluation(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+ date_demande.toLocaleString()+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a5.evaluation+"</td>";
-	html += "<td>"+a5.note+"</td>";
+	if (a2.indexOf('periode')<0 && a2.indexOf('rapport')<0)
+		html += "<td>"+a5.note+"</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1143,7 +1144,8 @@ function displayEvaluationSoumise(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 		a8 = a8.substring(a8.indexOf("/")+1);
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	html += "<td>"+a5.evaluation+"</td>";
-	html += "<td>"+a5.note+"</td>";
+	if (a2.indexOf('periode')<0 && a2.indexOf('rapport')<0)
+		html += "<td>"+a5.note+"</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1157,7 +1159,8 @@ function displayEvaluationExport(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
 	html += "<td>"+ a5.code +"</td>";
 	html += "<td>"+a5.evaluation+"</td>";
-	html += "<td>"+a5.note+"</td>";
+	if (a2.indexOf('periode')<0 && a2.indexOf('rapport')<0)
+		html += "<td>"+a5.note+"</td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }

@@ -1,5 +1,5 @@
 
-
+//================== UPPA-LEA.js
 
 function testSiConsentement(data)
 {
@@ -14,6 +14,84 @@ function testSiConsentement(data)
 		}
 		return result;
 }
+
+
+function setNomPrenomTuteur(nodeid) {
+	var tuteur_select =  $("*:has(>metadata[semantictag*='tuteur-select'])",UICom.structure.ui[nodeid].node)[0];
+	var tuteur_selectid = $(tuteur_select).attr("id");
+	const prenom = $("*:has(>metadata[semantictag*='prenom-tuteur'])",g_portfolio_current)[0];
+	const prenomid = $(prenom).attr("id");
+	const nom = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",g_portfolio_current)[0];
+	const nomid = $(nom).attr("id");
+	$(UICom.structure.ui[tuteur_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
+	UICom.structure.ui[tuteur_selectid].resource.save();
+}
+
+function setNomPrenomEnseigmant(nodeid) {
+	var enseignant_select =  $("*:has(>metadata[semantictag*='enseignant-select'])",UICom.structure.ui[nodeid].node)[0];
+	var enseignant_selectid = $(enseignant_select).attr("id");
+	const prenom = $("*:has(>metadata[semantictag*='prenom-enseignant'])",g_portfolio_current)[0];
+	const prenomid = $(prenom).attr("id");
+	const nom = $("*:has(>metadata[semantictag*='nom-famille-enseignant'])",g_portfolio_current)[0];
+	const nomid = $(nom).attr("id");
+	const login = UICom.structure.ui[nomid].getCode();
+	$(UICom.structure.ui[enseignant_selectid].resource.code_node).text(login);
+	$(UICom.structure.ui[enseignant_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
+	UICom.structure.ui[enseignant_selectid].resource.save();
+}
+
+function setTuteurEnseignant(nodeid) {
+	setNomPrenomTuteur(nodeid);
+//	setNomPrenomEnseigmant(nodeid);
+}
+
+
+function getSubstring(type,str){
+	let result = "";
+	if (type=='formation') {
+		result = str.substring(str.indexOf("/")+1);
+		result = result.substring(0,result.indexOf("/"));
+	}
+	return result;
+}
+
+function setFormationActuelle(node) {
+	const nodeid = $(node).attr("id");
+	const formationcode = $(UICom.structure.ui[nodeid].resource.code_node).text();
+	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("alternance-##accountlogin##"))
+	const portfoliocode = $($("code",portfolio)[0]).text();
+	$.ajax({
+		async:false,
+		type : "GET",
+		dataType : "xml",
+		url : serverBCK_API+"/portfolios/portfolio/code/" + portfoliocode +"?resources=true",
+		success : function(data) {
+//			var images = $("asmContext:has(metadata[semantictag='welcome-main-image'])",data);
+			const node = $("asmContext:has(metadata[semantictag*='formation-actuelle'])",data);
+			const nodeid = $(node).attr('id');
+			var resource = $("asmResource[xsi_type='Field']",node);
+			$("text",resource).text(formationcode);
+			var data = "<asmResource xsi_type='Field'>" + $(resource).html() + "</asmResource>";
+			var strippeddata = data.replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/g,"");  // remove xmlns attribute
+			//-------------------
+			$.ajax({
+				async : false,
+				type : "PUT",
+				contentType: "application/xml",
+				dataType : "text",
+				data : strippeddata,
+				url : serverBCK_API+"/resources/resource/" + nodeid,
+				success : function(data) {
+				},
+				error : function(data) {
+				}
+			});
+		}
+	});
+}
+
+
+//==============================================================================================================
 
 
 //==================================
@@ -70,7 +148,6 @@ function sendEmailenvoiCourriel(message,email)
 		}
 	});
 }
-
 
 
 //# sourceURL=alternance.js
