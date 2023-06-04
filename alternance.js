@@ -1,5 +1,5 @@
 
-//================== UPPA-LEA.js
+//========================
 
 function testSiConsentement(data)
 {
@@ -17,14 +17,37 @@ function testSiConsentement(data)
 
 
 function setNomPrenomTuteur(nodeid) {
-	var tuteur_select =  $("*:has(>metadata[semantictag*='tuteur-select'])",UICom.structure.ui[nodeid].node)[0];
-	var tuteur_selectid = $(tuteur_select).attr("id");
-	const prenom = $("*:has(>metadata[semantictag*='prenom-tuteur'])",g_portfolio_current)[0];
+	const tuteur_select =  $("*:has(>metadata[semantictag*='tuteur-select'])",UICom.structure.ui[nodeid].node)[0];
+	const tuteur_selectid = $(tuteur_select).attr("id");
+	const profil_tuteur_pro = $("*:has(>metadata[semantictag='profil-tuteur-pro'])",g_portfolio_current)[0];
+	const profil_tuteur_proid = $(profil_tuteur_pro).attr("id");
+	const prenom = $("*:has(>metadata[semantictag*='prenom-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
 	const prenomid = $(prenom).attr("id");
-	const nom = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",g_portfolio_current)[0];
+	const nom = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
 	const nomid = $(nom).attr("id");
+	const login = $("*:has(>metadata[semantictag*='login-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
+	const loginid = $(login).attr("id");
+	const logincode = UICom.structure.ui[loginid].resource.getView();
+	$(UICom.structure.ui[tuteur_selectid].resource.code_node).text(logincode);
 	$(UICom.structure.ui[tuteur_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
 	UICom.structure.ui[tuteur_selectid].resource.save();
+	//--------------------
+	const tuteur2_select =  $("*:has(>metadata[semantictag*='tuteur2-select'])",UICom.structure.ui[nodeid].node)[0];
+	const tuteur2_selectid = $(tuteur2_select).attr("id");
+	const profil_tuteur_pro2 = $("*:has(>metadata[semantictag='profil-tuteur-pro2'])",g_portfolio_current)[0];
+	if ($(profil_tuteur_pro2).length>0) {
+		const profil_tuteur2_proid = $(profil_tuteur_pro2).attr("id");
+		const prenom2 = $("*:has(>metadata[semantictag*='prenom-tuteur'])",UICom.structure.ui[profil_tuteur2_proid].node)[0];
+		const prenom2id = $(prenom2).attr("id");
+		const nom2 = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",UICom.structure.ui[profil_tuteur2_proid].node)[0];
+		const nom2id = $(nom2).attr("id");
+		const login2 = $("*:has(>metadata[semantictag*='login-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
+		const login2id = $(login2).attr("id");
+		const login2code = UICom.structure.ui[login2id].resource.getView();
+		$(UICom.structure.ui[tuteur2_selectid].resource.code_node).text(login2code);
+		$(UICom.structure.ui[tuteur2_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nom2id].resource.getView()+" "+UICom.structure.ui[prenom2id].resource.getView());
+		UICom.structure.ui[tuteur2_selectid].resource.save();
+	}
 }
 
 function setNomPrenomEnseigmant(nodeid) {
@@ -34,15 +57,17 @@ function setNomPrenomEnseigmant(nodeid) {
 	const prenomid = $(prenom).attr("id");
 	const nom = $("*:has(>metadata[semantictag*='nom-famille-enseignant'])",g_portfolio_current)[0];
 	const nomid = $(nom).attr("id");
-	const login = UICom.structure.ui[nomid].getCode();
-	$(UICom.structure.ui[enseignant_selectid].resource.code_node).text(login);
+	const login = $("*:has(>metadata[semantictag*='login-enseignant'])",g_portfolio_current)[0];
+	const loginid = $(login).attr("id");
+	const logincode = UICom.structure.ui[loginid].resource.getView();
+	$(UICom.structure.ui[enseignant_selectid].resource.code_node).text(logincode);
 	$(UICom.structure.ui[enseignant_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
 	UICom.structure.ui[enseignant_selectid].resource.save();
 }
 
 function setTuteurEnseignant(nodeid) {
 	setNomPrenomTuteur(nodeid);
-//	setNomPrenomEnseigmant(nodeid);
+	setNomPrenomEnseigmant(nodeid);
 }
 
 
@@ -58,7 +83,7 @@ function getSubstring(type,str){
 function setFormationActuelle(node) {
 	const nodeid = $(node).attr("id");
 	const formationcode = $(UICom.structure.ui[nodeid].resource.code_node).text();
-	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("alternance-##accountlogin##"))
+	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"))
 	const portfoliocode = $($("code",portfolio)[0]).text();
 	$.ajax({
 		async:false,
@@ -66,7 +91,6 @@ function setFormationActuelle(node) {
 		dataType : "xml",
 		url : serverBCK_API+"/portfolios/portfolio/code/" + portfoliocode +"?resources=true",
 		success : function(data) {
-//			var images = $("asmContext:has(metadata[semantictag='welcome-main-image'])",data);
 			const node = $("asmContext:has(metadata[semantictag*='formation-actuelle'])",data);
 			const nodeid = $(node).attr('id');
 			var resource = $("asmResource[xsi_type='Field']",node);
@@ -90,7 +114,39 @@ function setFormationActuelle(node) {
 	});
 }
 
+//=======================================
+// FICHES EVALAUTION
+//=======================================
 
+function setNomPrenomTuteurFiche(nodeid) {
+	const tuteur_select =  $("*:has(>metadata[semantictag*='fiche-tuteur'])",UICom.structure.ui[nodeid].node)[0];
+	const tuteur_selectid = $(tuteur_select).attr("id");
+	const profil_tuteur_pro = $("*:has(>metadata[semantictag='profil-tuteur-pro'])",g_portfolio_current)[0];
+	const profil_tuteur_proid = $(profil_tuteur_pro).attr("id");
+	const prenom = $("*:has(>metadata[semantictag*='prenom-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
+	const prenomid = $(prenom).attr("id");
+	const nom = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
+	const nomid = $(nom).attr("id");
+	$(UICom.structure.ui[tuteur_selectid].resource.text_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
+	UICom.structure.ui[tuteur_selectid].resource.save();
+}
+
+function setNomPrenomEtudiantFiche(nodeid) {
+	const etudiant_select =  $("*:has(>metadata[semantictag*='fiche-etudiant'])",UICom.structure.ui[nodeid].node)[0];
+	const etudiant_selectid = $(etudiant_select).attr("id");
+	const profil_etudiant = $("*:has(>metadata[semantictag='profil-etudiant'])",g_portfolio_current)[0];
+	const profil_etudiantid = $(profil_etudiant).attr("id");
+	const prenom = $("*:has(>metadata[semantictag*='prenom-etudiant'])",UICom.structure.ui[profil_etudiantid].node)[0];
+	const prenomid = $(prenom).attr("id");
+	const nom = $("*:has(>metadata[semantictag*='nom-famille-etudiant'])",UICom.structure.ui[profil_etudiantid].node)[0];
+	const nomid = $(nom).attr("id");
+	$(UICom.structure.ui[etudiant_selectid].resource.text_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
+	UICom.structure.ui[etudiant_selectid].resource.save();
+}
+
+function soumettreFiche(nodeid) {
+	submit(nodeid);
+}
 //==============================================================================================================
 
 
