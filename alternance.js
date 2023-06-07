@@ -65,9 +65,13 @@ function setNomPrenomEnseigmant(nodeid) {
 	UICom.structure.ui[enseignant_selectid].resource.save();
 }
 
-function setTuteurEnseignant(nodeid) {
+function setInfos(nodeid) {
 	setNomPrenomTuteur(nodeid);
 	setNomPrenomEnseigmant(nodeid);
+	setPrenomNom(nodeid);;
+	setMatricule(nodeid)
+	setCourriel(nodeid);
+	setPageUUID(nodeid);
 }
 
 
