@@ -907,21 +907,27 @@ function rechercheEtudiant(destid,enseignantid,etudiant) {
 }
 //-----------evaluation--------
 
-function buildSaveEvaluationVector(nodeid,pageid,type) {
+function buildSaveEvaluationVector(nodeid,pageid,type,evaluateur) {
 	//----------------------
+	if (evaluateur==null)
+		evaluateur='enseignant-select';
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
-		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
-	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'));
+	const enseignants = $("asmContext:has(metadata[semantictag='"+evaluateur+"'])",UICom.structure.ui[pageid].node);
+	let etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	if (etudiant=="") {
+		etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom-etudiant'])",g_portfolio_current)).text();
+		etudiant += " " + $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='nom-famille-etudiant'])",g_portfolio_current)).text();
+	}
 	let evalid = (type.indexOf("competence")>-1)? nodeid:pageid
 	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[evalid].node))[1]).text();
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",$("asmUnitStructure:has(>metadata[semantictag='evaluation-enseignant'])",UICom.structure.ui[evalid].node)))[1]).text();
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,'enseignant');
+	const previewURL = getPreviewSharedURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -936,7 +942,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
 		saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
-		//----envoi courriel à l'enseigant -----
+		//----envoi courriel à l'enseignant -----
 		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
 			const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation pour son eportfolio.";
@@ -945,12 +951,18 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	}
 }
 
-function buildSubmitEvaluationVector(nodeid,pageid,type) {
+function buildSubmitEvaluationVector(nodeid,pageid,type,evaluateur) {
+	if (evaluateur==null)
+		evaluateur='enseignant-select';
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	let etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	if (etudiant=="") {
+		etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom-etudiant'])",g_portfolio_current)).text();
+		etudiant += " " + $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='nom-famille-etudiant'])",g_portfolio_current)).text();
+	}
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const evalid = (type.indexOf("competence")>-1)? nodeid:pageid
 	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[evalid].node))[1]).text();
@@ -959,7 +971,7 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,'enseignant');
+	const previewURL = getPreviewSharedURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -975,13 +987,19 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 
 //---------feedback---------------
 
-function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
+function buildSaveFeedbackVector(nodeid,pageid,type,evaluateur) {
+	if (evaluateur==null)
+		evaluateur='enseignant-select';
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	let etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	if (etudiant=="") {
+		etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom-etudiant'])",g_portfolio_current)).text();
+		etudiant += " " + $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='nom-famille-etudiant'])",g_portfolio_current)).text();
+	}
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
@@ -989,7 +1007,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid,'enseignant');
+	const previewURL = getPreviewSharedURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -1014,20 +1032,26 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 
 //------------------------
 
-function buildSubmitFeebackVector(nodeid,pageid,type) {
+function buildSubmitFeebackVector(nodeid,pageid,type,evaluateur) {
+	if (evaluateur==null)
+		evaluateur='enseignant-select';
 	const action = UICom.structure.ui[pageid].getLabel(null,'none');
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	let etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	if (etudiant=="") {
+		etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom-etudiant'])",g_portfolio_current)).text();
+		etudiant += " " + $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='nom-famille-etudiant'])",g_portfolio_current)).text();
+	}
 	const question = UICom.structure.ui[nodeid].getLabel(null,'none');
 	const date_dem_eval = $(UICom.structure.ui[nodeid].node).attr("date-demande");
 	const reponse = UICom.structure.ui[nodeid].resource.getView(null,'vector');
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,'enseignant');
+	const previewURL = getPreviewSharedURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -1272,17 +1296,21 @@ function displayEvaluationExport(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 
 //-------------------------- 
 
-function demanderEvaluation2(nodeid,parentid,sendemail) { // par l'étudiant
+function demanderEvaluation2(nodeid,vers) { // par l'étudiant
 	let pageid = $("#page").attr('uuid');
+	const flagid = $("*:has(>metadata[semantictag='flag-"+vers+"'])",UICom.structure.ui[pageid].node).attr("id");
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
-	const js = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation');majDemEvalSAE('"+nodeid+"')";
+	let js = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation','"+vers+"-select');majDemEvalSAE('"+nodeid+"')";
+	if (vers!=null) {
+		js += ";submit('"+flagid+"')";
+	}
 	const text = "Attention vous ne pourrez plus faire de modifications sur cette page. Voulez-vous continuer?";
 	const section_etudiant_soumission_id = $("*:has(>metadata[semantictag='section-etudiant-soumission'])",UICom.structure.ui[pageid].node).attr("id");
 	confirmSubmit(section_etudiant_soumission_id,false,js,text);
 }
 
-function modifierEvaluation(nodeid,sendemail) { // par l'enseignant
+function modifierEvaluation(nodeid,evaluateur) { // par l'enseignant
 	let parent = UICom.structure.ui[nodeid].node;
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
@@ -1291,11 +1319,11 @@ function modifierEvaluation(nodeid,sendemail) { // par l'enseignant
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+'-evaluation',null,pageid);
-	buildSaveEvaluationVector(pageid,pageid,type+'-evaluation',sendemail);
+	buildSaveEvaluationVector(pageid,pageid,type+'-evaluation',evaluateur);
 }
 
 
-function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
+function soumettreEvaluation(nodeid,evaluateur){ // par l'enseignant
 	let pageid = nodeid;
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
@@ -1304,7 +1332,7 @@ function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
 	}
 	deleteVector(null,type+'-evaluation',null,pageid);
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
-		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",sendemail);
+		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",evaluateur);
 		// montrer
 		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
 		if (sectid!=undefined)
