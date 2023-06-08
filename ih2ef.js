@@ -16,11 +16,11 @@ function addDate(node) {
 }
 
 function calcMin(d,n,i) { // d: date début, n: no niveau (0-3), i: periode (0-3)
-	return  d + n * 3 * i * 2629800000;
+	return  d + (n+1) * 3 * i * 2629800000;
 }
 
 function calcMax(d,n,i) { // d: date début, n: no niveau (0-3), i: periode (0-3)
-	return  d + n * 3 * (i+1) * 2629800000;
+	return  d + (n+1) * 3 * (i+1) * 2629800000;
 }
 
 //# sourceURL=ih2ef.js

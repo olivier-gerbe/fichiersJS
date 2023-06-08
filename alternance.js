@@ -1,5 +1,5 @@
 
-//================== UPPA-LEA.js
+//================== ALTERNANCE ===========
 
 function testSiConsentement(data)
 {
@@ -36,7 +36,7 @@ function setNomPrenomEnseigmant(nodeid) {
 	const nomid = $(nom).attr("id");
 	const login = UICom.structure.ui[nomid].getCode();
 	$(UICom.structure.ui[enseignant_selectid].resource.code_node).text(login);
-	$(UICom.structure.ui[enseignant_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
+	$(UICom.structure.ui[enseignant_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+ UICom.structure.ui[prenomid].resource.getView());
 	UICom.structure.ui[enseignant_selectid].resource.save();
 }
 
@@ -58,7 +58,7 @@ function getSubstring(type,str){
 function setFormationActuelle(node) {
 	const nodeid = $(node).attr("id");
 	const formationcode = $(UICom.structure.ui[nodeid].resource.code_node).text();
-	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("alternance-##accountlogin##"))
+	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"))
 	const portfoliocode = $($("code",portfolio)[0]).text();
 	$.ajax({
 		async:false,
@@ -89,6 +89,8 @@ function setFormationActuelle(node) {
 		}
 	});
 }
+
+
 
 
 //==============================================================================================================
