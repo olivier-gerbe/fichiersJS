@@ -132,7 +132,7 @@ function testPrevGGRCodeNotEmpty(node) {
 function testConseillerCodeNotEmpty(uuid) {
 	if (uuid == null)
 		uuid = $("#page").attr('uuid');
-	const conseiller = $("asmContext:has(metadata[semantictag='conseiller-select'])",UICom.structure.ui[uuid].node);
+	const conseiller = $("asmContext:has(metadata[semantictag='cons-interne-select'])",UICom.structure.ui[uuid].node);
 	return (conseiller.length>0);
 }
 
@@ -215,7 +215,64 @@ function setVariable_code (node)
 }
 
 //======================================================================================
-//============= Mise à jour SAE/STAGE/ACTION/Compétence=================================
+//============= Mise à jour Sections Profil ============================================
+//======================================================================================
+
+//==================================
+function setEtuInfos(uuid) 
+//==================================
+{
+	const semtag = UICom.structure.ui[uuid].semantictag;
+	const value = UICom.structure.ui[uuid].resource.getView();
+	//------------------------
+	const portfolioAlternance = UIFactory.Portfolio.search_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"));
+	if (portfolioAlternance!="") {
+		const portfolioAlternanceCode = $($("code",portfolioAlternance)[0]).text();
+		setInfoAlternance(value,semtag,portfolioAlternanceCode);
+	}
+	//------------------------
+	const portfolioProjetPro = UIFactory.Portfolio.search_bycode(replaceVariable("portfolio-pp-etu-##accountlogin##"));
+	if (portfolioProjetPro!="") {
+		const portfolioProjetProCode = $($("code",portfolioProjetPro)[0]).text();
+		setInfoProjetpro(value,semtag,portfolioProjetProCode);
+	}
+}
+
+//==================================
+function setInfo(value,semtag,portfoliocode) 
+//==================================
+{
+	$.ajax({
+		async:false,
+		type : "GET",
+		dataType : "xml",
+		url : serverBCK_API+"/portfolios/portfolio/code/" + portfoliocode +"?resources=true",
+		success : function(data) {
+			const node = $("asmContext:has(metadata[semantictag*='"+semtag+"'])",data);
+			const nodeid = $(node).attr('id');
+			var resource = $("asmResource[xsi_type='Field']",node);
+			$("text",resource).text(value);
+			var data = "<asmResource xsi_type='Field'>" + $(resource).html() + "</asmResource>";
+			var strippeddata = data.replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/g,"");  // remove xmlns attribute
+			//-------------------
+			$.ajax({
+				async : false,
+				type : "PUT",
+				contentType: "application/xml",
+				dataType : "text",
+				data : strippeddata,
+				url : serverBCK_API+"/resources/resource/" + nodeid,
+				success : function() {
+				},
+				error : function() {
+				}
+			});
+		}
+	});
+}
+
+//======================================================================================
+//============= Mise à jour SAE/STAGE/ACTION/Compétence ================================
 //======================================================================================
 
 function setInformation(nodeid) {
@@ -308,15 +365,21 @@ var kapc_to_be_deleted = [];
 function verifier_presence_traces() {
 	kapc_to_be_deleted = [];
 	const traces = $("*:has(>metadata[semantictag*='trace-etudiant'])",g_portfolio_current);
-	const select_traces = $("*:has(>metadata[semantictag*='select-trace'])",g_portfolio_current);
+	//------------------------
+	const select_traces1 = $("*:has(>metadata[semantictag*='select-trace'])",g_portfolio_current);
+	const portfolioAlternance = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"),true);
+	const select_traces2 = $("*:has(>metadata[semantictag*='select-trace'])",portfolioAlternance);
+	const portfolioProjetPro = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-pp-etu-##accountlogin##"),true);
+	const select_traces3 = $("*:has(>metadata[semantictag*='select-trace'])",portfolioProjetPro);
+	const select_traces = select_traces1.add(select_traces2).add(select_traces3);
+	//------------------------
 	for (let i=0;i<traces.length;i++){
 		const traceid = $(traces[i]).attr('id');
 		const code = UICom.structure.ui[traceid].getCode();
 		const label = UICom.structure.ui[traceid].getLabel(null,'none');
 		let present = false;
 		for (let j=0;j<select_traces.length;j++){
-			const select_traceid = $(select_traces[j]).attr('id');
-			const select_trace_code = UICom.structure.ui[select_traceid].resource.getCode();
+			const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[j]))).text();
 			if (select_trace_code==code) {
 				present = true;
 				break;
@@ -349,12 +412,47 @@ function confirm_delete_trace() {
 function verifier_supprimer_traces(nodeid) {
 	let to_be_deleted = true;
 	const code = UICom.structure.ui[nodeid].getCode();
-	const select_traces = $("*:has(>metadata[semantictag*='select-trace'])",g_portfolio_current);
+	//------------------------
+	const select_traces1 = $("*:has(>metadata[semantictag*='select-trace'])",g_portfolio_current);
+	const portfolioAlternance = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"),true);
+	const select_traces2 = $("*:has(>metadata[semantictag*='select-trace'])",portfolioAlternance);
+	const portfolioProjetPro = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-pp-etu-##accountlogin##"),true);
+	const select_traces3 = $("*:has(>metadata[semantictag*='select-trace'])",portfolioProjetPro);
+	const select_traces = select_traces1.add(select_traces2).add(select_traces3);
+	//------------------------
 	for (let j=0;j<select_traces.length;j++){
-		const select_traceid = $(select_traces[j]).attr('id');
-		const select_trace_code = UICom.structure.ui[select_traceid].resource.getCode();
+		const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[j]))).text();
 		if (select_trace_code==code) {
-			to_be_deleted = confirm("ATTENTION - Cette trace est utilisée dans le portfolio. Voulez-vous vraiment la supprimer?");
+			const to_be_deleted = confirm("ATTENTION - Cette trace est utilisée dans le portfolio. Voulez-vous vraiment la supprimer?");
+			if (to_be_deleted) {
+				const all_to_be_deleted = confirm("ATTENTION - Voulez-vopus supprimer toutes les références à cette trace.?");
+				if (all_to_be_deleted) {
+					for (let k=0;k<select_traces1.length;k++){
+						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
+						if (select_trace_code==code) {
+							const uuid = $(select_traces[k]).attr("id");
+							$("#"+uuid,g_portfolio_current).remove();
+							UICom.DeleteNode(uuid);
+						}
+					}
+					for (let k=0;k<select_traces2.length;k++){
+						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
+						if (select_trace_code==code) {
+							const uuid = $(select_traces[k]).attr("id");
+							$("#"+uuid,portfolioAlternance).remove();
+							UICom.DeleteNode(uuid);
+						}
+					}
+					for (let k=0;k<select_traces3.length;k++){
+						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
+						if (select_trace_code==code) {
+							const uuid = $(select_traces[k]).attr("id");
+							$("#"+uuid,portfolioProjetPro).remove();
+							UICom.DeleteNode(uuid);
+						}
+					}
+				}
+			}
 			break;
 		}
 	}
@@ -363,7 +461,14 @@ function verifier_supprimer_traces(nodeid) {
 
 function verifier_supprimer_collections(nodeid) {
 	let to_be_deleted = true;
-	const collection_traces = $("*:has(>metadata[semantictag*='trace-etudiant'])",UICom.structure.ui[nodeid].node);
+	//------------------------
+	const collection_traces1 = $("*:has(>metadata[semantictag*='trace-etudiant'])",g_portfolio_current);
+	const portfolioAlternance = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"),true);
+	const collection_traces2 = $("*:has(>metadata[semantictag*='trace-etudiant'])",portfolioAlternance);
+	const portfolioProjetPro = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-pp-etu-##accountlogin##"),true);
+	const collection_traces3 = $("*:has(>metadata[semantictag*='trace-etudiant'])",portfolioProjetPro);
+	const collection_traces = collection_traces1.add(collection_traces2).add(collection_traces3);
+	//------------------------
 	for (let i=0;i<collection_traces.length;i++){
 		const collection_traceid = $(collection_traces[i]).attr('id');
 		const collection_trace_code = UICom.structure.ui[collection_traceid].getCode();

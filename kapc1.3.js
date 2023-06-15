@@ -238,7 +238,7 @@ function verifier_supprimer_traces(nodeid) {
 		const select_traceid = $(select_traces[j]).attr('id');
 		const select_trace_code = UICom.structure.ui[select_traceid].resource.getCode();
 		if (select_trace_code==code) {
-			to_be_deleted = confirm("ATTENTION - Cette trace est utilisée dans le portfolio. Voulez-vous vraiment la supprimer?");
+			to_be_deleted = confirm("ATTENTION - Cette trace est utilisée dans le portfolio. Si vous la supprimer, vous devrez supprimer toute référence à cette trace. Voulez-vous vraiment la supprimer?");
 			break;
 		}
 	}
@@ -256,7 +256,7 @@ function verifier_supprimer_collections(nodeid) {
 			const select_traceid = $(select_traces[j]).attr('id');
 			const select_trace_code = UICom.structure.ui[select_traceid].resource.getCode();
 			if (select_trace_code==collection_trace_code) {
-				to_be_deleted = confirm("ATTENTION - Une trace de la collection est utilisée dans le portfolio. Voulez-vous vraiment supprimer la collection?");
+				to_be_deleted = confirm("ATTENTION - Une trace de la collection est utilisée dans le portfolio. Si vous la supprimer, vous devrez supprimer toute référence à cette trace. Voulez-vous vraiment supprimer la collection?");
 				break;
 			}
 		}

@@ -65,13 +65,9 @@ function setNomPrenomEnseigmant(nodeid) {
 	UICom.structure.ui[enseignant_selectid].resource.save();
 }
 
-function setInfos(nodeid) {
+function setTuteurEnseignant(nodeid) {
 	setNomPrenomTuteur(nodeid);
 	setNomPrenomEnseigmant(nodeid);
-	setPrenomNom(nodeid);;
-	setMatricule(nodeid)
-	setCourriel(nodeid);
-	setPageUUID(nodeid);
 }
 
 
@@ -87,7 +83,7 @@ function getSubstring(type,str){
 function setFormationActuelle(node) {
 	const nodeid = $(node).attr("id");
 	const formationcode = $(UICom.structure.ui[nodeid].resource.code_node).text();
-	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"))
+	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("alternance-##accountlogin##"))
 	const portfoliocode = $($("code",portfolio)[0]).text();
 	$.ajax({
 		async:false,
@@ -95,6 +91,7 @@ function setFormationActuelle(node) {
 		dataType : "xml",
 		url : serverBCK_API+"/portfolios/portfolio/code/" + portfoliocode +"?resources=true",
 		success : function(data) {
+//			var images = $("asmContext:has(metadata[semantictag='welcome-main-image'])",data);
 			const node = $("asmContext:has(metadata[semantictag*='formation-actuelle'])",data);
 			const nodeid = $(node).attr('id');
 			var resource = $("asmResource[xsi_type='Field']",node);
@@ -117,10 +114,6 @@ function setFormationActuelle(node) {
 		}
 	});
 }
-
-//=======================================
-// FICHES EVALAUTION
-//=======================================
 
 function setNomPrenomTuteurFiche(nodeid) {
 	const tuteur_select =  $("*:has(>metadata[semantictag*='fiche-tuteur'])",UICom.structure.ui[nodeid].node)[0];
@@ -148,9 +141,6 @@ function setNomPrenomEtudiantFiche(nodeid) {
 	UICom.structure.ui[etudiant_selectid].resource.save();
 }
 
-function soumettreFiche(nodeid) {
-	submit(nodeid);
-}
 //==============================================================================================================
 
 
