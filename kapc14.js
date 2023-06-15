@@ -425,7 +425,7 @@ function verifier_supprimer_traces(nodeid) {
 		if (select_trace_code==code) {
 			const to_be_deleted = confirm("ATTENTION - Cette trace est utilisée dans le portfolio. Voulez-vous vraiment la supprimer?");
 			if (to_be_deleted) {
-				const all_to_be_deleted = confirm("ATTENTION - Voulez-vopus supprimer toutes les références à cette trace.?");
+				const all_to_be_deleted = confirm("ATTENTION - Voulez-vous supprimer toutes les références à cette trace.?");
 				if (all_to_be_deleted) {
 					for (let k=0;k<select_traces1.length;k++){
 						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
@@ -452,6 +452,8 @@ function verifier_supprimer_traces(nodeid) {
 						}
 					}
 				}
+				else
+					to_be_deleted = false;
 			}
 			break;
 		}
