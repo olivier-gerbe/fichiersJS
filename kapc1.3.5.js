@@ -67,7 +67,7 @@ function getPreviewSharedURL(uuid) {
 	const showtorole = 'enseignant';
 	const sharerole = 'etudiant';
 	const level = '2';
-	const duration = '500';
+	const duration = '5000';
 	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+showtorole+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
 	let url = "";
 	$.ajax({
@@ -833,12 +833,14 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
-		saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
-		//----envoi courriel à l'enseigant -----
-		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
-			const object = "Demande étudiante";
-			const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation pour son eportfolio.";
-			sendNotification(object,body,enseignantemail);
+		if (numberOfVector(enseignantid,type,nodeid,pageid) == 0) {  // vérification non déjà enregistré
+			saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
+			//----envoi courriel à l'enseigant -----
+			if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
+				const object = "Demande étudiante";
+				const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation pour son eportfolio.";
+				sendNotification(object,body,enseignantemail);
+			}
 		}
 	}
 }
