@@ -65,7 +65,7 @@ function removeBackdropAndRelaod()
 function getPreviewSharedURL(uuid,role) {
 	const sharerole = 'etudiant';
 	const level = '2';
-	const duration = '500';
+	const duration = '5000';
 	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+role+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
 	let url = "";
 	$.ajax({
