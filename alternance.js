@@ -1,5 +1,5 @@
 
-//========================
+//==============================================================================================================
 
 function testSiConsentement(data)
 {
@@ -16,69 +16,28 @@ function testSiConsentement(data)
 }
 
 
-function setNomPrenomTuteur(nodeid) {
-	const tuteur_select =  $("*:has(>metadata[semantictag*='tuteur-select'])",UICom.structure.ui[nodeid].node)[0];
-	const tuteur_selectid = $(tuteur_select).attr("id");
-	const profil_tuteur_pro = $("*:has(>metadata[semantictag='profil-tuteur-pro'])",g_portfolio_current)[0];
-	const profil_tuteur_proid = $(profil_tuteur_pro).attr("id");
-	const prenom = $("*:has(>metadata[semantictag*='prenom-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
-	const prenomid = $(prenom).attr("id");
-	const nom = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
-	const nomid = $(nom).attr("id");
-	const login = $("*:has(>metadata[semantictag*='login-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
-	const loginid = $(login).attr("id");
-	const logincode = UICom.structure.ui[loginid].resource.getView();
-	$(UICom.structure.ui[tuteur_selectid].resource.code_node).text(logincode);
-	$(UICom.structure.ui[tuteur_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
-	UICom.structure.ui[tuteur_selectid].resource.save();
-	//--------------------
-	const tuteur2_select =  $("*:has(>metadata[semantictag*='tuteur2-select'])",UICom.structure.ui[nodeid].node)[0];
-	const tuteur2_selectid = $(tuteur2_select).attr("id");
-	const profil_tuteur_pro2 = $("*:has(>metadata[semantictag='profil-tuteur-pro2'])",g_portfolio_current)[0];
-	if ($(profil_tuteur_pro2).length>0) {
-		const profil_tuteur2_proid = $(profil_tuteur_pro2).attr("id");
-		const prenom2 = $("*:has(>metadata[semantictag*='prenom-tuteur'])",UICom.structure.ui[profil_tuteur2_proid].node)[0];
-		const prenom2id = $(prenom2).attr("id");
-		const nom2 = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",UICom.structure.ui[profil_tuteur2_proid].node)[0];
-		const nom2id = $(nom2).attr("id");
-		const login2 = $("*:has(>metadata[semantictag*='login-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
-		const login2id = $(login2).attr("id");
-		const login2code = UICom.structure.ui[login2id].resource.getView();
-		$(UICom.structure.ui[tuteur2_selectid].resource.code_node).text(login2code);
-		$(UICom.structure.ui[tuteur2_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nom2id].resource.getView()+" "+UICom.structure.ui[prenom2id].resource.getView());
-		UICom.structure.ui[tuteur2_selectid].resource.save();
-	}
-}
-
-function setNomPrenomEnseigmant(nodeid) {
-	var enseignant_select =  $("*:has(>metadata[semantictag*='enseignant-select'])",UICom.structure.ui[nodeid].node)[0];
-	var enseignant_selectid = $(enseignant_select).attr("id");
-	const prenom = $("*:has(>metadata[semantictag*='prenom-enseignant'])",g_portfolio_current)[0];
-	const prenomid = $(prenom).attr("id");
-	const nom = $("*:has(>metadata[semantictag*='nom-famille-enseignant'])",g_portfolio_current)[0];
-	const nomid = $(nom).attr("id");
-	const login = $("*:has(>metadata[semantictag*='login-enseignant'])",g_portfolio_current)[0];
-	const loginid = $(login).attr("id");
-	const logincode = UICom.structure.ui[loginid].resource.getView();
-	$(UICom.structure.ui[enseignant_selectid].resource.code_node).text(logincode);
-	$(UICom.structure.ui[enseignant_selectid].resource.label_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
-	UICom.structure.ui[enseignant_selectid].resource.save();
-}
-
-function setTuteurEnseignant(nodeid) {
-	setNomPrenomTuteur(nodeid);
-	setNomPrenomEnseigmant(nodeid);
-}
-
-
-function getSubstring(type,str){
-	let result = "";
-	if (type=='formation') {
-		result = str.substring(str.indexOf("/")+1);
-		result = result.substring(0,result.indexOf("/"));
-	}
+function testSiEnseignant() {
+	let result = false;
+	const enseignant_livret = $("*:has(>metadata[semantictag*='enseignant-livret'])",g_portfolio_current)[0];
+	if (enseignant_livret!=undefined)
+		result =  (UICom.structure.ui[$(enseignant_livret).attr("id")].resource.getCode().length>0);
 	return result;
 }
+
+
+//=================================================================================
+
+function setInfos1(nodeid){
+	setItemElts(nodeid,"etudiant-livret","etudiant-select");
+	setItemElts(nodeid,"enseignant-livret","enseignant-select");
+	setItemElts(nodeid,"tuteur-livret","tuteur-select");
+	setMatriculeEtudiant(nodeid);
+	setCourrielEtudiant(nodeid);
+	setPageUUID(nodeid);
+	setPortfolioUUID(nodeid);
+}
+
+
 
 function setFormationActuelle(node) {
 	const nodeid = $(node).attr("id");
@@ -91,7 +50,6 @@ function setFormationActuelle(node) {
 		dataType : "xml",
 		url : serverBCK_API+"/portfolios/portfolio/code/" + portfoliocode +"?resources=true",
 		success : function(data) {
-//			var images = $("asmContext:has(metadata[semantictag='welcome-main-image'])",data);
 			const node = $("asmContext:has(metadata[semantictag*='formation-actuelle'])",data);
 			const nodeid = $(node).attr('id');
 			var resource = $("asmResource[xsi_type='Field']",node);
@@ -115,34 +73,12 @@ function setFormationActuelle(node) {
 	});
 }
 
-function setNomPrenomTuteurFiche(nodeid) {
-	const tuteur_select =  $("*:has(>metadata[semantictag*='fiche-tuteur'])",UICom.structure.ui[nodeid].node)[0];
-	const tuteur_selectid = $(tuteur_select).attr("id");
-	const profil_tuteur_pro = $("*:has(>metadata[semantictag='profil-tuteur-pro'])",g_portfolio_current)[0];
-	const profil_tuteur_proid = $(profil_tuteur_pro).attr("id");
-	const prenom = $("*:has(>metadata[semantictag*='prenom-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
-	const prenomid = $(prenom).attr("id");
-	const nom = $("*:has(>metadata[semantictag*='nom-famille-tuteur'])",UICom.structure.ui[profil_tuteur_proid].node)[0];
-	const nomid = $(nom).attr("id");
-	$(UICom.structure.ui[tuteur_selectid].resource.text_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
-	UICom.structure.ui[tuteur_selectid].resource.save();
-}
-
-function setNomPrenomEtudiantFiche(nodeid) {
-	const etudiant_select =  $("*:has(>metadata[semantictag*='fiche-etudiant'])",UICom.structure.ui[nodeid].node)[0];
-	const etudiant_selectid = $(etudiant_select).attr("id");
-	const profil_etudiant = $("*:has(>metadata[semantictag='profil-etudiant'])",g_portfolio_current)[0];
-	const profil_etudiantid = $(profil_etudiant).attr("id");
-	const prenom = $("*:has(>metadata[semantictag*='prenom-etudiant'])",UICom.structure.ui[profil_etudiantid].node)[0];
-	const prenomid = $(prenom).attr("id");
-	const nom = $("*:has(>metadata[semantictag*='nom-famille-etudiant'])",UICom.structure.ui[profil_etudiantid].node)[0];
-	const nomid = $(nom).attr("id");
-	$(UICom.structure.ui[etudiant_selectid].resource.text_node[LANGCODE]).text(UICom.structure.ui[nomid].resource.getView()+" "+UICom.structure.ui[prenomid].resource.getView());
-	UICom.structure.ui[etudiant_selectid].resource.save();
+function setInfosFiche1(nodeid){
+	setItemElts(nodeid,"etudiant-livret","etudiant-select");
+	setItemElts(nodeid,"tuteur-livret","tuteur-select");
 }
 
 //==============================================================================================================
-
 
 //==================================
 function pageVueEtEnvoiCourriel(uuid,role,no)
@@ -161,43 +97,241 @@ function pageVueEtEnvoiCourriel(uuid,role,no)
 		message += "Bonjour,<br>";
 		message += "##firstname## ##lastname## vient de visiter la page Entretien "+no+" à "+today.toLocaleString()+"<br>";
 		const enseignant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='courriel-enseignant'])",g_portfolio_current)).text();
-		sendEmailenvoiCourriel(message,enseignant_email);
+		envoiCourriel(message,enseignant_email);
+	}
+}
+
+//============================== ÉVALUATIONS ==========================
+
+function buildSaveEvaluationVector1(nodeid,pageid,type,role,whoeval,whodelete) {
+	//----------------------
+	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
+	let actioncode = UICom.structure.ui[pageid].getCode();
+	if (actioncode.indexOf('*')>-1)
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'));
+	const whodeletetag = (whodelete=='all') ? "" : role;
+	const whodeletes = $("asmContext:has(metadata[semantictag*='"+whodeletetag+"-select'])",UICom.structure.ui[pageid].node);
+	const whoevaltag = (whoeval=='all') ? "" : role;
+	const whoevals = $("asmContext:has(metadata[semantictag*='"+whoevaltag+"-select'])",UICom.structure.ui[pageid].node);
+	const etudiant = getItemUserInfos(pageid,'etudiant-select');
+	const formation = "?";
+	const cohorte = "?";
+//-------------
+	const evalid = (type.indexOf("competence")>-1)? nodeid:pageid;
+	const demElt = $("asmUnitStructure:has(>metadata[semantictag='evaluation-"+role+"'])",UICom.structure.ui[evalid].node)[0];
+	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",demElt))[1]).text();
+	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",demElt))[1]).text();
+	const comid =$("asmContext:has(metadata[semantictag='evaluation-commentaires'])",demElt).attr("id");
+	const commentaires = (comid==undefined) ? "" : $($("text[lang='"+LANG+"']",UICom.structure.ui[comid].resource)).text();
+	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",demElt)).text();
+	if (date_dem_eval==null || date_dem_eval=='')
+		date_dem_eval = new Date().getTime();
+	//---------------
+	const previewURL = getPreviewSharedURL(pageid,role);
+	let a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,"",actioncode,actionlabel,etudiant.matricule,note,evaluation,commentaires,""));
+	//----------------------
+	let candelete = "";
+	for (let i=0;i<whodeletes.length;i++){
+		const selectid = $("code",whodeletes[i]).text();
+		candelete += (i==0) ? selectid:","+selectid;
+		}
+	for (let i=0;i<whoevals.length;i++){
+		const selectid = $("code",whoevals[i]).text();
+		const selectemail = $("value",whoevals[i]).text();
+		saveVector(selectid,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","",candelete);
+		//----envoi courriel à l'enseignant -----
+		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
+			const location = window.location.toString();
+			const url = location.substring(0,location.indexOf("karuta.htm")) + "public.htm?i="+previewURL;
+			const object = "Demande étudiante";
+			const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation pour son eportfolio. <a href='"+url+"'>Voir</a>";
+			sendNotification(object,body,selectemail);
+		}
 	}
 }
 
 
-//==================================
-function sendEmailenvoiCourriel(message,email) 
-//==================================
-{
-	message = message.replace("##firstname##",USER.firstname);
-	message = message.replace("##lastname##",USER.lastname);
-	const urlhtml = g_configVar['send-email-url']==""?g_configVar['send-email-image']:g_configVar['send-email-url']
-	message = message.replace("##click-here##","<a href='"+url+"' style='"+g_configVar['send-email-url-style']+"'>"+urlhtml+"</a>");
-	var elt = document.createElement("p");
-	elt.textContent = message;
-	message = elt.innerHTML;
-	message = message.replace(/..\/..\/..\/..\/..\/../g, window.location.protocol+"//"+window.location.host);
-	//------------------------------
-	var xml ="<node>";
-	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
-	xml +="<recipient>"+email+"</recipient>";
-	xml +="<subject>"+USER.firstname+" "+USER.lastname+" "+karutaStr[LANG]['want-sharing']+"</subject>";
-	xml +="<message>"+message+"</message>";
-	xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
-	xml +="</node>";
-	$.ajax({
-		contentType: "application/xml",
-		type : "POST",
-		dataType : "xml",
-		url : "../../../"+serverBCK+"/mail",
-		data: xml,
-		success : function(data) {
-			$('#edit-window').modal('hide');
-			alertHTML(karutaStr[LANG]['email-sent']);
-		}
-	});
+function buildSubmitEvaluationVector1(nodeid,pageid,type,role) {
+	if (role==null)
+		role='enseignant';
+	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
+	let actioncode = UICom.structure.ui[pageid].getCode();
+	if (actioncode.indexOf('*')>-1)
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
+	const etudiant = getItemUserInfos(pageid,'etudiant-select');
+	const today = new Date().getTime();
+	const previewURL = getPreviewSharedURL(pageid,role);
+	const formation = "?";
+	const cohorte = "?";
+	//-------------
+	const evalid = (type.indexOf("competence")>-1)? nodeid:pageid;
+	const demElt = $("asmUnitStructure:has(>metadata[semantictag='evaluation-"+role+"'])",UICom.structure.ui[evalid].node)[0];
+	const visaElt = $("asmUnitStructure:has(>metadata[semantictag='visa-"+role+"'])",UICom.structure.ui[evalid].node)[0];
+	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",demElt))[1]).text();
+	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",demElt))[1]).text();
+	let commentaires = getResourceVectorView('evaluation-commentaires',visaElt);
+	//-------------
+	if (role=='tuteur' && $("asmContext:has(metadata[semantictag='points-forts'])",demElt).length>0) {
+		commentaires = getResourceVectorView('evaluation-commentaires',demElt);
+		const pf = getResourceVectorView('points-forts',demElt);
+		const axes = getResourceVectorView('axes-ameliorations',demElt);
+		const objs = getResourceVectorView('objectifs-suivre',demElt);
+		commentaires += "|"+pf+"|"+axes+"|"+objs;
+	}
+	//-------------
+	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",demElt)).text();
+	if (date_dem_eval==null || date_dem_eval=='')
+		date_dem_eval = new Date().getTime();
+	//-------------
+	const a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,today,actioncode,actionlabel,etudiant.matricule,note,evaluation,commentaires,etudiant.email));
+	saveVector(USER.username,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","");
+	//----envoi courriel à l'étudiant -----
+	if (g_variables['sendemail']=='true') {
+		const object = "Évaluation";
+		const body = actionlabel+" a été évaluée.";
+		sendNotification(object,body,etudiant.email);
+	}
 }
+
+function demanderEvaluation1(nodeid,role,whoeval,whodelete) { // par l'étudiant
+	let pageid = $("#page").attr('uuid');
+	const flagid = $("*:has(>metadata[semantictag='flag-"+role+"'])",UICom.structure.ui[pageid].node).attr("id");
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	let js = "buildSaveEvaluationVector1('"+nodeid+"','"+pageid+"','"+type+"-evaluation','"+role+"','"+whoeval+"','"+whodelete+"');majDemEvalSAE('"+nodeid+"')";
+	if (role!=null) {
+		js += ";submit('"+flagid+"')";
+	}
+	const text = "Attention vous ne pourrez plus faire de modifications sur cette page. Voulez-vous continuer?";
+	const section_etudiant_soumission_id = $("*:has(>metadata[semantictag='section-etudiant-soumission'])",UICom.structure.ui[pageid].node).attr("id");
+	confirmSubmit(section_etudiant_soumission_id,false,js,text);
+}
+
+function modifierEvaluation1(nodeid,role) { 
+	let parent = UICom.structure.ui[nodeid].node;
+	while ($(parent).prop("nodeName")!="asmUnit") {
+		parent = $(parent).parent();
+	}
+	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	deleteVector(null,type+'-evaluation',null,pageid);
+	buildSaveEvaluationVector1(pageid,pageid,type+'-evaluation',role);
+}
+
+function confirmSoumettreEvaluation1(nodeid,role){
+	const flagid = $("*:has(>metadata[semantictag='flag-"+role+"'])",UICom.structure.ui[nodeid].node).attr("id");
+	let js = "soumettreEvaluation1('"+nodeid+"','"+role+"');majDateEvaluation('"+nodeid+"')";
+	if (role!=null) {
+		js += ";submit('"+flagid+"')";
+	}
+	confirmSubmit(nodeid,true,js);
+}
+
+function soumettreEvaluation1(nodeid,role){
+	let pageid = nodeid;
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	deleteVector(null,type+'-evaluation',null,pageid);
+	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
+		buildSubmitEvaluationVector1(nodeid,pageid,type+"-evaluation-done",role);
+		// montrer
+		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
+		if (sectid!=undefined)
+			show(sectid);
+	}
+}
+
+function confirmSoumettreEvaluationTuteur1(nodeid,role){
+	let parent = UICom.structure.ui[nodeid].node;
+	while ($(parent).prop("nodeName")!="asmUnit") {
+		parent = $(parent).parent();
+	}
+	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
+	const flagid = $("*:has(>metadata[semantictag='flag-"+role+"'])",UICom.structure.ui[pageid].node).attr("id");
+	let js = "soumettreEvaluationTuteur1('"+nodeid+"','"+role+"')";
+	if (role!=null) {
+		js += ";submit('"+flagid+"')";
+	}
+	confirmSubmit(nodeid,true,js);
+}
+
+function soumettreEvaluationTuteur1(nodeid,role){
+	let parent = UICom.structure.ui[nodeid].node;
+	while ($(parent).prop("nodeName")!="asmUnit") {
+		parent = $(parent).parent();
+	}
+	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	deleteVector(USER.username,type+'-evaluation',null,pageid);
+	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
+		buildSubmitEvaluationVector1(nodeid,pageid,type+"-evaluation-done",role);
+		// montrer
+		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
+		if (sectid!=undefined)
+			show(sectid);
+	}
+}
+
+//================== DISPLAY EVALUATIONS ================================================
+
+function displayEvaluationsSoumises1(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+	a5 = JSON.parse(a5);
+	const date_demande = new Date(parseInt(a5.date_demande));
+	const date_evaluation = new Date(parseInt(a5.date_eval));
+	const evals = a5.commentaires.split("|");
+	const commentaires = evals[0];
+	const pf = evals[1];
+	const axes = evals[2];
+	const objs = evals[3];
+	let html = "<tr>";
+	html += "<td>"+a6+"</td>";
+	html += "<td>"+ date_demande.toLocaleString()+"</td>";
+	html += "<td>"+ date_evaluation.toLocaleString()+"</td>";
+	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	if (evals.length>3) {
+		html += "<td>";
+		const pf = evals[1];
+		const axes = evals[2];
+		const objs = evals[3];
+		html += "<b>Points forts</b></br>"+pf+"</br>";
+		html += "<b>Axes d'amélioration</b></br>"+axes+"</br>";
+		html += "<b>Objectifs à suivre</b></br>"+objs+"</br>";
+		html += "<b>Commentaires</b></br>"+commentaires;
+		html += "</td>";
+	} else {
+		html += "<td>"+a5.commentaires+"</td>";
+	}
+	html += "</tr>";
+	$("#"+destid).append(html);
+}
+
+
+function displayEvaluationsEvaluer1(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+	a5 = JSON.parse(a5);
+	const date_demande = new Date(parseInt(a5.date_demande));
+	const date_evaluation = new Date(parseInt(a5.date_eval));
+	let html = "<tr>";
+	html += "<td>"+a6+"</td>";
+	html += "<td>"+ date_demande.toLocaleString()+"</td>";
+	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
+	html += "</tr>";
+	$("#"+destid).append(html);
+}
+
+
+//==================================================================
+
+function actualiserProfil(nodeid) {
+	const portfolio = UIFactory.Portfolio.search_bycode('.portfolio-etu-'+USER.username);
+	const portfoliocode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",portfolio)[0]).text();
+	updateNodeText(portfoliocode,"profil-linkdin","profil-linkdin",UICom.structure.ui[nodeid].node);
+	//------------
+	UIFactory.Node.reloadUnit();
+}
+
+
 
 
 //# sourceURL=alternance.js

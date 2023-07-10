@@ -63,6 +63,8 @@ function removeBackdropAndRelaod()
 }
 
 function getPreviewSharedURL(uuid,role) {
+	if (role.indexOf('-select')>0)
+		role = role.substring(0,role.indexOf('-select'));
 	const sharerole = 'etudiant';
 	const level = '2';
 	const duration = '5000';
@@ -329,27 +331,6 @@ function setCourriel(nodeid) {
 	UICom.structure.ui[etudiant_courrielid].resource.save();
 }
 
-function setPageUUID(nodeid) {
-	var pageUUID = $($("*:has(>metadata[semantictag*='page-uuid'])",UICom.structure.ui[nodeid].node)[0]).attr("id");
-	if (pageUUID==undefined) {
-		const srcecode = replaceVariable("##dossier-etudiants-modeles##.composantes-competences")
-		pageUUID = importBranch(nodeid,srcecode,"page-uuid");
-		UIFactory.Node.reloadUnit(nodeid,false);
-	}
-	$(UICom.structure.ui[pageUUID].resource.text_node[LANGCODE]).text(nodeid);
-	UICom.structure.ui[pageUUID].resource.save();
-}
-
-function setPortfolioUUID(nodeid) {
-	var portfolioUUID = $($("*:has(>metadata[semantictag*='portfolio-uuid'])",UICom.structure.ui[nodeid].node)[0]).attr("id");
-	if (portfolioUUID==undefined) {
-		const srcecode = replaceVariable("##dossier-etudiants-modeles##.composantes-competences")
-		portfolioUUID = importBranch(nodeid,srcecode,"portfolio-uuid");
-		UIFactory.Node.reloadUnit(nodeid,false);
-	}
-	$(UICom.structure.ui[portfolioUUID].resource.text_node[LANGCODE]).text(g_portfolioid);
-	UICom.structure.ui[portfolioUUID].resource.save();
-}
 
 //======================================================================================
 //============== Traces du portfolio====================================================
@@ -609,35 +590,7 @@ function majDateEmail (nodeid,sharetoemail) {
 	$("#del-"+nodeid).hide();
 }
 
-//=============================================================
-//================= ENVOI NOTIFICATION ========================
-//=============================================================
 
-function sendNotification(subject,body,email) {
-	var message = "";
-	message = body;
-	message = message.replace("##firstname##",USER.firstname);
-	message = message.replace("##lastname##",USER.lastname);
-	//------------------------------
-	var xml ="<node>";
-	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
-	xml +="<recipient>"+email+"</recipient>";
-	xml +="<subject>"+USER.firstname+" "+USER.lastname+" "+subject+"</subject>";
-	xml +="<message>"+message+"</message>";
-	xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
-	xml +="</node>";
-	$.ajax({
-		contentType: "application/xml",
-		type : "POST",
-		dataType : "xml",
-		url : "../../../"+serverBCK+"/mail",
-		data: xml,
-		success : function(data) {
-			$('#edit-window').modal('hide');
-			alertHTML(karutaStr[LANG]['email-sent']);
-		}
-	});
-}
 
 //=============================================================
 //       SUPPRESSION COMPÉTENCES DE LA SECTION MON BILAN
@@ -727,15 +680,17 @@ function specificEnterDisplayPortfolio()
 
 
 function specificDisplayPortfolios(type){
-	if (USER.other=="enseignant" || USER.other=="cons-interne") {
+	if (USER.other=="enseignant" || USER.other=="cons-interne" || USER.other=="tuteur" || USER.other=="responsable") {
 		if (type==null)
 			type = 'card';
 		let nb_visibleportfolios = 0;
 		let visibleportfolios = [];
+		let no_visibleportfolio = 0;
 		for (var i=0;i<portfolios_list.length;i++){
 			//--------------------------
 			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp')<0 && $(portfolios_list[i].code_node).text().indexOf('alternance-')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp-etu')<0) {
 				visibleportfolios.push(portfolios_list[i].node);
+				no_visibleportfolio = i;
 				nb_visibleportfolios++;
 			}
 		}
@@ -743,7 +698,7 @@ function specificDisplayPortfolios(type){
 		if (nb_visibleportfolios>1)
 				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false',type,visibleportfolios);
 		else if (nb_visibleportfolios==1){
-			display_main_page(portfolios_list[0].id);
+			display_main_page(portfolios_list[no_visibleportfolio].id);
 		}
 	} else if (USER.other!="etudiant")
 		throw 'non etudiant';
@@ -996,7 +951,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,evaluateur) {
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
-	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
+	const enseignants = $("asmContext:has(metadata[semantictag='"+evaluateur+"'])",UICom.structure.ui[pageid].node);
 	let etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	if (etudiant=="") {
 		etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom-etudiant'])",g_portfolio_current)).text();
@@ -1400,7 +1355,7 @@ function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	$("#"+destid).append(html);
 }
 
-function demanderFeedback(nodeid){
+function demanderFeedback(nodeid,role){
 	//---------------------------
 	var feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const today = new Date().getTime();
@@ -1412,7 +1367,7 @@ function demanderFeedback(nodeid){
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+'-feedback',nodeid);
-	buildSaveFeedbackVector(nodeid,pageid,type+"-feedback");
+	buildSaveFeedbackVector(nodeid,pageid,type+"-feedback",role);
 }
 
 function modifierFeedback(nodeid) { // par l'enseignant
@@ -1524,5 +1479,5 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 
 
 
-//# sourceURL=kapc1.4.js
+//# sourceURL=kapc145.js
 

@@ -5,8 +5,9 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
-	const selects = $("asmContext:has(metadata[semantictag*='"+role+"-select'])",$(UICom.structure.ui[nodeid].node).parent().parent());
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	const selects = $("asmContext:has(metadata[semantictag*='"+role+"-select'])",$(UICom.structure.ui[pageid].node));
+	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
+//	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	//--------------------------
@@ -22,7 +23,7 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
-	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question2,reponse2,"",etudiant_email));
+	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question2,reponse2,"",etudiant_email)).replaceAll("&nbsp;"," ");
 	let candelete = "";
 	for (let i=0;i<selects.length;i++){
 		const selectid = $("code",selects[i]).text();
@@ -33,9 +34,9 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 		const selectemail = $("value",selects[i]).text();
 		saveVector(selectid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
 		//----envoi courriel à l'enseigant -----
-		if (sendemail!=null && sendemail=='true') {
+		if (g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
-			const body = " ##firstname## ##lastname## vous a fait une demande de feedback pour son eportfolio.";
+			const body = " ##firstname## ##lastname## vous a fait une demande de feedback pour son eportfolio. Accédez à votre environnement "+window.location.toString();
 			sendNotification(object,body,selectemail);
 		}
 	}
@@ -48,8 +49,11 @@ function buildSubmitFeebackVectorPP(nodeid,pageid,type,role) {
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
-		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
-	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'));
+	
+//	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
+	const etudiant_email = $("value",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const date_dem_eval = $(UICom.structure.ui[nodeid].node).attr("date-demande");
 	//--------------------------
 	const question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
@@ -64,9 +68,18 @@ function buildSubmitFeebackVectorPP(nodeid,pageid,type,role) {
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
-	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,matricule,question2,reponse2,""));
+	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,matricule,question2,reponse2,"")).replaceAll("&nbsp;"," ");
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
+	//----envoi courriel à l'étudiant -----
+	if (g_variables['sendemail']=='true') {
+		const object = "Feedback répondu";
+		const body = actionlabel+": une réponse à votre question a été faite. . Accédez à votre environnement "+window.location.toString();
+		sendNotification(object,body,etudiant_email);
+	}
+	//-------------------
+	const reponseid = $("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node).attr("id");
+	submit(reponseid);
 }
 
 function demanderFeedbackPP(nodeid,role){
