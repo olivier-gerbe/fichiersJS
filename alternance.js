@@ -101,6 +101,24 @@ function pageVueEtEnvoiCourriel(uuid,role,no)
 	}
 }
 
+//==================================
+function aviserEtudiantEntretien() {
+//==================================
+	const subject = "Dèpôt de document";
+	const body = "Votre référent pédagogique a déposé des documents dans la section Entretiens de votre livret.";
+	const pageid = $("#page").attr('uuid');
+	const etudiant = getItemUserInfos(pageid,'etudiant-select');
+	sendNotification(subject,body,etudiant.email);
+}
+
+function envoiCourrielListe(liste,subjecttag,bodytag){
+	const pageid = $("#page").attr('uuid');
+	subject = getText(subjecttag,'Field','text',UICom.structure.ui[pageid].node,LANGCODE);
+	body = getText(bodytag,'TextField','text',UICom.structure.ui[pageid].node,LANGCODE);
+	for (let i=0; i<liste.length;i++){
+		sendNotification(subject,body,liste[i]);
+	}
+}
 //============================== ÉVALUATIONS ==========================
 
 function buildSaveEvaluationVector1(nodeid,pageid,type,role,whoeval,whodelete) {

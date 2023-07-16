@@ -1595,5 +1595,12 @@ function delBackdrop(id)
 	$('#backdrop'+id).remove();
 }
 
+//============= passage 1.2 vers 1.3
+function getKPAC12Login(str){
+	let result = "";
+	result = str.substring(str.lastIndexOf("portfolio-")+10);
+	return result;
+}
+
 //# sourceURL=kapc1.3.js
 
