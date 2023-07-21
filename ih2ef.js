@@ -15,16 +15,10 @@ function addDate(node) {
 	UICom.structure.ui[dateid].resource.save();
 }
 
-function calcMin(d,n,i) { // d: date début, n: no niveau (0-3), i: periode (0-3)
-	return  d + 3 * i * 2629800000;
-}
-
-function calcMax(d,n,i) { // d: date début, n: no niveau (0-3), i: periode (0-3)
-	return  d + 3 * (i+1) * 2629800000;
-}
 
 function specificLoginFunction() {
 	$("#connection-cas1").html("Connexion superviseur")
 	$("#connection-cas2").html("Connexion")
 }
+
 //# sourceURL=ih2ef.js

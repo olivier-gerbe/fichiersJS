@@ -274,7 +274,7 @@ function buildSaveFeedbackQuestion(nodeid,pageid,type,sendemail,role) {
 	submit(questionid);
 }
 
-function buildSubmitFeebackQuestion(nodeid,pageid,type,role) {
+function buildSubmitFeebackQuestion(nodeid,pageid,type,role,object,body) {
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
@@ -299,14 +299,16 @@ function buildSubmitFeebackQuestion(nodeid,pageid,type,role) {
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","");
 	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail']=='true') {
-		const object = "Feedback répondu";
-		const body = actionlabel+": une réponse à votre question a été faite. . Accédez à votre environnement "+window.location.toString();
+		if (object==null)
+			object = "Feedback répondu";
+		if (body==null)
+			body = actionlabel+": une réponse à votre question a été faite. . Accédez à votre environnement "+window.location.toString();
 		sendNotification(object,body,etudiant.email);
 	}
 }
 
 
-function demanderFeedbackQuestion(nodeid,role){
+function demanderFeedbackQuestion(nodeid,role,object,body){
 	//---------------------------
 	var feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const today = new Date().getTime();

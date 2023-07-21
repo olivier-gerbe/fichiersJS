@@ -1,7 +1,12 @@
+/* ====================================================
+ 			ALTERNANCE - PAU
+   ==================================================== */
 
-//==============================================================================================================
+//---------------------- TESTS ------------------------------
 
+//==================================
 function testSiConsentement(data)
+//==================================
 {
 		let result = 0;
 		const consentements = $("*:has(>metadata[semantictag*=fichier-consentement])",data);
@@ -15,8 +20,9 @@ function testSiConsentement(data)
 		return result;
 }
 
-
+//==================================
 function testSiEnseignant() {
+//==================================
 	let result = false;
 	const enseignant_livret = $("*:has(>metadata[semantictag*='enseignant-livret'])",g_portfolio_current)[0];
 	if (enseignant_livret!=undefined)
@@ -25,9 +31,11 @@ function testSiEnseignant() {
 }
 
 
-//=================================================================================
+//---------------------- MISES A JOUR ------------------------------
 
+//==================================
 function setInfos1(nodeid){
+//==================================
 	setItemElts(nodeid,"etudiant-livret","etudiant-select");
 	setItemElts(nodeid,"enseignant-livret","enseignant-select");
 	setItemElts(nodeid,"tuteur-livret","tuteur-select");
@@ -39,7 +47,9 @@ function setInfos1(nodeid){
 
 
 
+//==================================
 function setFormationActuelle(node) {
+//==================================
 	const nodeid = $(node).attr("id");
 	const formationcode = $(UICom.structure.ui[nodeid].resource.code_node).text();
 	const portfolio = UIFactory.Portfolio.search_bycode(replaceVariable("alternance-##accountlogin##"))
@@ -73,7 +83,9 @@ function setFormationActuelle(node) {
 	});
 }
 
+//==================================
 function setInfosFiche1(nodeid){
+//==================================
 	setItemElts(nodeid,"etudiant-livret","etudiant-select");
 	setItemElts(nodeid,"tuteur-livret","tuteur-select");
 }
@@ -95,7 +107,7 @@ function pageVueEtEnvoiCourriel(uuid,role,no)
 		//-------------------------------
 		let message = "";
 		message += "Bonjour,<br>";
-		message += "##firstname## ##lastname## vient de visiter la page Entretien "+no+" à "+today.toLocaleString()+"<br>";
+		message += "##firstname## ##lastname## a pris connaissance de la page Entretien "+no+" à "+today.toLocaleString()+"<br>";
 		const enseignant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='courriel-enseignant'])",g_portfolio_current)).text();
 		envoiCourriel(message,enseignant_email);
 	}
@@ -104,14 +116,16 @@ function pageVueEtEnvoiCourriel(uuid,role,no)
 //==================================
 function aviserEtudiantEntretien() {
 //==================================
-	const subject = "Dèpôt de document";
-	const body = "Votre référent pédagogique a déposé des documents dans la section Entretiens de votre livret.";
+	const subject = g_variables["compte-rendu-object"];
+	const body = g_variables["compte-rendu-body"];
 	const pageid = $("#page").attr('uuid');
 	const etudiant = getItemUserInfos(pageid,'etudiant-select');
 	sendNotification(subject,body,etudiant.email);
 }
 
+//==================================
 function envoiCourrielListe(liste,subjecttag,bodytag){
+//==================================
 	const pageid = $("#page").attr('uuid');
 	subject = getText(subjecttag,'Field','text',UICom.structure.ui[pageid].node,LANGCODE);
 	body = getText(bodytag,'TextField','text',UICom.structure.ui[pageid].node,LANGCODE);
@@ -119,10 +133,12 @@ function envoiCourrielListe(liste,subjecttag,bodytag){
 		sendNotification(subject,body,liste[i]);
 	}
 }
+
 //============================== ÉVALUATIONS ==========================
 
+//==================================
 function buildSaveEvaluationVector1(nodeid,pageid,type,role,whoeval,whodelete) {
-	//----------------------
+//==================================
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
 	if (actioncode.indexOf('*')>-1)
@@ -161,15 +177,17 @@ function buildSaveEvaluationVector1(nodeid,pageid,type,role,whoeval,whodelete) {
 		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const location = window.location.toString();
 			const url = location.substring(0,location.indexOf("karuta.htm")) + "public.htm?i="+previewURL;
-			const object = "Demande étudiante";
-			const body = " ##firstname## ##lastname## vous a fait une demande d'évaluation pour son eportfolio. <a href='"+url+"'>Voir</a>";
+			const object = g_variables["demande-evaluation-object"];
+			const body = g_variables["demande-evaluation-body"];
 			sendNotification(object,body,selectemail);
 		}
 	}
 }
 
 
+//==================================
 function buildSubmitEvaluationVector1(nodeid,pageid,type,role) {
+//==================================
 	if (role==null)
 		role='enseignant';
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
@@ -205,13 +223,15 @@ function buildSubmitEvaluationVector1(nodeid,pageid,type,role) {
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","");
 	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail']=='true') {
-		const object = "Évaluation";
-		const body = actionlabel+" a été évaluée.";
+		const object = g_variables["evaluation-faite-object"];
+		const body = g_variables["evaluation-faite-body"];
 		sendNotification(object,body,etudiant.email);
 	}
 }
 
+//==================================
 function demanderEvaluation1(nodeid,role,whoeval,whodelete) { // par l'étudiant
+//==================================
 	let pageid = $("#page").attr('uuid');
 	const flagid = $("*:has(>metadata[semantictag='flag-"+role+"'])",UICom.structure.ui[pageid].node).attr("id");
 	const semtag = UICom.structure.ui[pageid].semantictag;
@@ -225,7 +245,9 @@ function demanderEvaluation1(nodeid,role,whoeval,whodelete) { // par l'étudiant
 	confirmSubmit(section_etudiant_soumission_id,false,js,text);
 }
 
+//==================================
 function modifierEvaluation1(nodeid,role) { 
+//==================================
 	let parent = UICom.structure.ui[nodeid].node;
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
@@ -237,7 +259,9 @@ function modifierEvaluation1(nodeid,role) {
 	buildSaveEvaluationVector1(pageid,pageid,type+'-evaluation',role);
 }
 
+//==================================
 function confirmSoumettreEvaluation1(nodeid,role){
+//==================================
 	const flagid = $("*:has(>metadata[semantictag='flag-"+role+"'])",UICom.structure.ui[nodeid].node).attr("id");
 	let js = "soumettreEvaluation1('"+nodeid+"','"+role+"');majDateEvaluation('"+nodeid+"')";
 	if (role!=null) {
@@ -246,7 +270,9 @@ function confirmSoumettreEvaluation1(nodeid,role){
 	confirmSubmit(nodeid,true,js);
 }
 
+//==================================
 function soumettreEvaluation1(nodeid,role){
+//==================================
 	let pageid = nodeid;
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
@@ -260,7 +286,9 @@ function soumettreEvaluation1(nodeid,role){
 	}
 }
 
+//==================================
 function confirmSoumettreEvaluationTuteur1(nodeid,role){
+//==================================
 	let parent = UICom.structure.ui[nodeid].node;
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
@@ -274,7 +302,9 @@ function confirmSoumettreEvaluationTuteur1(nodeid,role){
 	confirmSubmit(nodeid,true,js);
 }
 
+//==================================
 function soumettreEvaluationTuteur1(nodeid,role){
+//==================================
 	let parent = UICom.structure.ui[nodeid].node;
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
@@ -294,7 +324,9 @@ function soumettreEvaluationTuteur1(nodeid,role){
 
 //================== DISPLAY EVALUATIONS ================================================
 
+//==================================
 function displayEvaluationsSoumises1(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+//==================================
 	a5 = JSON.parse(a5);
 	const date_demande = new Date(parseInt(a5.date_demande));
 	const date_evaluation = new Date(parseInt(a5.date_eval));
@@ -325,8 +357,9 @@ function displayEvaluationsSoumises1(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10)
 	$("#"+destid).append(html);
 }
 
-
+//==================================
 function displayEvaluationsEvaluer1(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+//==================================
 	a5 = JSON.parse(a5);
 	const date_demande = new Date(parseInt(a5.date_demande));
 	const date_evaluation = new Date(parseInt(a5.date_eval));
@@ -341,7 +374,9 @@ function displayEvaluationsEvaluer1(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) 
 
 //==================================================================
 
+//==================================
 function actualiserProfil(nodeid) {
+//==================================
 	const portfolio = UIFactory.Portfolio.search_bycode('.portfolio-etu-'+USER.username);
 	const portfoliocode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",portfolio)[0]).text();
 	updateNodeText(portfoliocode,"profil-linkdin","profil-linkdin",UICom.structure.ui[nodeid].node);
