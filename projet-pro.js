@@ -6,8 +6,8 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const selects = $("asmContext:has(metadata[semantictag*='"+role+"-select'])",$(UICom.structure.ui[pageid].node));
-	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
-//	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+//	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
+	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	//--------------------------
@@ -51,8 +51,8 @@ function buildSubmitFeebackVectorPP(nodeid,pageid,type,role) {
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'));
 	
-//	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
-	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
+	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
+//	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
 	const etudiant_email = $("value",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const date_dem_eval = $(UICom.structure.ui[nodeid].node).attr("date-demande");
 	//--------------------------
@@ -103,7 +103,7 @@ function soumettreFeedbackPP(nodeid,role){
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
 	}
-	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag*='page-uuid'])",parent)).text();
+	const pageid = $(parent).attr('id');
 	//---------------------------
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
