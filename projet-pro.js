@@ -103,7 +103,7 @@ function soumettreFeedbackPP(nodeid,role){
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
 	}
-	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
+	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag*='page-uuid'])",parent)).text();
 	//---------------------------
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);

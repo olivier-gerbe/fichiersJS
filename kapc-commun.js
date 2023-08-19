@@ -53,12 +53,18 @@ function getPortfolioURL(portfoliocode) {
 	return "<a style='margin-left:10px' href='"+url+"'>cliquez ici</a>";
 }
 
+function getPortfolioSharedURL(portfoliocode) {
+	const portfolioid = UIFactory.Portfolio.getid_bycode(portfoliocode,false);
+	const url = window.location.toString() + "?ii=" + portfolioid;
+	return "<a style='margin-left:10px;font-size:120%' href='"+url+"'>cliquez ici</a>";
+}
+
 
 //---------------------------------------
 
 function updateResourceText(srcecode,srcetag,trgttag,trgtnode) {
 	const eltid = $($("*:has(>metadata[semantictag*='"+trgttag+"'])",trgtnode)[0]).attr("id");
-	const eltsrce  = getNodeText(srcecode,srcetag);
+	const eltsrce  = getResourceText(srcecode,srcetag);
 	$(UICom.structure.ui[eltid].resource.text_node[LANGCODE]).text(eltsrce);
 	UICom.structure.ui[eltid].resource.save();
 }
@@ -137,10 +143,12 @@ function setPortfolioUUID(nodeid) {
 function setItemElts(nodeid,srcetag,trgttag) {
 	const srceid = $($("*:has(>metadata[semantictag*='"+srcetag+"'])",g_portfolio_current)[0]).attr("id");
 	const trgtid = $($("*:has(>metadata[semantictag*='"+trgttag+"'])",UICom.structure.ui[nodeid].node)[0]).attr("id");
-	$(UICom.structure.ui[trgtid].resource.code_node).text(UICom.structure.ui[srceid].resource.getCode());
-	$(UICom.structure.ui[trgtid].resource.value_node).text(UICom.structure.ui[srceid].resource.getValue());
-	$(UICom.structure.ui[trgtid].resource.label_node[LANGCODE]).text(UICom.structure.ui[srceid].resource.getLabel(null,'none'));
-	UICom.structure.ui[trgtid].resource.save();
+	if (srceid!=undefined && trgtid!=undefined) {
+		$(UICom.structure.ui[trgtid].resource.code_node).text(UICom.structure.ui[srceid].resource.getCode());
+		$(UICom.structure.ui[trgtid].resource.value_node).text(UICom.structure.ui[srceid].resource.getValue());
+		$(UICom.structure.ui[trgtid].resource.label_node[LANGCODE]).text(UICom.structure.ui[srceid].resource.getLabel(null,'none'));
+		UICom.structure.ui[trgtid].resource.save();
+	}
 }
 
 //---------------------------------------
@@ -156,7 +164,7 @@ function getPortfolioCodeSubstring(type,str){
 		result = str.substring(str.lastIndexOf("-etu-")+5);
 	} else if (type=='cohorte') {
 		result = str.substring(str.lastIndexOf("/")+1);
-		result = result.substring(0,result.indexOf("/"));
+		result = result.substring(0,result.indexOf("."));
 	} 
 	return result;
 }
@@ -250,9 +258,12 @@ function buildSaveFeedbackQuestion(nodeid,pageid,type,sendemail,role) {
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
 	const previewURL = getPreviewSharedURL(pageid,role);
-	const formation = "?";
-	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,etudiant.matricule,question2,reponse2,"",etudiant.email));
+	//---------------------------
+	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",g_portfolio_current)).text();
+	const formation = getPortfolioCodeSubstring("formation",selfcode);
+	const cohorte = getPortfolioCodeSubstring("cohorte",selfcode);
+	//---------------------------
 	let candelete = "";
 	for (let i=0;i<selects.length;i++){
 		const selectid = $("code",selects[i]).text();
@@ -292,9 +303,12 @@ function buildSubmitFeebackQuestion(nodeid,pageid,type,role,object,body) {
 	const date_evaluation = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid,role);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
-	const formation = "?";
-	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,etudiant.matricule,question2,reponse2,""));
+	//---------------------------
+	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",g_portfolio_current)).text();
+	const formation = getPortfolioCodeSubstring("formation",selfcode);
+	const cohorte = getPortfolioCodeSubstring("cohorte",selfcode);
+	//---------------------------
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","");
 	//----envoi courriel à l'étudiant -----
@@ -335,112 +349,6 @@ function soumettreFeedbackQuestion(nodeid,role){
 	const type = getType(semtag);
 	buildSubmitFeebackQuestion(nodeid,pageid,type+"-feedback-done",role);
 	submit(nodeid);
-}
-
-//==================================================================
-//================= SPECIFIC FUNCTIONS =============================
-//==================================================================
-
-function specificEnterDisplayPortfolio()
-{
-	if ($("body",document).attr('userrole')=='etudiant') {
-		const fc = $("*:has(>metadata[semantictag*=fichier-consentement])",g_portfolio_current).not(":has(>metadata-wad[submitted=Y])");
-		if (fc.length!=0) {
-			const nop = UICom.structure.ui[$(fc[0]).attr("id")].getView();
-			var html = "";
-			html += "\n<!-- ==================== box ==================== -->";
-			html += "\n<div id='temp-window'>";
-			html += "\n		<div class='modal-content'>";
-			html += "\n			<div style='padding:10px;height:50px;font-size:120%;background-color:#E4E3E3'>Vous devez accepter les conditions d'utilisation pour accéder à votre portfolio.</div>";
-			html += "\n			<div id='temp-window-body' style='padding:10px'>";
-			html += "\n			</div>";
-			html += "\n		</div>";
-			html += "\n</div>";
-			html += "\n<!-- ============================================== -->";
-			var tempwindow = document.createElement("DIV");
-			tempwindow.setAttribute("class", "preview-window");
-			tempwindow.innerHTML = html;
-			$('body').append(tempwindow);
-			UICom.structure.ui[$(fc[0]).attr("id")].displayAsmContext('temp-window-body',null,LANGCODE,true);
-			var confirmbackdrop = document.createElement("DIV");
-			confirmbackdrop.setAttribute("id", "confirmbackdrop");
-			confirmbackdrop.setAttribute("class", "preview-backdrop");
-			$('body').append(confirmbackdrop);
-			$("#temp-window").show();
-		}
-	}
-}
-
-
-function specificDisplayPortfolios(type){
-	if (USER.other=="enseignant" || USER.other=="cons-interne" || USER.other=="tuteur" || USER.other=="responsable") {
-		if (type==null)
-			type = 'card';
-		let nb_visibleportfolios = 0;
-		let visibleportfolios = [];
-		let no_visibleportfolio = 0;
-		for (var i=0;i<portfolios_list.length;i++){
-			//--------------------------
-			if (portfolios_list[i].visible && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp')<0 && $(portfolios_list[i].code_node).text().indexOf('alternance-')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-etu')<0 && $(portfolios_list[i].code_node).text().indexOf('portfolio-pp-etu')<0) {
-				visibleportfolios.push(portfolios_list[i].node);
-				no_visibleportfolio = i;
-				nb_visibleportfolios++;
-			}
-		}
-		//---------------------------------------------------------------------------------------------
-		if (nb_visibleportfolios>1)
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false',type,visibleportfolios);
-		else if (nb_visibleportfolios==1){
-			display_main_page(portfolios_list[no_visibleportfolio].id);
-		}
-	} else if (USER.other!="etudiant")
-		throw 'non etudiant';
-	else {
-		let autoload = "";
-		let nb_visibleportfolios = 0;
-		for (var i=0;i<portfolios_list.length;i++){
-			//--------------------------
-			if (portfolios_list[i].visible || portfolios_list[i].ownerid==USER.id) {
-				nb_visibleportfolios++;
-			}
-			if (portfolios_list[i].autoload) {
-				autoload = portfolios_list[i].id;
-			}
-		}
-		// -- if there is no autoload portfolio, we search if any has the role set in USER.other ---
-		if (autoload=="") {
-			for (var i=0;i<portfolios_list.length;i++){
-				$.ajax({
-					async:false,
-					type : "GET",
-					dataType : "xml",
-					url : serverBCK_API+"/rolerightsgroups/all/users?portfolio="+portfolios_list[i].id,
-					success : function(data) {
-						if ($("rrg:has('user[id="+USER.id+"]'):has('label:contains(etudia)')",data).length>0)
-							autoload = portfolios_list[i].id;
-					}
-				});
-			}
-		}
-		//---------------------------------------------------------------------------------------------
-		if (nb_visibleportfolios>0 || autoload!="" )
-			if (nb_visibleportfolios>9 && portfoliosnotinfolders.length>9)
-				UIFactory.PortfolioFolder.displayPortfolios('project-portfolios','false','list',portfoliosnotinfolders);
-			else if (nb_visibleportfolios>1 && autoload=="")
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-			else if (autoload!="") {
-				display_main_page(autoload);
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-			}
-			else {  // nb_visibleportfolios == 1
-				display_main_page(visibleid);
-				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-			}
-		else if (portfolios_list.length==1) {
-			display_main_page(portfolios_list[0].id);
-			UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false','card',portfoliosnotinfolders);
-		}
-	}
 }
 
 

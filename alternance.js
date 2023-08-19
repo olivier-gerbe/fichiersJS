@@ -38,7 +38,15 @@ function setInfos1(nodeid){
 //==================================
 	setItemElts(nodeid,"etudiant-livret","etudiant-select");
 	setItemElts(nodeid,"enseignant-livret","enseignant-select");
-	setItemElts(nodeid,"tuteur-livret","tuteur-select");
+	setItemElts(nodeid,"tuteur-livret-1","tuteur-select-1");
+	if ($("*:has(>metadata[semantictag*='tuteur-livret-2'])",g_portfolio_current).length>0) {
+		const targetid =$($("asmUnitStructure:has(>metadata[semantictag='section-etudiant-soumission'])",UICom.structure.ui[nodeid].node)[0]).attr("id");
+		importComponent(targetid,'','##dossier-alternance##.composantes-alternance','tuteur-professionel-2',"setItemElts('"+nodeid+"','tuteur-livret-2','tuteur-select-2')");
+		const importedid = g_importednodestack.pop();
+//		moveup(importedid);
+//		moveup(importedid);
+		moveup(importedid);
+	}
 	setMatriculeEtudiant(nodeid);
 	setCourrielEtudiant(nodeid);
 	setPageUUID(nodeid);
@@ -116,8 +124,8 @@ function pageVueEtEnvoiCourriel(uuid,role,no)
 //==================================
 function aviserEtudiantEntretien() {
 //==================================
-	const subject = g_variables["compte-rendu-object"];
-	const body = g_variables["compte-rendu-body"];
+	const subject = g_variables["compte_rendu_object"];
+	const body = g_variables["compte_rendu_body"];
 	const pageid = $("#page").attr('uuid');
 	const etudiant = getItemUserInfos(pageid,'etudiant-select');
 	sendNotification(subject,body,etudiant.email);
@@ -177,8 +185,8 @@ function buildSaveEvaluationVector1(nodeid,pageid,type,role,whoeval,whodelete) {
 		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const location = window.location.toString();
 			const url = location.substring(0,location.indexOf("karuta.htm")) + "public.htm?i="+previewURL;
-			const object = g_variables["demande-evaluation-object"];
-			const body = g_variables["demande-evaluation-body"];
+			const object = g_variables["demande_evaluation_object"];
+			const body = g_variables["demande_evaluation_body"];
 			sendNotification(object,body,selectemail);
 		}
 	}
@@ -223,8 +231,8 @@ function buildSubmitEvaluationVector1(nodeid,pageid,type,role) {
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","");
 	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail']=='true') {
-		const object = g_variables["evaluation-faite-object"];
-		const body = g_variables["evaluation-faite-body"];
+		const object = g_variables["evaluation_faite_object"];
+		const body = g_variables["evaluation_faite_body"];
 		sendNotification(object,body,etudiant.email);
 	}
 }
@@ -312,7 +320,7 @@ function soumettreEvaluationTuteur1(nodeid,role){
 	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
-	deleteVector(USER.username,type+'-evaluation',null,pageid);
+	deleteVector(null,type+'-evaluation',null,pageid);
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitEvaluationVector1(nodeid,pageid,type+"-evaluation-done",role);
 		// montrer
@@ -379,7 +387,7 @@ function actualiserProfil(nodeid) {
 //==================================
 	const portfolio = UIFactory.Portfolio.search_bycode('.portfolio-etu-'+USER.username);
 	const portfoliocode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",portfolio)[0]).text();
-	updateNodeText(portfoliocode,"profil-linkdin","profil-linkdin",UICom.structure.ui[nodeid].node);
+	updateResourceText(portfoliocode,"profil-linkdin","profil-linkdin",UICom.structure.ui[nodeid].node);
 	//------------
 	UIFactory.Node.reloadUnit();
 }
