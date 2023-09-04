@@ -152,6 +152,18 @@ function testEnseignantCodeNotEmpty(uuid) {
 	return (enseignants.length>0);
 }
 
+function testNotSubmittedEtEnseignantCodeNotEmpty(uuid,semtag) {
+	if (uuid == null)
+		uuid = $("#page").attr('uuid');
+	const nodeid = $("*:has(>metadata[semantictag='"+semtag+"'])",UICom.structure.ui[uuid].node).attr("id");
+	let notsubmit = true
+	if (nodeid!=undefined) {
+		notsubmit = testNotSubmitted(nodeid);
+	}
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
+	return (notsubmit && enseignants.length>0);
+}
+
 function niveauchoisi(node) {
 	// retourne vrai si le Get_Get_Resource précédent le noeud n'est pas vide, faux sinon
 	return($("code",$("asmResource[xsi_type='Get_Get_Resource']",$(node.node).prev())).html()!="");
@@ -973,9 +985,11 @@ function supprimerEvaluationCompetence2(nodeid) {
 }
 
 function testDemanderEvaluationCompetence(nodeid) {
+	const pageid = $("#page").attr('uuid');
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); 
 	const sct_soumissionid = $("*:has(>metadata[semantictag*=section-etudiant-soumission])",$(UICom.structure.ui[parentid].node)).attr("id");
-	return testNotSubmitted(sct_soumissionid);
+	return (testNotSubmitted(sct_soumissionid) && enseignants.length>0);
 }
 
 function testSiPartageCompetence(nodeid)
@@ -1199,7 +1213,8 @@ function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
 	if (semtag.indexOf('competence')>-1) {
 		pageid = $("#page").attr('uuid');
 	}
-	deleteVector(null,type+'-evaluation',null,pageid);
+//	deleteVector(null,type+'-evaluation',null,pageid);
+	deleteVector(null,null,null,pageid); //on supprime également les demandes de feedback.
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",sendemail);
 		// montrer

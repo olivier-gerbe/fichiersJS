@@ -68,6 +68,9 @@ function removeBackdropAndRelaod()
 }
 
 function getPreviewSharedURL(uuid,role) {
+	const idx = role.indexOf('-select');
+	if (idx>0)
+		role = role.substring(0,idx);
 	const sharerole = 'etudiant';
 	const level = '2';
 	const duration = '5000';
@@ -153,6 +156,18 @@ function testEnseignantCodeNotEmpty(uuid) {
 		uuid = $("#page").attr('uuid');
 	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
 	return (enseignants.length>0);
+}
+
+function testNotSubmittedEtEnseignantCodeNotEmpty(uuid,semtag) {
+	if (uuid == null)
+		uuid = $("#page").attr('uuid');
+	const nodeid = $("*:has(>metadata[semantictag='"+semtag+"'])",UICom.structure.ui[uuid].node).attr("id");
+	let notsubmit = true
+	if (nodeid!=undefined) {
+		notsubmit = testNotSubmitted(nodeid);
+	}
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[uuid].node);
+	return (notsubmit && enseignants.length>0);
 }
 
 function niveauchoisi(node) {
@@ -1104,9 +1119,11 @@ function supprimerEvaluationCompetence2(nodeid) {
 }
 
 function testDemanderEvaluationCompetence(nodeid) {
+	const pageid = $("#page").attr('uuid');
+	const enseignants = $("asmContext:has(metadata[semantictag='enseignant-select'])",UICom.structure.ui[pageid].node);
 	let parentid = $(UICom.structure.ui[nodeid].node).parent().attr("id"); 
 	const sct_soumissionid = $("*:has(>metadata[semantictag*=section-etudiant-soumission])",$(UICom.structure.ui[parentid].node)).attr("id");
-	return testNotSubmitted(sct_soumissionid);
+	return (testNotSubmitted(sct_soumissionid) && enseignants.length>0);
 }
 
 function testSiPartageCompetence(nodeid)
