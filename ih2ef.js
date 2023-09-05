@@ -61,7 +61,63 @@ function sendImageEmail(contentid,email,langcode) {
 	});
 
 }
+//==================================
+function sendSharedPortfolioPageEmail(pageid,email,langcode)
+//==================================
+{
+	const urlS = serverBCK+"/direct?uuid="+g_portfolio_rootid+"&role=all&lang="+languages[langcode]+"&l=3&d=750&type=email&email="+email+"&sharerole=etudiant";
+	$.ajax({
+		id : this.id,
+		type : "POST",
+		dataType : "text",
+		contentType: "application/xml",
+		url : urlS,
+		success : function (data){
+			var url = window.location.href;
+			var serverURL = url.substring(0,url.lastIndexOf(appliname+"/")+appliname.length);
+			url = serverURL+"/karuta/htm/public.htm?i="+data+"&n="+pageid+"&amp;lang="+languages[langcode];
+			var message ="##firstname## ##lastname## désire partager avec vous son tableau de bord .<br>";
+			var message = "";
+			var img = document.querySelector('#config-send-email-logo');
+			if (img!=null) {
+				var imgB64 = getDataUrl(img);
+				var logo = "<img width='"+img.style.width+"' height='"+img.style.height+"' src=\""+imgB64+"\">";
+				message = logo + "<br>" + g_configVar['send-email-message'];
+			} else {
+				message = g_configVar['send-email-message'];
+			}
+			message = message.replace("##firstname##",USER.firstname);
+			message = message.replace("##lastname##",USER.lastname);
+			const urlhtml = g_configVar['send-email-url']==""?g_configVar['send-email-image']:g_configVar['send-email-url']
+			message = message.replace("##click-here##","<a href='"+url+"' style='"+g_configVar['send-email-url-style']+"'>"+urlhtml+"</a>");
+			var elt = document.createElement("p");
+			elt.textContent = message;
+			message = elt.innerHTML;
+			message = message.replace(/..\/..\/..\/..\/..\/../g, window.location.protocol+"//"+window.location.host);
 
+			//------------------------------
+			var xml ="<node>";
+			xml +="<sender>"+$(USER.email_node).text()+"</sender>";
+			xml +="<recipient>"+email+"</recipient>";
+			xml +="<subject>"+USER.firstname+" "+USER.lastname+" "+karutaStr[LANG]['want-sharing']+"</subject>";
+			xml +="<message>"+message+"</message>";
+			xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
+			xml +="</node>";
+			$.ajax({
+				contentType: "application/xml",
+				type : "POST",
+				dataType : "xml",
+				url : "../../../"+serverBCK+"/mail",
+				data: xml,
+				success : function(data) {
+					$('#edit-window').modal('hide');
+					alertHTML(karutaStr[LANG]['email-sent']);
+				}
+			});
+		}
+	});
+
+}
 
 //==================================
 function getSendImageEmailAddress(reportSemtag,langcode)
@@ -82,7 +138,8 @@ function getSendImageEmailAddress(reportSemtag,langcode)
 	var obj = $(send_button);
 	$(obj).click(function (){
 			const email = $("#email").val();
-			sendImageEmail(reportid,email,langcode) 
+//			sendImageEmail(reportid,email,langcode);
+			sendSharedPortfolioPageEmail(pageid,email,langcode);
 	});
 	$("#edit-window-footer").append(obj);
 	var footer = " <button class='btn' onclick=\""+js1+";\">"+karutaStr[LANG]['Close']+"</button>";
