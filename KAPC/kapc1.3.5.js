@@ -1213,8 +1213,7 @@ function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
 	if (semtag.indexOf('competence')>-1) {
 		pageid = $("#page").attr('uuid');
 	}
-//	deleteVector(null,type+'-evaluation',null,pageid);
-	deleteVector(null,null,null,pageid); //on supprime également les demandes de feedback.
+	deleteVector(null,null,null,pageid); //on supprime également les demandes de feedback - old:deleteVector(null,type+'-evaluation',null,pageid);
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",sendemail);
 		// montrer
