@@ -30,14 +30,14 @@ CREATE TABLE `vector_table` (
   `a2` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a3` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a4` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `a5` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `a5` varchar(5000) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a6` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a7` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a8` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a9` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `a10` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`lineid`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,7 @@ CREATE TABLE `vector_rights` (
   `RD` tinyint(1) NOT NULL DEFAULT 1,
   `WR` tinyint(1) NOT NULL DEFAULT 0,
   `DL` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `vector_usergroup` (
   `userid` bigint(20) NOT NULL,
   `lineid` bigint(20) NOT NULL,
   PRIMARY KEY (`groupid`,`userid`,`lineid`)
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -1,4 +1,5 @@
-// === version 1.3.5.2  2022/03/30 ===
+// === version 1.3.5.3  2022/09/06 ===
+// 1.3.5.3 ajout fonction getKPAC12Login pour passgae 1.2->1.3
 // 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
 // 1.3.5.1 test si submitall dans soumettreAutres()
 // 1.3.4 fermeture balises xml <br> et <img> dans feedback
@@ -866,7 +867,7 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const evalid = (type.indexOf("competence")>-1)? nodeid:pageid
 	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[evalid].node))[1]).text();
-	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",UICom.structure.ui[evalid].node))[1]).text();
+	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",$("asmUnitStructure:has(>metadata[semantictag='evaluation-enseignant'])",UICom.structure.ui[evalid].node)))[1]).text();
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
@@ -1213,7 +1214,8 @@ function soumettreEvaluation(nodeid,sendemail){ // par l'enseignant
 	if (semtag.indexOf('competence')>-1) {
 		pageid = $("#page").attr('uuid');
 	}
-	deleteVector(null,null,null,pageid); //on supprime également les demandes de feedback - old:deleteVector(null,type+'-evaluation',null,pageid);
+	deleteVector(null,type+'-evaluation',null,pageid);
+	deleteVector(null,type+'-feedback',null,pageid); // supprimer aussi les demandes de feedback
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",sendemail);
 		// montrer
@@ -1399,6 +1401,12 @@ function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid
 	return result;
 }
 
+//============= passage 1.2 vers 1.3
+function getKPAC12Login(str){
+	let result = "";
+	result = str.substring(str.lastIndexOf("portfolio-")+10);
+	return result;
+}
 
 
 //# sourceURL=kapc1.3.5.js

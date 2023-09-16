@@ -497,8 +497,21 @@ function ajouterPartage(nodeid) {
 
 //mise à jour du code et du libellé dela compétence dans la section 'mes compétences'
 function setCompetenceCodeLabel(nodeid){
-	let js = replaceVariable("setNodeCodeLabel(##currentnode##,##lastimported##)",UICom.structure.ui[nodeid]);
+	let js = replaceVariable("setNodeCodeLabel2(##currentnode##,##lastimported##)",UICom.structure.ui[nodeid]);
 	eval(js);
+}
+
+function setNodeCodeLabel2(nodeid,targetid){
+	if (nodeid!=targetid) {
+		if(UICom.structure.ui[nodeid].node_code==undefined) // in case of access before node ndisplay
+			UICom.structure.ui[nodeid].setMetadata();
+		if(UICom.structure.ui[targetid].node_code==undefined) // in case of access before node ndisplay
+			UICom.structure.ui[nodeid].setMetadata();
+		//-----------------------
+		$(UICom.structure.ui[targetid].code_node).text("@"+$(UICom.structure.ui[nodeid].code_node).text());
+		$(UICom.structure.ui[targetid].label_node[LANGCODE]).text($(UICom.structure.ui[nodeid].label_node[LANGCODE]).text());
+		UICom.structure.ui[targetid].save();
+	}
 }
 
 function demandeEnregistree(nodeid){
@@ -599,7 +612,7 @@ function supprimerCompetenceMonBilan(uuid){
 	var retour = false;
 	if (confirm('ATTENTION. Cela va supprimer la compétence dans Mon bilan. Voulez-vous continuer?')) {
 		retour = true;
-		const code = UICom.structure.ui[uuid].getCode();
+		const code = "@"+UICom.structure.ui[uuid].getCode();
 		const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
 		if (target.length>0) {
 			targetid = $(target[0]).attr("id");

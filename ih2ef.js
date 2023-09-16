@@ -73,9 +73,8 @@ function sendSharedPortfolioPageEmail(pageid,email,langcode)
 		contentType: "application/xml",
 		url : urlS,
 		success : function (data){
-			var url = window.location.href;
-			var serverURL = url.substring(0,url.lastIndexOf(appliname+"/")+appliname.length);
-			url = serverURL+"/karuta/htm/public.htm?i="+data+"&n="+pageid+"&amp;lang="+languages[langcode];
+			const serverURL = window.location.protocol + "//" + window.location.host + "/" + appliname;
+			const url = serverURL+"/karuta/htm/public.htm?i="+data+"&n="+pageid+"&amp;lang="+languages[langcode];
 			var message ="##firstname## ##lastname## désire partager avec vous son tableau de bord .<br>";
 			var message = "";
 			var img = document.querySelector('#config-send-email-logo');
@@ -120,11 +119,10 @@ function sendSharedPortfolioPageEmail(pageid,email,langcode)
 }
 
 //==================================
-function getSendImageEmailAddress(reportSemtag,langcode)
+function getSendPageEmailAddress(langcode)
 //==================================
 {
 	const pageid = $("#page").attr('uuid');
-	const reportid = $("*:has(>metadata[semantictag*="+reportSemtag+"])",$(UICom.structure.ui[pageid].node)).attr("id");
 	var emailsarray = [];
 	//---------------------
 	if (langcode==null)

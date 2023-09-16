@@ -142,6 +142,116 @@ function envoiCourrielListe(liste,subjecttag,bodytag){
 	}
 }
 
+//============================== FEEDBACKS ==========================
+
+function buildSaveFeedbackQuestion1(nodeid,pageid,type,sendemail,role) {
+	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
+	let actioncode = UICom.structure.ui[pageid].getCode();
+	if (actioncode.indexOf('*')>-1)
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
+	const selects = $("asmContext:has(metadata[semantictag*='"+role+"-select'])",$(UICom.structure.ui[pageid].node));
+	const etudiant = getItemUserInfos(pageid,'etudiant-select');
+	//--------------------------
+	const question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
+	const reponse = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node)).text();
+	const question1 = question.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const question2 = question1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	//--------------------------
+	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
+	const date_dem_eval = $(feedback_metadata).attr("date-demande");
+	const previewURL = getPreviewSharedURL(pageid,role);
+	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,etudiant.matricule,question2,reponse2,"",etudiant.email));
+	//---------------------------
+	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",g_portfolio_current)).text();
+	const formation = getPortfolioCodeSubstring("formation",selfcode);
+	const cohorte = getPortfolioCodeSubstring("cohorte",selfcode);
+	//---------------------------
+	let candelete = "";
+	for (let i=0;i<selects.length;i++){
+		const selectid = $("code",selects[i]).text();
+		candelete += (i==0) ? selectid:","+selectid;
+		}
+	for (let i=0;i<selects.length;i++){
+		const selectid = $("code",selects[i]).text();
+		const selectemail = $("value",selects[i]).text();
+		saveVector(selectid,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","",candelete);
+		//----envoi courriel à l'enseigant -----
+		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
+			const object = g_variables["demande_feedback_object"];
+			const body = g_variables["demande_feedback_body"];
+			sendNotification(object,body,selectemail);
+		}
+	}
+	//-------------------
+	const questionid = $("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node).attr("id");
+	submit(questionid);
+}
+
+function buildSubmitFeebackQuestion1(nodeid,pageid,type,role,object,body) {
+	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
+	let actioncode = UICom.structure.ui[pageid].getCode();
+	if (actioncode.indexOf('*')>-1)
+		actioncode = actioncode.substring(0,actioncode.indexOf('*'));
+	const etudiant = getItemUserInfos(pageid,'etudiant-select');
+	const date_dem_eval = $(UICom.structure.ui[nodeid].node).attr("date-demande");
+	//--------------------------
+	const question = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node)).text();
+	const reponse = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='reponse'])",UICom.structure.ui[nodeid].node)).text();
+	const question1 = question.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const question2 = question1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
+	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	//--------------------------
+	const date_evaluation = new Date().getTime();
+	const previewURL = getPreviewSharedURL(pageid,role);
+	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
+	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,etudiant.matricule,question2,reponse2,""));
+	//---------------------------
+	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",g_portfolio_current)).text();
+	const formation = getPortfolioCodeSubstring("formation",selfcode);
+	const cohorte = getPortfolioCodeSubstring("cohorte",selfcode);
+	//---------------------------
+	deleteVector(null,null,nodeid)
+	saveVector(USER.username,type,nodeid,pageid,a5,etudiant.name,formation,cohorte,"","");
+	//----envoi courriel à l'étudiant -----
+	if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
+		const object = g_variables["reponse_feedback_object"];
+		const body = g_variables["reponse_feedback_body"];
+		sendNotification(object,body,etudiant.email);
+	}
+}
+function demanderFeedbackQuestion1(nodeid,role,object,body){
+	//---------------------------
+	var feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
+	const today = new Date().getTime();
+	$(feedback_metadata).attr("date-demande",today);
+	UICom.UpdateMetadata(nodeid);
+	//---------------------------
+	const pageid = $("#page").attr('uuid');
+	//---------------------------
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	deleteVector(null,type+'-feedback',nodeid);
+	buildSaveFeedbackQuestion1(nodeid,pageid,type+"-feedback",null,role);
+}
+
+function soumettreFeedbackQuestion1(nodeid,role){
+	//---------------------------
+	let parent = UICom.structure.ui[nodeid].node;
+	while ($(parent).prop("nodeName")!="asmUnit") {
+		parent = $(parent).parent();
+	}
+	const pageid = $("text[lang='"+LANG+"']",$("asmContext:has(>metadata[semantictag='page-uuid'])",parent)).text();
+	//---------------------------
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	buildSubmitFeebackQuestion1(nodeid,pageid,type+"-feedback-done",role);
+	submit(nodeid);
+}
+
+
 //============================== ÉVALUATIONS ==========================
 
 //==================================
