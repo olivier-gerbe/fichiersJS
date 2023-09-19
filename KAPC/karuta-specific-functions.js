@@ -70,7 +70,7 @@ function specificDisplayPortfolios(type){
 			}
 		}
 		// -- if there is no autoload portfolio, we search if any has the role set in USER.other ---
-		if (autoload=="") {
+/*		if (autoload=="") {
 			for (var i=0;i<portfolios_list.length;i++){
 				$.ajax({
 					async:false,
@@ -84,6 +84,7 @@ function specificDisplayPortfolios(type){
 				});
 			}
 		}
+*/
 		//---------------------------------------------------------------------------------------------
 		if (nb_visibleportfolios>0 || autoload!="" )
 			if (nb_visibleportfolios>9 && portfoliosnotinfolders.length>9)

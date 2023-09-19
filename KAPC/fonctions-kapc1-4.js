@@ -33,11 +33,7 @@ function getType(semtag)
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
-	else if (semtag.indexOf('page-exploration-futur')>-1)
-		type='projet-pro';
-	else if (semtag.indexOf('me-connaitre')>-1)
-		type='projet-pro';
-	else if (semtag.indexOf('batir-mon-projet')>-1)
+	else if (semtag.indexOf('pp-')>-1)
 		type='projet-pro';
 	return type;
 }
@@ -763,7 +759,7 @@ function specificDisplayPortfolios(type){
 		if (nb_visibleportfolios>1)
 				UIFactory.PortfolioFolder.displayPortfolios('card-deck-portfolios','false',type,visibleportfolios);
 		else if (nb_visibleportfolios==1){
-			display_main_page(portfolios_list[0].id);
+			display_main_page($(visibleportfolios[0]).attr('id'));
 		}
 	} else if (USER.other!="etudiant")
 		throw 'non etudiant';

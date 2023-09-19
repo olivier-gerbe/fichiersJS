@@ -500,6 +500,7 @@ function actualiserProfil(nodeid) {
 	updateResourceText(portfoliocode,"profil-linkdin","profil-linkdin",UICom.structure.ui[nodeid].node);
 	//------------
 	UIFactory.Node.reloadUnit();
+	return true;
 }
 
 

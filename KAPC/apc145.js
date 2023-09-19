@@ -31,7 +31,7 @@ function getType(semtag)
 		type='periode-entreprise';
 	else if (semtag.indexOf('rapport-memoire')>-1)
 		type='rapport-memoire';
-	else if (semtag.indexOf('batir-mon-projet')>-1)
+	else if (semtag.indexOf('pp-')>-1)
 		type='projet-pro';
 	return type;
 }
