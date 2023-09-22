@@ -1,4 +1,4 @@
-model_code,formation_code,formation_label,cohorte,,,,,,,,,,
-kapc/8etudiants.batch-creer-etudiants-authentification-externe,DU-RLT,DU Responsable en Logistique et Transports,,,,,,,,,,,
-nomFamilleEtudiant,prenomEtudiant,courrielEtudiant,matriculeEtudiant,loginEtudiant,nomFamilleTuteur,prenomTuteur,courrielTuteur,fonctionTuteur,TelephoneTuteur,entrepriseAlternance,entrepriseAdresse,debutContrat,finContrat
-Marlène,Lili,lili.marlene@univ-pau.fr,12345,lili,Musk,Elon,elonmusk@tesla.com,PDG,1 234 567 89 01,Tesla,"Austin, Texas, USA",2022/07/01,2022/12/31
+model_code;formation_code;formation_label;cohorte;;;;;;;;;;
+kapc/8etudiants.batch-creer-etudiants-authentification-externe;DU-RLT;DU Responsable en Logistique et Transports;;;;;;;;;;;
+nomFamilleEtudiant;prenomEtudiant;courrielEtudiant;matriculeEtudiant;loginEtudiant;nomFamilleTuteur;prenomTuteur;courrielTuteur;fonctionTuteur;TelephoneTuteur;entrepriseAlternance;entrepriseAdresse;debutContrat;finContrat
+Marlène;Lili;lili.marlene@univ-pau.fr;12345;lili;Musk;Elon;elonmusk@tesla.com;PDG;1 234 567 89 01;Tesla;Austin, Texas, USA;2022/07/01;2022/12/31

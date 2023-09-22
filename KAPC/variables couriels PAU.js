@@ -30,13 +30,13 @@ g_variables["creation_alternant_body"] += "<p>Bonne navigation !</p>";
 g_variables["creation_alternant_body"] += "<p>L'Université de Pau et des Pays de l'Adour (DFTLV)</p>";
 g_variables["creation_alternant_body"] += "<p>Consultez <a href='https://nuage.univ-pau.fr/s/qBSTJa8wLGc4y5n'>ici</a> les mentions légales relatives au traitement des données à caractère personnel sur la Plateforme Karuta UPPA.";
 
-g_variables["creation_enseignant_object"] = "Accédez sur Karuta au livret de vos alternants";
+g_variables["creation_enseignant_object"] = "Accédez à Karuta en tant qu’enseignant";
 g_variables["creation_enseignant_body"]  = "<p>Bonjour,</p>";
 g_variables["creation_enseignant_body"] += "<p>Vos accès Enseignant au livret de l’alternant (version 2) ont été créés sur l’application Karuta.</p>";
 g_variables["creation_enseignant_body"] += "<p>Vous pouvez naviguer sur <a href=' https://karuta.univ-pau.fr/'>Karuta</a> de manière sécurisée, en entrant vos identifiant et mot de passe habituels de l’Université.</p>";
-g_variables["creation_enseignant_body"] += "<p>Auront également accès aux données renseignées sur cette plateforme : l’alternant, son tuteur professionnel et le(s) responsable(s) de la formation (enseignants).</p>";
+g_variables["creation_enseignant_body"] += "<p>Vous pourrez consulter et éditer le(s) livret(s) du ou des alternant(s) que vous suivez une fois que le responsable de formation les aura associés à votre compte.</p>";
+g_variables["creation_enseignant_body"] += "<p>Auront également accès aux données renseignées sur cette plateforme : l’alternant, son tuteur professionnel et le(s) responsable(s) de la formation (enseignants), en se connectant avec leur compte UPPA..</p>";
 g_variables["creation_enseignant_body"] += "<p>Pour en savoir plus sur cet outil, un espace Elearn est à votre disposition, en auto-inscription (clef : KLEA). </p>";
-g_variables["creation_enseignant_body"] += "<p>Bonne navigation !</p>";
 g_variables["creation_enseignant_body"] += "<p>Bonne navigation !</p>";
 g_variables["creation_enseignant_body"] += "<p>Consultez <a href='https://nuage.univ-pau.fr/s/qBSTJa8wLGc4y5n'>ici</a> les mentions légales relatives au traitement des données à caractère personnel sur la Plateforme Karuta UPPA.</p>";
 
