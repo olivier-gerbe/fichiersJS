@@ -38,6 +38,7 @@ g_variables["creation_enseignant_body"] += "<p>Vous pourrez consulter et éditer
 g_variables["creation_enseignant_body"] += "<p>Auront également accès aux données renseignées sur cette plateforme : l’alternant, son tuteur professionnel et le(s) responsable(s) de la formation (enseignants), en se connectant avec leur compte UPPA..</p>";
 g_variables["creation_enseignant_body"] += "<p>Pour en savoir plus sur cet outil, un espace Elearn est à votre disposition, en auto-inscription (clef : KLEA). </p>";
 g_variables["creation_enseignant_body"] += "<p>Bonne navigation !</p>";
+g_variables["creation_enseignant_body"] += "<p>L'Université de Pau et des Pays de l'Adour (DFTLV)</p>";
 g_variables["creation_enseignant_body"] += "<p>Consultez <a href='https://nuage.univ-pau.fr/s/qBSTJa8wLGc4y5n'>ici</a> les mentions légales relatives au traitement des données à caractère personnel sur la Plateforme Karuta UPPA.</p>";
 
 g_variables["creation_tuteur_object"] = "Accédez au livret de votre alternant sur Karuta";
@@ -48,6 +49,7 @@ g_variables["creation_tuteur_body"] += "<p>Une fois votre mot de passe défini, 
 g_variables["creation_tuteur_body"] += "<p>Les données renseignées sur cette plateforme pourront être consultées par l’alternant, son référent pédagogique de l’Université et le(s) responsable(s) de la formation (enseignants).</p>";
 g_variables["creation_tuteur_body"] += "<p>Nous vous remercions pour votre implication dans la réussite étudiante et professionnelle de cet étudiant. </p>";
 g_variables["creation_tuteur_body"] += "<p>Bonne navigation !</p>";
+g_variables["creation_tuteur_body"] += "<p>L'Université de Pau et des Pays de l'Adour (DFTLV)</p>";
 g_variables["creation_tuteur_body"] += "<p>Consultez <a href='https://nuage.univ-pau.fr/s/qBSTJa8wLGc4y5n'>ici</a> les mentions légales relatives au traitement des données à caractère personnel sur la Plateforme Karuta UPPA.</p>";
 
 //---------------------- utilisés dans les fichiers Javascript --------------------------------------------

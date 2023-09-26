@@ -503,7 +503,10 @@ function actualiserProfil(nodeid) {
 	return true;
 }
 
-
+function specificLoginFunction() {
+	$("#login-karuta").hide();
+	$("#welcome1").onclick(function(e) {$("#login-karuta").show();})
+}
 
 
 //# sourceURL=alternance.js
