@@ -64,8 +64,8 @@ g_variables["demande_feedback_body"] += "<p>L'Université de Pau et des Pays de 
 
 g_variables["reponse_feedback_object"] = "Réponse à votre question";
 g_variables["reponse_feedback_body"]  = "<p>Bonjour,</p>";
-g_variables["reponse_feedback_body"] += "<p>Votre enseignant ou votre tuteur à répondu à votre question.</p>";
-g_variables["reponse_feedback_body"] += "<p>Connectez-vous avec vos identifiants de l’Université pour prendre connaissance de la réponse.</p>";
+g_variables["reponse_feedback_body"] += "<p>Vous avez reçu une réponse à votre question dans votre fiche périodique.</p>";
+g_variables["reponse_feedback_body"] += "<p>Connectez-vous sur <a href=' https://karuta.univ-pau.fr/'>Karuta</a> avec vos identifiants de l’Université pour prendre connaissance de la réponse.</p>";
 g_variables["reponse_feedback_body"] += "<p>Cordialement,</p>";
 g_variables["reponse_feedback_body"] += "<p>L'Université de Pau et des Pays de l'Adour (DFTLV)</p>";
 
@@ -95,7 +95,8 @@ g_variables["compte_rendu_body"] += "<p>L'Université de Pau et des Pays de l'Ad
 
 
 
-
+// ----------------------------------
+g_variables["partage"] = "Votre accès a été validé. Vous aurez accès au livret de l'étudiant dans Karuta.<br>L'Université de Pau et des Pays de l'Adour (DFTLV)﻿";
 
 
 

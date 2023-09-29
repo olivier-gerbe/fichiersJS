@@ -101,11 +101,32 @@ function setInfosFiche1(nodeid){
 //==============================================================================================================
 
 //==================================
+function evaluationSoumiseEnvoiCourriel()
+//==================================
+{
+	const today = new Date();
+	const etudiant_livretid = $("asmContext:has(metadata[semantictag='etudiant-livret'])",g_portfolio_current).attr("id");
+	const etudiant_prenom_nom = UICom.structure.ui[etudiant_livretid].resource.getLabel(null,'none')
+	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='courriel-etudiant'])",g_portfolio_current)).text();
+	const enseignant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='courriel-enseignant'])",g_portfolio_current)).text();
+	let message = "";
+	message += "Bonjour,<br><br>";
+	message += "##firstname## ##lastname## a soumis sur Karuta une évaluation pour le livret de "+etudiant_prenom_nom+" à "+today.toLocaleString()+"<p>Cordialement,</p><p>L'Université de Pau et des Pays de l'Adour (DFTLV)</p>";
+	envoiCourriel(message,enseignant_email);
+	envoiCourriel(message,etudiant_email);
+}
+
+
+//==================================
 function pageVueEtEnvoiCourriel(uuid,role,no)
 //==================================
 {
 	if (g_userroles[0]==role) {
-		const visited = $("asmContext:has(metadata[semantictag*='visited-date'])",UICom.structure.ui[uuid].node);
+		let parent = UICom.structure.ui[uuid].node;
+		while ($(parent).prop("nodeName")!="asmUnit") {
+			parent = $(parent).parent();
+		}
+		const visited = $("asmContext:has(metadata[semantictag*='visited-date'])",parent);
 		const visitedid =  $(visited).attr("id");
 		const today = new Date();
 		UICom.structure.ui[visitedid].value_node.text(today.getTime());
@@ -323,7 +344,12 @@ function buildSubmitEvaluationVector1(nodeid,pageid,type,role) {
 	const visaElt = $("asmUnitStructure:has(>metadata[semantictag='visa-"+role+"'])",UICom.structure.ui[evalid].node)[0];
 	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",demElt))[1]).text();
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",demElt))[1]).text();
-	let commentaires = getResourceVectorView('evaluation-commentaires',visaElt);
+	//-------------
+	let commentaires ="";
+		if (demElt!=undefined)
+			commentaires = getResourceVectorView('evaluation-commentaires',demElt);
+		else
+			commentaires = getResourceVectorView('evaluation-commentaires',visaElt);
 	//-------------
 	if (role=='tuteur' && $("asmContext:has(metadata[semantictag='points-forts'])",demElt).length>0) {
 		commentaires = getResourceVectorView('evaluation-commentaires',demElt);
@@ -395,6 +421,7 @@ function soumettreEvaluation1(nodeid,role){
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+'-evaluation',null,pageid);
+	deleteVector(null,type+'-feedback',null,pageid); // on supprime toutes les demandes de feedback
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
 		buildSubmitEvaluationVector1(nodeid,pageid,type+"-evaluation-done",role);
 		// montrer

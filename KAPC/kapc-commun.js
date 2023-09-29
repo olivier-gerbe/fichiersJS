@@ -27,7 +27,7 @@ function getResourceVectorView(semtag,node) {
 
 // ---------------------------------------
 
-function getButtonSharedURL(uuid,role,sharerole) {
+function getButtonSharedURL(uuid,role,sharerole,x) {
 	const level = '2';
 	const duration = '5000';
 	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+role+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
@@ -39,8 +39,10 @@ function getButtonSharedURL(uuid,role,sharerole) {
 		contentType: "application/xml",
 		url : urlS,
 		success : function (data){
-			url = serverURL+"/karuta/htm/public.htm?i="+data+"&amp;lang="+languages[LANGCODE];
-
+			if (x!=undefined)
+				url = serverURL+"/karuta/htm/public.htm?i="+data+"&amp;x=1&amp;lang="+languages[LANGCODE];
+			else
+				url = serverURL+"/karuta/htm/public.htm?i="+data+"&amp;lang="+languages[LANGCODE];
 		}
 
 	});
@@ -53,9 +55,22 @@ function getPortfolioURL(portfoliocode) {
 	return "<a style='margin-left:10px' href='"+url+"'>cliquez ici</a>";
 }
 
-function getPortfolioSharedURL(portfoliocode) {
-	const portfolioid = UIFactory.Portfolio.getid_bycode(portfoliocode,false);
-	const url = window.location.toString() + "?ii=" + portfolioid;
+function getPortfolioSharedURL(uuid,role,sharerole) {
+	const level = '2';
+	const duration = '5000';
+	const urlS = serverBCK+'/direct?uuid='+uuid+'&role='+role+'&showtorole='+role+'&l='+level+'&d='+duration+'&sharerole='+sharerole+'&type=showtorole';
+	let url = "";
+	$.ajax({
+		async:false,
+		type : "POST",
+		dataType : "text",
+		contentType: "application/xml",
+		url : urlS,
+		success : function (data){
+			url = window.location.toString() + "?ii=" + data;
+		}
+
+	});
 	return "<a style='margin-left:10px;font-size:120%' href='"+url+"'>cliquez ici</a>";
 }
 
@@ -169,6 +184,9 @@ function getPortfolioCodeSubstring(type,str){
 	return result;
 }
 
+function getPortfolioCodeFormation(str){
+	return getPortfolioCodeSubstring('formation',str);
+}
 
 //=============================================================
 //================= ENVOI NOTIFICATION ========================
@@ -219,7 +237,7 @@ function envoiCourriel(message,email)
 	var xml ="<node>";
 	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
 	xml +="<recipient>"+email+"</recipient>";
-	xml +="<subject>"+USER.firstname+" "+USER.lastname+" "+karutaStr[LANG]['want-sharing']+"</subject>";
+	xml +="<subject>"+USER.firstname+" "+USER.lastname+" vous informe</subject>";
 	xml +="<message>"+message+"</message>";
 	xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
 	xml +="</node>";
