@@ -1,4 +1,5 @@
-// === version 1.3.5.3  2022/09/06 ===
+// === version 1.3.5.4  2022/10/07 ===
+// 1.3.5.4 ajout fonction afficherDateAjout pour les traces
 // 1.3.5.3 ajout fonction getKPAC12Login pour passgae 1.2->1.3
 // 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
 // 1.3.5.1 test si submitall dans soumettreAutres()
@@ -1408,6 +1409,12 @@ function getKPAC12Login(str){
 	return result;
 }
 
-
+function afficherDateAjout(nodeid) {
+	const utc = $(UICom.structure.ui[nodeid].resource.lastmodified_node).text();
+	const dateModif = new Date(parseInt(utc)).toLocaleString();
+	const parentid= $($(UICom.structure.ui[nodeid].node).parent()).attr("id");
+	$("#content-"+parentid).html("<div style='font-size:70%;margin-left:10px'>Dernière modification : "+dateModif+"</div>");
+	return true;
+}
 //# sourceURL=kapc1.3.5.js
 

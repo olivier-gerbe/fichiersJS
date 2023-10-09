@@ -237,7 +237,7 @@ function envoiCourriel(message,email)
 	var xml ="<node>";
 	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
 	xml +="<recipient>"+email+"</recipient>";
-	xml +="<subject>"+USER.firstname+" "+USER.lastname+" vous informe</subject>";
+	xml +="<subject>"+USER.firstname+" "+USER.lastname+" a publié du contenu sur Karuta.</subject>";
 	xml +="<message>"+message+"</message>";
 	xml +="<recipient_cc></recipient_cc><recipient_bcc></recipient_bcc>";
 	xml +="</node>";
