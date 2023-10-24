@@ -1,5 +1,7 @@
 
+//==================================
 function userExists(identifier) {
+//==================================
 	const url = serverBCK_API+"/users/user/username/"+identifier;
 	let ok ="";
 	$.ajax({
@@ -17,6 +19,29 @@ function userExists(identifier) {
 		}
 	});
 	return ok;
+}
+
+//==================================
+function portfolioExists(searchvalue) {
+//==================================
+	const url = serverBCK_API+"/portfolios?active=1&search="+searchvalue;
+	let ok = "";
+	$.ajax({
+		async:false,
+		type : "GET",
+		dataType : "xml",
+		url : url,
+		success : function(data) {
+			const items = $("portfolio",data);
+			for ( let i = 0; i < items.length; i++) {
+				const code = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",items[i])).text();
+				ok = code.indexOf(searchvalue)>-1;
+				if (ok)
+					break;
+			}
+		}
+	});
+	return ok
 }
 
 
