@@ -1,4 +1,5 @@
-// === version 1.3.5.4  2022/10/07 ===
+// === version 1.3.5.5  2022/11/20 ===
+// 1.3.5.4 ajout fonction getNodeCodewDate pour les traces
 // 1.3.5.4 ajout fonction afficherDateAjout pour les traces
 // 1.3.5.3 ajout fonction getKPAC12Login pour passgae 1.2->1.3
 // 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
@@ -313,12 +314,17 @@ function setPortfolioUUID(nodeid) {
 //======================================================================================
 //============== Traces du portfolio====================================================
 //======================================================================================
+function getNodeCodewDate(nodeid) {
+	const code = new Date().getTime()+"@";
+	return code;
+}
 
 function setNodeCodewDate(nodeid) {
 	const code = new Date().getTime()+"@";
 	$(UICom.structure.ui[nodeid].code_node).text(code);
 	UICom.structure.ui[nodeid].save();
 }
+
 var kapc_to_be_deleted = [];
 
 function verifier_presence_traces() {
