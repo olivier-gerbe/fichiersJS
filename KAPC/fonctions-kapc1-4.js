@@ -38,6 +38,22 @@ function getType(semtag)
 	return type;
 }
 
+function loadNodeAndGetSemtag(uuid)
+{
+	let semtag="";
+	$.ajax({
+		async:false,
+		type : "GET",
+		dataType : "xml",
+		url : serverBCK_API+"/nodes/node/" + uuid + "?resources=true",
+		uuid : uuid,
+		success : function(data) {
+			semtag = $($("metadata",data)[0]).attr('semantictag');
+		}
+	});
+	return semtag;
+}
+
 function addBackdrop(id)
 {
 	$('#edit-window').modal('hide');
@@ -1462,6 +1478,12 @@ function supprimerFeedbacks(pageid) { // par l'étudiant
 	deleteVector(null,type+"-feedback",null,pageid);
 }
 
+function supprimerFeedbackRepondu(nodeid,pageid) { // par l'enseignant dans le tableau de bord
+	const semtag = loadNodeAndGetSemtag(pageid);
+	const type = getType(semtag);
+	deleteVector(null,type+"-feedback-done",nodeid);
+	UIFactory.Node.reloadUnit();
+}
 
 function soumettreFeedback(nodeid){
 	//---------------------------

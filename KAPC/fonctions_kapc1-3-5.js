@@ -1,5 +1,6 @@
-// === version 1.3.5.5  2022/11/20 ===
-// 1.3.5.4 ajout fonction getNodeCodewDate pour les traces
+// === version 1.3.5.6  2022/11/29 ===
+// 1.3.5.6 ajout fonction supprimerFeedbackRepondu
+// 1.3.5.5 ajout fonction getNodeCodewDate pour les traces
 // 1.3.5.4 ajout fonction afficherDateAjout pour les traces
 // 1.3.5.3 ajout fonction getKPAC12Login pour passgae 1.2->1.3
 // 1.3.5.2 valeurs du vecteur enrichi json (formation,cohorte)
@@ -38,6 +39,22 @@ function getType(semtag)
 	else if (semtag.indexOf('pp-')>-1)
 		type='projet-pro';
 	return type;
+}
+
+function loadNodeAndGetSemtag(uuid)
+{
+	let semtag="";
+	$.ajax({
+		async:false,
+		type : "GET",
+		dataType : "xml",
+		url : serverBCK_API+"/nodes/node/" + uuid + "?resources=true",
+		uuid : uuid,
+		success : function(data) {
+			semtag = $($("metadata",data)[0]).attr('semantictag');
+		}
+	});
+	return semtag;
 }
 
 function addBackdrop(id)
@@ -1271,7 +1288,9 @@ function soumettreAutres(nodeid,semtag) {
 //=============== FEEDBACK ========================
 //=================================================
 
-function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,type) {
+	if (type==null)
+		type="none";
 	a5 = JSON.parse(a5);
 	const reponse = a5.reponse.split("|");
 	let html = "<tr>";
@@ -1282,6 +1301,10 @@ function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
 	html += "<td>"+a5.question+"</td>";
 	const separateur = (reponse[1]!="")?" - ":"";
 	html += "<td>"+reponse[0]+"<div class='author-date'>"+reponse[1]+separateur+reponse[2]+"</div></td>";
+	if (type=='repondu')
+		html += "<td><i data-toggle='tooltip' data-title='Supprimer du tableau de bord' class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondu(\'"+a3+"',\'"+a4+"')\"></i></td>";
+	if (type=='repondre')
+		html += "<td><i class='fas fa-trash-alt' onclick=\"supprimerFeedback(\'"+a3+"')\"></i></td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1328,6 +1351,13 @@ function supprimerFeedbacks(pageid) { // par l'étudiant
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+"-feedback",null,pageid);
+}
+
+function supprimerFeedbackRepondu(nodeid,pageid) { // par l'enseignant dans le tableau de bord
+	const semtag = loadNodeAndGetSemtag(pageid);
+	const type = getType(semtag);
+	deleteVector(null,type+"-feedback-done",nodeid);
+	UIFactory.Node.reloadUnit();
 }
 
 
