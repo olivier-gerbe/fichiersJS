@@ -1,5 +1,29 @@
 // === version 1.4.0 2022/05/25 ===
 
+// ----------------- TESTS ----------------
+	
+function testConsInterneCodeNotEmpty(uuid) {
+	if (uuid == null)
+		uuid = $("#page").attr('uuid');
+	const cons_internes = $("asmContext:has(metadata[semantictag='cons-interne-select'])",UICom.structure.ui[uuid].node);
+	return (cons_internes.length>0);
+}
+
+function testSiEnvoiConseillerExterne(nodeid) {
+	let result = true;
+	const sections = $("*:has(>metadata[semantictag='section-const-externe'])",UICom.structure.ui[nodeid].node)
+	if (sections.length>0) {
+		for (let i=0; i<sections.length; i++){
+			const submitted = ($("metadata-wad",sections[i]).attr('submitted')==undefined)?'N':$("metadata-wad",sections[i]).attr('submitted');
+			if (submitted!="Y")
+				result = false;
+		}
+	}
+	return result;
+}
+
+//---------------------- VECTEURS --------------------------
+
 function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	const actionlabel = UICom.structure.ui[pageid].getLabel(null,'none');
 	let actioncode = UICom.structure.ui[pageid].getCode();
@@ -111,25 +135,7 @@ function soumettreFeedbackPP(nodeid,role){
 	submit(nodeid);
 }
 
-function testConsInterneCodeNotEmpty(uuid) {
-	if (uuid == null)
-		uuid = $("#page").attr('uuid');
-	const cons_internes = $("asmContext:has(metadata[semantictag='cons-interne-select'])",UICom.structure.ui[uuid].node);
-	return (cons_internes.length>0);
-}
-
-function testSiEnvoiConseillerExterne(nodeid) {
-	let result = true;
-	const sections = $("*:has(>metadata[semantictag='section-const-externe'])",UICom.structure.ui[nodeid].node)
-	if (sections.length>0) {
-		for (let i=0; i<sections.length; i++){
-			const submitted = ($("metadata-wad",sections[i]).attr('submitted')==undefined)?'N':$("metadata-wad",sections[i]).attr('submitted');
-			if (submitted!="Y")
-				result = false;
-		}
-	}
-	return result;
-}
+// -----------------PARTAGES-----------------
 
 //==================================
 function getSendSharingURLPP(nodeid,uuid,sharewithrole,sharetoemail,sharetoroles,langcode,sharelevel,shareduration,sharerole,shareoptions)
