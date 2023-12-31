@@ -1132,7 +1132,7 @@ function previewPageCompetence(uuid,depth,type,langcode,edit)
 						g_report_edit = false;
 					else
 						g_report_edit = edit;
-					UICom.structure["ui"][uuid].displayNode('standard',UICom.structure['tree'][uuid],"preview-window-body-"+uuid,depth,langcode,g_report_edit);
+					UICom.structure.ui[uuid].displayNode('standard',UICom.structure.tree[uuid],"preview-window-body-"+uuid,depth,langcode,g_report_edit);
 					g_report_edit = g_edit;
 					$("#preview-"+uuid).show();
 					$("#previewbackdrop-"+uuid).show();
@@ -1215,6 +1215,7 @@ function demanderEvaluation2(nodeid,parentid,sendemail) { // par l'étudiant
 	const js = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation');majDemEvalSAE('"+nodeid+"')";
 	const text = "Attention vous ne pourrez plus faire de modifications sur cette page. Voulez-vous continuer?";
 	const section_etudiant_soumission_id = $("*:has(>metadata[semantictag='section-etudiant-soumission'])",UICom.structure.ui[pageid].node).attr("id");
+	deleteVector(null,type+'-evaluation',null,pageid);
 	confirmSubmit(section_etudiant_soumission_id,false,js,text);
 }
 

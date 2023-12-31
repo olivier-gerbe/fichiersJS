@@ -2,7 +2,7 @@
 
 function setNodeCode (node,portfolioid) {
 	var uuid = $(node).attr("id");
-	var code = UICom.structure["ui"][uuid].getCode();
+	var code = UICom.structure.ui[uuid].getCode();
 	var nodes = $("*:has(metadata[semantictag*='ajoutable-parcours'])",node);
 	for (var i=0;i<nodes.length;i++) {
 		var nodeid = $(nodes[i]).attr("id");

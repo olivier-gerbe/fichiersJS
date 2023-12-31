@@ -88,8 +88,8 @@ function buildSearchVectorGrenoble(dims,vals) {
 
 function buildSaveVectorGrenoble(node,key) {
 	var parentid = $($(node).parent()).attr("id");
-	var dim = UICom.structure["ui"][parentid].getCode();
-	var val = UICom.structure["ui"][node.id].resource.getValue();
+	var dim = UICom.structure.ui[parentid].getCode();
+	var val = UICom.structure.ui[node.id].resource.getValue();
 	if (val!="")
 		saveVector(key,dim,val);
 	else
@@ -98,6 +98,6 @@ function buildSaveVectorGrenoble(node,key) {
 
 function buildDeleteVectorGrenoble(node,key) {
 	var nodeid = $(node).attr("id");
-	var dim = UICom.structure["ui"][nodeid].getCode();
+	var dim = UICom.structure.ui[nodeid].getCode();
 	deleteVector(key,dim);
 }

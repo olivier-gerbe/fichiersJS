@@ -1057,7 +1057,7 @@ function previewPageCompetence(uuid,depth,type,langcode,edit)
 						g_report_edit = false;
 					else
 						g_report_edit = edit;
-					UICom.structure["ui"][uuid].displayNode('standard',UICom.structure['tree'][uuid],"preview-window-body-"+uuid,depth,langcode,g_report_edit);
+					UICom.structure.ui[uuid].displayNode('standard',UICom.structure.tree[uuid],"preview-window-body-"+uuid,depth,langcode,g_report_edit);
 					g_report_edit = g_edit;
 					$("#preview-"+uuid).show();
 					$("#previewbackdrop-"+uuid).show();
