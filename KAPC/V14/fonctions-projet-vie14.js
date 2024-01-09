@@ -30,7 +30,6 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	if (actioncode.indexOf('*')>-1)
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const selects = $("asmContext:has(metadata[semantictag*='"+role+"-select'])",$(UICom.structure.ui[pageid].node));
-//	const etudiant = $("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text().replaceAll("&nbsp;"," ");
 	const etudiant = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='prenom_nom'])",UICom.structure.ui[pageid].node)).text();
 	const etudiant_email = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-courriel'])",UICom.structure.ui[pageid].node)).text();
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
@@ -45,8 +44,8 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
 	const previewURL = getPreviewSharedURL(pageid,role);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
-	const formation = "?";
-	const cohorte = "?";
+	const formation = getPortfolioCodeSubstring("formation",selfcode);
+	const cohorte = getPortfolioCodeSubstring("cohorte",selfcode);
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question2,reponse2,"",etudiant_email)).replaceAll("&nbsp;"," ");
 	let candelete = "";
 	for (let i=0;i<selects.length;i++){
