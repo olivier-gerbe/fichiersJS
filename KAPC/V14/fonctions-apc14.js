@@ -901,7 +901,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,evaluateur) {
 		const enseignantemail = $("value",enseignants[i]).text();
 		saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
 		//----envoi courriel à l'enseigant -----
-		if (sendemail!=null && sendemail=='true') {
+		if (g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
 			const body = " ##firstname## ##lastname## vous a fait une demande de feedback pour son eportfolio.";
 			sendNotification(object,body,enseignantemail);
@@ -1305,6 +1305,7 @@ function modifierFeedback(nodeid) { // par l'enseignant
 	const type = getType(semtag);
 	deleteVector(null,type+'-feedback',nodeid);
 	buildSaveFeedbackVector(nodeid,pageid,type+'-feedback');
+	UIFactory.Node.reloadUnit();
 }
 
 function supprimerFeedback(nodeid){ // par l'étudiant
@@ -1346,66 +1347,13 @@ function soumettreFeedback(nodeid){
 
 //====================================================
 
-
-
-//------ à supprimer ? --------------------------------
-
-function numberOf(a1,a2) {
-	const nb = searchVector(a1,a2);
-	return nb;
+function afficherDateAjout(nodeid) {
+	const utc = $(UICom.structure.ui[nodeid].resource.lastmodified_node).text();
+	const dateModif = new Date(parseInt(utc)).toLocaleString();
+	const parentid= $($(UICom.structure.ui[nodeid].node).parent()).attr("id");
+	$("#content-"+parentid).html("<div style='font-size:70%;margin-left:10px'>Dernière modification : "+dateModif+"</div>");
+	return true;
 }
-
-function searchVectorEvalFB(enseignantid,type1,type2,date1,date2,enseignant2id) {
-	let search1 = $("vector",searchVector(enseignantid,type1));
-	if(enseignant2id!=null)
-		search1 = $("vector",searchVector(enseignantid,type1,null,null,null,enseignant2id));
-	let tableau = [];
-	// on ajoute tous les uuids qui ont type1
-	for (let i=0;i<search1.length;i++){
-		let nodeid = $("a3",search1[i]).text();
-		let pageid = $("a4",search1[i]).text();
-		let portfolioid = $("a5",search1[i]).text();
-		if (date1!=null || date2!=null) {
-			let date = $("a7",search1[i]).text();
-			if (date1!=null && date2!=null && date1<date && date<date2+86400000) {
-					if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
-						tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
-			} else if (date1!=null && date2==null && date1<date) {
-					if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
-						tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
-			} else if (date1==null && date2!=null && date<date2+86400000) {
-				if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
-					tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
-			} 
-		} else if (tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid)<0)
-			tableau.push(nodeid+"/"+pageid+"/"+portfolioid);
-	}
-	if (type2!=null && type2!=""){
-		// on retire tous les uuids qui ont type2 et le même nodeid
-		const search2 = $("vector",searchVector(enseignantid,type2));
-		for (let i=0;i<search2.length;i++){
-			let nodeid = $("a3",search2[i]).text();
-			let pageid = $("a4",search2[i]).text();
-			let portfolioid = $("a5",search2[i]).text();
-			const indx = tableau.indexOf(nodeid+"/"+pageid+"/"+portfolioid);
-			if (indx>-1)
-				tableau.splice(indx,1);
-		}
-	}
-	return tableau;
-}
-
-function searchVectorActionKAPC(enseignantid,type1,type2,date1,date2,portfolioid) {
-	let tableau = searchVectorEvalFB(enseignantid,type1,type2,date1,date2);
-	let result = [];
-	for (let i=0;i<tableau.length;i++){
-		const elts = tableau[i].split("/");
-		if (result.indexOf(elts[1])<0 && elts[2]==portfolioid)
-		result.push(elts[1]);
-	}
-	return result;
-}
-
 
 
 //# sourceURL=apc145.js

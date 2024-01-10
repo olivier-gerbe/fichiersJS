@@ -44,8 +44,8 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
 	const previewURL = getPreviewSharedURL(pageid,role);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
-	const formation = getPortfolioCodeSubstring("formation",selfcode);
-	const cohorte = getPortfolioCodeSubstring("cohorte",selfcode);
+	const formation = "?";
+	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,matricule,question2,reponse2,"",etudiant_email)).replaceAll("&nbsp;"," ");
 	let candelete = "";
 	for (let i=0;i<selects.length;i++){
@@ -64,8 +64,6 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 		}
 	}
 	//-------------------
-	const questionid = $("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node).attr("id");
-	submit(questionid);
 }
 
 function buildSubmitFeebackVectorPP(nodeid,pageid,type,role) {
@@ -118,6 +116,25 @@ function demanderFeedbackPP(nodeid,role){
 	const type = getType(semtag);
 	deleteVector(null,type+'-feedback',nodeid);
 	buildSaveFeedbackVectorPP(nodeid,pageid,type+"-feedback",null,role);
+	const questionid = $("asmContext:has(metadata[semantictag='question'])",UICom.structure.ui[nodeid].node).attr("id");
+	submit(questionid);
+}
+
+function modifierFeedbackPP(nodeid,role){
+	//---------------------------
+	const feedbacknode = $(UICom.structure.ui[nodeid].node).parent();
+	const feedbacknodeid = $(feedbacknode).attr('id');
+	let parent = UICom.structure.ui[nodeid].node;
+	while ($(parent).prop("nodeName")!="asmUnit") {
+		parent = $(parent).parent();
+	}
+	const pageid = $(parent).attr('id');
+	//---------------------------
+	const semtag = UICom.structure.ui[pageid].semantictag;
+	const type = getType(semtag);
+	deleteVector(null,type+'-feedback',feedbacknodeid);
+	buildSaveFeedbackVectorPP(feedbacknodeid,pageid,type+"-feedback",null,role);
+	UIFactory.Node.reloadUnit();
 }
 
 function soumettreFeedbackPP(nodeid,role){
