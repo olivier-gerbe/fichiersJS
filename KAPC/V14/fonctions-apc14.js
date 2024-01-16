@@ -804,7 +804,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type,evaluateur) {
 	const note = $($("value",$("asmContext:has(metadata[semantictag='note-globale'])",UICom.structure.ui[evalid].node))[1]).text();
 	const evaluation = $($("label[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='evaluation-element'])",$("asmUnitStructure:has(>metadata[semantictag='evaluation-enseignant'])",UICom.structure.ui[evalid].node)))[1]).text();
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
-	if (date_dem_eval==null || date_dem_eval=='')
+	if (date_dem_eval==null || date_dem_eval=='' || date_dem_eval=='0')
 		date_dem_eval = new Date().getTime();
 	const previewURL = getPreviewSharedURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
@@ -1180,6 +1180,8 @@ function demanderEvaluation2(nodeid,vers) { // par l'étudiant
 	const flagid = $("*:has(>metadata[semantictag='flag-"+vers+"'])",UICom.structure.ui[pageid].node).attr("id");
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
+	if (vers==null)
+		vers = 'enseignant';
 	let js = "buildSaveEvaluationVector('"+nodeid+"','"+pageid+"','"+type+"-evaluation','"+vers+"-select');majDemEvalSAE('"+nodeid+"')";
 	if (vers!=null) {
 		js += ";submit('"+flagid+"')";
@@ -1190,7 +1192,7 @@ function demanderEvaluation2(nodeid,vers) { // par l'étudiant
 	confirmSubmit(section_etudiant_soumission_id,false,js,text);
 }
 
-function modifierEvaluation(nodeid,evaluateur) { // par l'enseignant
+function modifierEvaluation(nodeid) { // par l'enseignant
 	let parent = UICom.structure.ui[nodeid].node;
 	while ($(parent).prop("nodeName")!="asmUnit") {
 		parent = $(parent).parent();
@@ -1199,11 +1201,12 @@ function modifierEvaluation(nodeid,evaluateur) { // par l'enseignant
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+'-evaluation',null,pageid);
-	buildSaveEvaluationVector(pageid,pageid,type+'-evaluation',evaluateur);
+	buildSaveEvaluationVector(pageid,pageid,type+'-evaluation');
+	UIFactory.Node.reloadUnit();
 }
 
 
-function soumettreEvaluation(nodeid,evaluateur){ // par l'enseignant
+function soumettreEvaluation(nodeid){ // par l'enseignant
 	let pageid = nodeid;
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
@@ -1212,14 +1215,14 @@ function soumettreEvaluation(nodeid,evaluateur){ // par l'enseignant
 	}
 	deleteVector(null,type+'-evaluation',null,pageid);
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid,pageid)).length==0) {
-		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done",evaluateur);
+		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done");
 		// montrer
 		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
 		if (sectid!=undefined)
 			show(sectid);
 	}
 }
-function supprimerEvaluation(nodeid){  // par l'étudiant
+function supprimerEvaluation(nodeid){ 
 	const pageid = $("#page").attr('uuid');
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
@@ -1259,26 +1262,28 @@ function soumettreAutres(nodeid,semtag) {
 //=============== FEEDBACK ========================
 //=================================================
 
-function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) {
+function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,type) {
+	if (type==null)
+		type="none";
 	a5 = JSON.parse(a5);
+	const reponse = a5.reponse.split("|");
 	let html = "<tr>";
 	html += "<td>"+a6+"</td>";
 	html += "<td>"+a5.label+"<span class='button fas fa-binoculars' onclick=\"previewPage('"+a5.previewURL+"',100,'previewURL',null,true)\" data-title='Aperçu' data-toggle='tooltip' data-placement='bottom' ></span></td>";
 	const date2 = (a2.indexOf("-done")>-1)? new Date(parseInt(a5.date_eval)):new Date(parseInt(a5.date_demande));
 	html += "<td>"+ date2.toLocaleString()+"</td>";
 	html += "<td>"+a5.question+"</td>";
-	const reponse = a5.reponse.split("|");
-	html += "<td>"+reponse[0];
-	if (reponse.length>1) {
-		const separateur = (reponse[1]!="")?" - ":"";
-		html += "<div class='author-date'>"+reponse[1]+separateur+reponse[2]+"</div>";
-	}
-	html += "</td>";
+	const separateur = (reponse[1]!="")?" - ":"";
+	html += "<td>"+reponse[0]+"</td>";
+	if (type=='repondu')
+		html += "<td><i data-toggle='tooltip' data-title='Supprimer du tableau de bord' class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondu(\'"+a3+"',\'"+a4+"')\"></i></td>";
+	if (type=='repondre')
+		html += "<td><i class='fas fa-trash-alt' onclick=\"supprimerFeedback(\'"+a3+"')\"></i></td>";
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
 
-function demanderFeedback(nodeid,role){
+function demanderFeedback(nodeid){
 	//---------------------------
 	var feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const today = new Date().getTime();
@@ -1290,7 +1295,7 @@ function demanderFeedback(nodeid,role){
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+'-feedback',nodeid);
-	buildSaveFeedbackVector(nodeid,pageid,type+"-feedback",role);
+	buildSaveFeedbackVector(nodeid,pageid,type+"-feedback");
 }
 
 function modifierFeedback(nodeid) { // par l'enseignant
@@ -1351,7 +1356,7 @@ function afficherDateAjout(nodeid) {
 	const utc = $(UICom.structure.ui[nodeid].resource.lastmodified_node).text();
 	const dateModif = new Date(parseInt(utc)).toLocaleString();
 	const parentid= $($(UICom.structure.ui[nodeid].node).parent()).attr("id");
-	$("#content-"+parentid).html("<div style='font-size:70%;margin-left:10px'>Dernière modification : "+dateModif+"</div>");
+	$("#extra-"+nodeid).html("<div style='font-size:70%;margin-left:10px'>Dernière modification : "+dateModif+"</div>");
 	return true;
 }
 
