@@ -77,7 +77,7 @@ function removeBackdropAndRelaod()
 	fill_main_page();
 }
 
-function getPreviewSharedURL(uuid,role) {
+function getPreviewSharedAPCURL(uuid,role) {
 	if (role.indexOf('-select')>0)
 		role = role.substring(0,role.indexOf('-select'));
 	const sharerole = 'etudiant';
@@ -421,28 +421,28 @@ function verifier_supprimer_traces(nodeid) {
 		if (select_trace_code==code) {
 			to_be_deleted = confirm("ATTENTION - Cette trace est utilisée dans le portfolio. Voulez-vous vraiment la supprimer?");
 			if (to_be_deleted) {
-				const all_to_be_deleted = confirm("ATTENTION - Voulez-vous supprimer toutes les références à cette trace.?");
+				const all_to_be_deleted = confirm("ATTENTION - Voulez-vous supprimer toutes les références à cette trace ?");
 				if (all_to_be_deleted) {
 					for (let k=0;k<select_traces1.length;k++){
-						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
+						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces1[k]))).text();
 						if (select_trace_code==code) {
-							const uuid = $(select_traces[k]).attr("id");
+							const uuid = $(select_traces1[k]).attr("id");
 							$("#"+uuid,g_portfolio_current).remove();
 							UICom.DeleteNode(uuid);
 						}
 					}
 					for (let k=0;k<select_traces2.length;k++){
-						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
+						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces2[k]))).text();
 						if (select_trace_code==code) {
-							const uuid = $(select_traces[k]).attr("id");
+							const uuid = $(select_traces2[k]).attr("id");
 							$("#"+uuid,portfolioAlternance).remove();
 							UICom.DeleteNode(uuid);
 						}
 					}
 					for (let k=0;k<select_traces3.length;k++){
-						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces[k]))).text();
+						const select_trace_code = $($("code",$("asmResource[xsi_type!='context'][xsi_type!='nodeRes']",select_traces3[k]))).text();
 						if (select_trace_code==code) {
-							const uuid = $(select_traces[k]).attr("id");
+							const uuid = $(select_traces3[k]).attr("id");
 							$("#"+uuid,portfolioProjetPro).remove();
 							UICom.DeleteNode(uuid);
 						}
@@ -532,6 +532,10 @@ function setNodeCodeLabel2(nodeid,targetid){
 
 function demandeEnregistree(nodeid){
 	alert('Demande enregistrée')
+}
+
+function demandeSupprimee(nodeid){
+	alert('Demande supprimée')
 }
 
 function ifSubmittedDeleleDelParentButton(nodeid){
@@ -628,7 +632,7 @@ function supprimerCompetenceMonBilan(uuid){
 	var retour = false;
 	if (confirm('ATTENTION. Cela va supprimer la compétence dans Mon bilan. Voulez-vous continuer?')) {
 		retour = true;
-		const code = "@"+UICom.structure.ui[uuid].getCode();
+		const code = UICom.structure.ui[uuid].getCode();
 		const target = getTarget (UICom.structure.ui[uuid].node,'mes-competences');
 		if (target.length>0) {
 			targetid = $(target[0]).attr("id");
@@ -806,7 +810,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type,evaluateur) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='' || date_dem_eval=='0')
 		date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -850,14 +854,14 @@ function buildSubmitEvaluationVector(nodeid,pageid,type,evaluateur) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,today,actioncode,actionlabel,matricule,note,evaluation,"",etudiant_email));
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
 	//----envoi courriel à l'enseigant -----
-	if (g_variables['sendemail']=='true') {
+	if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 		const object = "Évaluation";
 		const body = actionlabel+" a été évaluée.";
 		sendNotification(object,body,etudiant_email);
@@ -886,7 +890,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,evaluateur) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -901,7 +905,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,evaluateur) {
 		const enseignantemail = $("value",enseignants[i]).text();
 		saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
 		//----envoi courriel à l'enseigant -----
-		if (g_variables['sendemail']=='true') {
+		if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
 			const body = " ##firstname## ##lastname## vous a fait une demande de feedback pour son eportfolio.";
 			sendNotification(object,body,enseignantemail);
@@ -930,13 +934,19 @@ function buildSubmitFeebackVector(nodeid,pageid,type,evaluateur) {
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,matricule,question,reponse2,""));
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
+	//----envoi courriel à l'enseigant -----
+	if (g_variables['sendemail']!=null && g_variables['sendemail']=='true') {
+		const object = "Évaluation";
+		const body = actionlabel+" - Il y a une réponse  à votre de demande de feedback.";
+		sendNotification(object,body,etudiant_email);
+	}
 }
 
 //------------------------
@@ -1026,7 +1036,7 @@ function soumettreEvaluationCompetence(nodeid){ // --- sous section auto-evalaut
 	if ($("vector",searchVector(null,type+"-evaluation-done",nodeid)).length==0) { 
 		buildSubmitEvaluationVector(nodeid,pageid,type+"-evaluation-done");
 		// montrer
-		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[pageid].node)).attr("id");
+		const sectid = $("*:has(>metadata[semantictag*=section-montrer-cacher])",$(UICom.structure.ui[nodeid].node)).attr("id");
 		if (sectid!=undefined)
 			show(sectid);
 	}
@@ -1276,9 +1286,11 @@ function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,type) {
 	const separateur = (reponse[1]!="")?" - ":"";
 	html += "<td>"+reponse[0]+"</td>";
 	if (type=='repondu')
-		html += "<td><i data-toggle='tooltip' data-title='Supprimer du tableau de bord' class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondu(\'"+a3+"',\'"+a4+"')\"></i></td>";
-	if (type=='repondre')
-		html += "<td><i class='fas fa-trash-alt' onclick=\"supprimerFeedback(\'"+a3+"')\"></i></td>";
+		html += "<td><i data-toggle='tooltip' data-title='Supprimer du tableau de bord' class='fas fa-trash-alt' onclick='confirmDelele(\"supprimerFeedbackRepondu(\'"+a3+"\',\'"+a4+"\')\")'></i></td>";
+	if (type=='repondre') {
+		const js = "";
+		html += "<td><i class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondre('"+a3+"')\"></i></td>";
+	}
 	html += "</tr>";
 	$("#"+destid).append(html);
 }
@@ -1295,6 +1307,7 @@ function demanderFeedback(nodeid){
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+'-feedback',nodeid);
+	demandeEnregistree();
 	buildSaveFeedbackVector(nodeid,pageid,type+"-feedback");
 }
 
@@ -1310,6 +1323,7 @@ function modifierFeedback(nodeid) { // par l'enseignant
 	const type = getType(semtag);
 	deleteVector(null,type+'-feedback',nodeid);
 	buildSaveFeedbackVector(nodeid,pageid,type+'-feedback');
+	demandeEnregistree();
 	UIFactory.Node.reloadUnit();
 }
 
@@ -1320,6 +1334,7 @@ function supprimerFeedback(nodeid){ // par l'étudiant
 	const semtag = UICom.structure.ui[pageid].semantictag;
 	const type = getType(semtag);
 	deleteVector(null,type+"-feedback",nodeid);
+	demandeSupprimee();
 }
 
 function supprimerFeedbacks(pageid) { // par l'étudiant
@@ -1328,11 +1343,25 @@ function supprimerFeedbacks(pageid) { // par l'étudiant
 	deleteVector(null,type+"-feedback",null,pageid);
 }
 
+function supprimerFeedbackRepondre(nodeid){ // // par l'enseignant dans le tableau de bord
+
+	const js = "const pageid = $('#page').attr('uuid');const semtag = UICom.structure.ui[pageid].semantictag;const type = getType(semtag);deleteVector(null,type+'-feedback','"+nodeid+"');UIFactory.Node.reloadUnit();";
+
+	document.getElementById('delete-window-body').innerHTML = karutaStr[LANG]["confirm-delete"];
+	var buttons = "<button class='btn' onclick=\"$('#delete-window').modal('hide');\">" + karutaStr[LANG]["Cancel"] + "</button>";
+	buttons += "<button class='btn btn-danger' onclick=\""+js+";$('#delete-window').modal('hide')\">" + karutaStr[LANG]["button-delete"] + "</button>";
+	document.getElementById('delete-window-footer').innerHTML = buttons;
+	$('#delete-window').modal('show');
+}
+
 function supprimerFeedbackRepondu(nodeid,pageid) { // par l'enseignant dans le tableau de bord
-	const semtag = loadNodeAndGetSemtag(pageid);
-	const type = getType(semtag);
-	deleteVector(null,type+"-feedback-done",nodeid);
-	UIFactory.Node.reloadUnit();
+	const js = "const semtag = loadNodeAndGetSemtag(pageid);const type = getType(semtag);deleteVector(null,type+'-feedback-done','"+nodeid+"');UIFactory.Node.reloadUnit();"
+
+	document.getElementById('delete-window-body').innerHTML = karutaStr[LANG]["confirm-delete"];
+	var buttons = "<button class='btn' onclick=\"$('#delete-window').modal('hide');\">" + karutaStr[LANG]["Cancel"] + "</button>";
+	buttons += "<button class='btn btn-danger' onclick=\""+js+";$('#delete-window').modal('hide')\">" + karutaStr[LANG]["button-delete"] + "</button>";
+	document.getElementById('delete-window-footer').innerHTML = buttons;
+	$('#delete-window').modal('show');
 }
 
 function soumettreFeedback(nodeid){
@@ -1361,5 +1390,5 @@ function afficherDateAjout(nodeid) {
 }
 
 
-//# sourceURL=apc145.js
+//# sourceURL=apc14.js
 

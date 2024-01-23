@@ -658,7 +658,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
@@ -692,7 +692,7 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	saveVector(USER.username,type,nodeid,pageid,previewURL,matricule+"/"+etudiant,date_dem_eval+"/"+today,actioncode+"/"+action,note,evaluation);
 	const object = "Évaluation";
 	const body = action + "a été évalué(e).";
@@ -717,7 +717,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 //	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
 //	if (date_dem_eval==null || date_dem_eval=='')
 	let date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	let candelete = "";
 	for (let i=0;i<enseignants.length;i++){
 		const enseignantid = $("code",enseignants[i]).text();
@@ -748,14 +748,14 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 //	let date_dem_eval = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[pageid].node)).text();
 //	if (date_dem_eval==null || date_dem_eval=='')
 	let date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,previewURL,etudiant,date_dem_eval,action,question,commentaires2,USER.username);
 }
 
 //------------------------
 
-function getPreviewSharedURL(uuid) {
+function getPreviewSharedAPCURL(uuid) {
 	const email = "";
 	const role = 'enseignant';
 	const showtorole = 'enseignant';

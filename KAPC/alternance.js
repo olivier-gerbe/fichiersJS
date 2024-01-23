@@ -182,7 +182,7 @@ function buildSaveFeedbackQuestion1(nodeid,pageid,type,sendemail,role) {
 	//--------------------------
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid,role);
+	const previewURL = getPreviewSharedAPCURL(pageid,role);
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,"",actioncode,actionlabel,etudiant.matricule,question2,reponse2,"",etudiant.email));
 	//---------------------------
 	const selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",g_portfolio_current)).text();
@@ -226,7 +226,7 @@ function buildSubmitFeebackQuestion1(nodeid,pageid,type,role,object,body) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	//--------------------------
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,role);
+	const previewURL = getPreviewSharedAPCURL(pageid,role);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,etudiant.matricule,question2,reponse2,""));
 	//---------------------------
@@ -300,7 +300,7 @@ function buildSaveEvaluationVector1(nodeid,pageid,type,role,whoeval,whodelete) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	//---------------
-	const previewURL = getPreviewSharedURL(pageid,role);
+	const previewURL = getPreviewSharedAPCURL(pageid,role);
 	let a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,"",actioncode,actionlabel,etudiant.matricule,note,evaluation,commentaires,""));
 	//----------------------
 	let candelete = "";
@@ -335,7 +335,7 @@ function buildSubmitEvaluationVector1(nodeid,pageid,type,role) {
 		actioncode = actioncode.substring(0,actioncode.indexOf('*'))
 	const etudiant = getItemUserInfos(pageid,'etudiant-select');
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,role);
+	const previewURL = getPreviewSharedAPCURL(pageid,role);
 	const formation = "?";
 	const cohorte = "?";
 	//-------------

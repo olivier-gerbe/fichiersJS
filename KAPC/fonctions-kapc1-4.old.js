@@ -79,7 +79,7 @@ function removeBackdropAndRelaod()
 	fill_main_page();
 }
 
-function getPreviewSharedURL(uuid,role) {
+function getPreviewSharedAPCURL(uuid,role) {
 	const idx = role.indexOf('-select');
 	if (idx>0)
 		role = role.substring(0,idx);
@@ -961,7 +961,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type,evaluateur) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -1005,7 +1005,7 @@ function buildSubmitEvaluationVector(nodeid,pageid,type,evaluateur) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -1041,7 +1041,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,evaluateur) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -1085,7 +1085,7 @@ function buildSubmitFeebackVector(nodeid,pageid,type,evaluateur) {
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,evaluateur);
+	const previewURL = getPreviewSharedAPCURL(pageid,evaluateur);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";

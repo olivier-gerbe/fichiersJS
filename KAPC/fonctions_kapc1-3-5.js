@@ -82,7 +82,7 @@ function removeBackdropAndRelaod()
 	fill_main_page();
 }
 
-function getPreviewSharedURL(uuid) {
+function getPreviewSharedAPCURL(uuid) {
 	const role = 'enseignant';
 	const showtorole = 'enseignant';
 	const sharerole = 'etudiant';
@@ -856,7 +856,7 @@ function buildSaveEvaluationVector(nodeid,pageid,type) {
 	let date_dem_eval = $("value",$("asmContext:has(metadata[semantictag='date-dem-eval'])",UICom.structure.ui[evalid].node)).text();
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -896,13 +896,13 @@ function buildSubmitEvaluationVector(nodeid,pageid,type) {
 	if (date_dem_eval==null || date_dem_eval=='')
 		date_dem_eval = new Date().getTime();
 	const today = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCevaluation(previewURL,date_dem_eval,today,actioncode,actionlabel,matricule,note,evaluation,"",etudiant_email));
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
-	//----envoi courriel à l'enseigant -----
+	//----envoi courriel à l'étudiant -----
 	if (g_variables['sendemail']=='true') {
 		const object = "Évaluation";
 		const body = actionlabel+" a été évaluée.";
@@ -926,7 +926,7 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const feedback_metadata = $("metadata",UICom.structure.ui[nodeid].node);
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -940,8 +940,8 @@ function buildSaveFeedbackVector(nodeid,pageid,type,sendemail) {
 		const enseignantid = $("code",enseignants[i]).text();
 		const enseignantemail = $("value",enseignants[i]).text();
 		saveVector(enseignantid,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","",candelete);
-		//----envoi courriel à l'enseigant -----
-		if (sendemail!=null && sendemail=='true') {
+		//----envoi courriel à l'enseignant -----
+		if (g_variables['sendemail']=='true') {
 			const object = "Demande étudiante";
 			const body = " ##firstname## ##lastname## vous a fait une demande de feedback pour son eportfolio.";
 			sendNotification(object,body,enseignantemail);
@@ -964,13 +964,19 @@ function buildSubmitFeebackVector(nodeid,pageid,type) {
 	const reponse1 = reponse.replace(/(<br("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid);
+	const previewURL = getPreviewSharedAPCURL(pageid);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
 	const a5 = JSON.stringify(new KAPCfeedback(previewURL,date_dem_eval,date_evaluation,actioncode,actionlabel,matricule,question,reponse2,""));
 	deleteVector(null,null,nodeid)
 	saveVector(USER.username,type,nodeid,pageid,a5,etudiant,formation,cohorte,"","");
+	//----envoi courriel à l'étudiant -----
+	if (g_variables['sendemail']=='true') {
+		const object = "Feedback";
+		const body = actionlabel+" a répondu.";
+		sendNotification(object,body,etudiant_email);
+	}
 }
 
 //------------------------

@@ -42,7 +42,7 @@ function buildSaveFeedbackVectorPP(nodeid,pageid,type,sendemail,role) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	//--------------------------
 	const date_dem_eval = $(feedback_metadata).attr("date-demande");
-	const previewURL = getPreviewSharedURL(pageid,role);
+	const previewURL = getPreviewSharedAPCURL(pageid,role);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
@@ -85,7 +85,7 @@ function buildSubmitFeebackVectorPP(nodeid,pageid,type,role) {
 	const reponse2 = reponse1.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
 	//--------------------------
 	const date_evaluation = new Date().getTime();
-	const previewURL = getPreviewSharedURL(pageid,role);
+	const previewURL = getPreviewSharedAPCURL(pageid,role);
 	const matricule = $("text[lang='"+LANG+"']",$("asmContext:has(metadata[semantictag='etudiant-matricule'])",UICom.structure.ui[pageid].node)).text();
 	const formation = "?";
 	const cohorte = "?";
