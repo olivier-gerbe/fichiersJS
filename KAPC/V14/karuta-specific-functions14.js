@@ -71,6 +71,7 @@ function specificDisplayPortfolios(type){
 		}
 		// -- if there is no autoload portfolio, we search if any has the role set in USER.other ---
 		if (autoload=="") {
+			var visible = [];
 			for (var i=0;i<portfolios_list.length;i++){
 				$.ajax({
 					async:false,
@@ -79,10 +80,12 @@ function specificDisplayPortfolios(type){
 					url : serverBCK_API+"/rolerightsgroups/all/users?portfolio="+portfolios_list[i].id,
 					success : function(data) {
 						if ($("rrg:has('user[id="+USER.id+"]'):has('label:contains(etudia)')",data).length>0)
-							autoload = portfolios_list[i].id;
+							visible[visible.length] = i; //portfolios_list[i].id;
 					}
 				});
 			}
+			if (visible.lenght==1)
+				autoload = portfolios_list[visible[0]].id;
 		}
 
 		//---------------------------------------------------------------------------------------------

@@ -409,7 +409,8 @@ function verifier_supprimer_traces(nodeid) {
 	let to_be_deleted = true;
 	const code = UICom.structure.ui[nodeid].getCode();
 	//------------------------
-	const select_traces1 = $("*:has(>metadata[semantictag*='select-trace'])",g_portfolio_current);
+	const portfolioAPC = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-etu-##accountlogin##"),true);
+	const select_traces1 = $("*:has(>metadata[semantictag*='select-trace'])",portfolioAPC);
 	const portfolioAlternance = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-alternance-etu-##accountlogin##"),true);
 	const select_traces2 = $("*:has(>metadata[semantictag*='select-trace'])",portfolioAlternance);
 	const portfolioProjetPro = UIFactory.Portfolio.getdata_bycode(replaceVariable("portfolio-pp-etu-##accountlogin##"),true);
@@ -524,7 +525,7 @@ function setNodeCodeLabel2(nodeid,targetid){
 		if(UICom.structure.ui[targetid].node_code==undefined) // in case of access before node ndisplay
 			UICom.structure.ui[nodeid].setMetadata();
 		//-----------------------
-		$(UICom.structure.ui[targetid].code_node).text("@"+$(UICom.structure.ui[nodeid].code_node).text());
+		$(UICom.structure.ui[targetid].code_node).text($(UICom.structure.ui[nodeid].code_node).text());
 		$(UICom.structure.ui[targetid].label_node[LANGCODE]).text($(UICom.structure.ui[nodeid].label_node[LANGCODE]).text());
 		UICom.structure.ui[targetid].save();
 	}
@@ -1286,10 +1287,10 @@ function displayFeedback(destid,date,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,type) {
 	const separateur = (reponse[1]!="")?" - ":"";
 	html += "<td>"+reponse[0]+"</td>";
 	if (type=='repondu')
-		html += "<td><i data-toggle='tooltip' data-title='Supprimer du tableau de bord' class='fas fa-trash-alt' onclick='confirmDelele(\"supprimerFeedbackRepondu(\'"+a3+"\',\'"+a4+"\')\")'></i></td>";
+		html += "<td><i data-toggle='tooltip' data-title='Supprimer du tableau de bord' class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondu('"+a3+"','"+a4+"')\"></i></td>";
 	if (type=='repondre') {
 		const js = "";
-		html += "<td><i class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondre('"+a3+"')\"></i></td>";
+		html += "<td><i  data-toggle='tooltip' data-title='Supprimer du tableau de bord'class='fas fa-trash-alt' onclick=\"supprimerFeedbackRepondre('"+a3+"')\"></i></td>";
 	}
 	html += "</tr>";
 	$("#"+destid).append(html);
@@ -1355,7 +1356,7 @@ function supprimerFeedbackRepondre(nodeid){ // // par l'enseignant dans le table
 }
 
 function supprimerFeedbackRepondu(nodeid,pageid) { // par l'enseignant dans le tableau de bord
-	const js = "const semtag = loadNodeAndGetSemtag(pageid);const type = getType(semtag);deleteVector(null,type+'-feedback-done','"+nodeid+"');UIFactory.Node.reloadUnit();"
+	const js = "const semtag = loadNodeAndGetSemtag('"+pageid+"');const type = getType(semtag);deleteVector(null,type+'-feedback-done','"+nodeid+"');UIFactory.Node.reloadUnit();"
 
 	document.getElementById('delete-window-body').innerHTML = karutaStr[LANG]["confirm-delete"];
 	var buttons = "<button class='btn' onclick=\"$('#delete-window').modal('hide');\">" + karutaStr[LANG]["Cancel"] + "</button>";
