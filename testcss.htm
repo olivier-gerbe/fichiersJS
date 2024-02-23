@@ -1,0 +1,34 @@
+
+<html>
+<head>
+<style>
+button {
+  width: 120px;
+  height: 50px;
+  position: relative;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+button:after {
+  content: 'x';
+  font-size: 32px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: none;
+}
+
+button:hover:after {
+  display: block;
+  color: red;
+  cursor: pointer;
+  top: 6px;
+}
+</style>
+</head>
+
+<body>
+<button class="btn">x</button>
+</body>
+</html>
