@@ -1,6 +1,8 @@
 function getCohorte(type) {
 	const today = new Date();
 	const curyear = parseInt(today.getFullYear());
+	const curmonth = parseInt(today.getMonth());
+	const curdayr = parseInt(today.getDay());
 	const searchvalue = "-20"
 	var tableau = new Array();
 	$.ajax({
@@ -20,10 +22,10 @@ function getCohorte(type) {
 				const code = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",items[j])).text();
 				const cohorte = (code.substring(code.lastIndexOf("/")+1)).substring(0,code.indexOf("."));
 				const lastyear = parseInt(cohorte.substring((cohorte.indexOf("-")+1)));
-				if (type=='courante' && lastyear>=curyear) {
+				if (type=='courante' && lastyear>=curyear && curmonth>=9 && curday>=24) {
 					tableau[tableau.length] = $(items[j]).attr('id');
 				}
-				if (type=='anciennes' && lastyear<curyear) {
+				if (type=='anciennes' && (lastyear<curyear || !(lastyear>=curyear && curmonth>=9 && curday>=24))) {
 					tableau[tableau.length] = $(items[j]).attr('id');
 				}
 			}
