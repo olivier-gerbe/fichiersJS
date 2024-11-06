@@ -4,41 +4,56 @@
 function messageLu(nodeid)
 //==================================
 {
-	viewed = false;
-	let itself = UICom.structure.ui[nodeid].node;
-	// -----------------------------
-	// search if already viewded by the USER
-	const views = $("asmContext:has(metadata[semantictag*='view-by'])",itself);
-	for (i=0;i<views.length;i++){
-		const viewid =  $(views[i]).attr("id");
-		const viewtext = $(UICom.structure.ui[viewid].resource.text_node[LANGCODE]).text();
-		if (viewtext.indexOf(USER.firstname)>-1 && viewtext.indexOf(USER.lastname)>-1) {
-			viewed = true;
-			break;
+	if (USER.username!='root') {
+		viewed = false;
+		let itself = UICom.structure.ui[nodeid].node;
+		// -----------------------------
+		// search if already viewded by the USER
+		const views = $("asmContext:has(metadata[semantictag*='view-by'])",itself);
+		for (i=0;i<views.length;i++){
+			const viewid =  $(views[i]).attr("id");
+			const viewtext = $(UICom.structure.ui[viewid].resource.text_node[LANGCODE]).text();
+			if (viewtext.indexOf(USER.firstname)>-1 && viewtext.indexOf(USER.lastname)>-1) {
+				viewed = true;
+				break;
+			}
+		}
+		//-----------------------------
+		if (!viewed) {
+			//--------------------------
+			// import et mise à jour de 'view-by'
+			const srcecode = replaceVariable("##dossier-modeles-LAN##.composantes-generales")
+			const viewid = importBranch(nodeid,srcecode,"view-by");
+			UIFactory.Node.reloadUnit(nodeid,false);
+			const today = new Date();
+			let  viewtext =today.toLocaleString() + " par " + USER.firstname + " "+ USER.lastname;
+			if (views.length==0) {
+				viewtext = "Créé le " + viewtext;
+				const xml = "<metadata-epm displayitselforg='default' displayview='compact' nds-othercss='display:none'/>";
+				$.ajax({
+					async : false,
+					type : "PUT",
+					contentType: "application/xml",
+					dataType : "text",
+					data : xml,
+					url : serverBCK_API+"/nodes/node/" + viewid+"/metadataepm",
+					success : function() {
+					},
+					error : function() {
+					}
+				});
+				UICom.structure.ui[viewid].resource.text_node[LANGCODE].text(viewtext);
+				UICom.structure.ui[viewid].save();
+				UIFactory.Node.reloadUnit(nodeid);
+			} else {
+				viewtext =  "Vu le " + viewtext;
+				UICom.structure.ui[viewid].resource.text_node[LANGCODE].text(viewtext);
+				UICom.structure.ui[viewid].save();
+			}
 		}
 	}
-	//-----------------------------
-	if (!viewed) {
-		//--------------------------
-		// import et mise à jour de 'view-by'
-		const srcecode = replaceVariable("##dossier-modeles-LAN##.composantes-generales")
-		const viewid = importBranch(nodeid,srcecode,"view-by");
-		UIFactory.Node.reloadUnit(nodeid,false);
-		const today = new Date();
-		let  viewtext =today.toLocaleString() + " par " + USER.firstname + " "+ USER.lastname;
-		if (views.length==0) 
-			viewtext = "<span style='display:none'>Créé le " + viewtext +" </span>";
-		else
-			viewtext =  "Vu le " + viewtext;
-		UICom.structure.ui[viewid].resource.text_node[LANGCODE].text(viewtext);
-		UICom.structure.ui[viewid].save();
-		if (views.length==0) 
-			moveup(viewid);
-		UIFactory.Node.reloadUnit();
-		UIFactory.Node.reloadUnit();
-	}
+	return true;
 }
-
 //==================================
 function testSiEnvoiCourrielCR(nodeid)
 //==================================
