@@ -19,7 +19,7 @@ if( UIFactory === undefined )
   var UIFactory = {};
 }
 
-
+var g_Get_ROME_caches = {};
 
 /// Define our type
 //==================================
@@ -433,9 +433,6 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 			semtag = semtag.substring(0,semtag.indexOf('+'));
 		}
 		var target = queryattr_value.substring(srce_indx+1); // label or text
-		//------------
-//		var portfoliocode = cleanCode(replaceVariable(queryattr_value.substring(0,semtag_indx)));
-		var portfoliocode = replaceVariable(queryattr_value.substring(0,semtag_indx));
 		// ==============================================================================
 		var self = this;
 		if (cachable && g_Get_ROME_caches[queryattr_value]!=undefined && g_Get_ROME_caches[queryattr_value]!="")
@@ -643,7 +640,7 @@ UIFactory["Get_ROME"].update = function(selected_item,itself,langcode,type)
 			$(UICom.structure.ui[itself.id].resource.value_node[0]).text(value);
 			$(UICom.structure.ui[itself.id].resource.code_node[0]).text(code);
 			$(UICom.structure.ui[itself.id].resource.uuid_node[0]).text(uuid);
-			$(UICom.structure.ui[itself.id].resource.style_node[0]).text(style.trim());
+//			$(UICom.structure.ui[itself.id].resource.style_node[0]).text(style.trim());
 			for (var i=0; i<languages.length;i++){
 				var label = $(selected_item).attr('label_'+languages[i]);
 				$(UICom.structure.ui[itself.id].resource.label_node[i][0]).text(label);
@@ -1270,3 +1267,5 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 		$(btn_group).append($(select));
 	}
 }
+
+//# sourceURL=Get_ROME.js

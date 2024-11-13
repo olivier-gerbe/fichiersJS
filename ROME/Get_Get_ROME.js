@@ -615,7 +615,7 @@ UIFactory["Get_Get_ROME"].prototype.displayEditor = function(destid,type,langcod
 	}
 };
 
-GEt
+
 //==================================
 UIFactory["Get_Get_ROME"].getChildren = function(dest,langcode,self,srce,portfoliocode,semtag,semtag_parent,code,cachable,tabadded)
 //==================================
@@ -1427,6 +1427,6 @@ UIFactory["Get_Get_ROME"].parseROME = function(destid,type,langcode,data,self,di
 	}
 }
 
-
+//# sourceURL=Get_Get_ROME.js
 
 
