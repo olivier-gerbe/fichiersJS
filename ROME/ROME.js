@@ -16,6 +16,6 @@
 
 karutaStr["fr"]['ROME'] = "ROME";
 karutaStr["en"]['ROME'] = "ROME";
-plugin_resources[plugin_resources.length] = {location:'karuta-plugins.PLUGIN-ROME',tag:'ROME',label:'ROME'};
+plugin_resources[plugin_resources.length] = {location:'karuta-configuration.configuration-tech',tag:'ROME',label:'ROME'};
 
 //# sourceURL=ROME.js

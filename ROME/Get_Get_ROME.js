@@ -237,6 +237,8 @@ UIFactory["Get_Get_ROME"].prototype.displayEditor = function(destid,type,langcod
 {
 	if (type==undefined || type==null)
 		type = $("metadata-wad",this.node).attr('seltype');
+	if (cachable==undefined || cachable==null)
+		cachable = true;
 	var queryattr_value = $("metadata-wad",this.node).attr('query');
 	if (this.multiple!=""){
 		multiple_tags = this.multiple.substring(this.multiple.indexOf('/')+1);
