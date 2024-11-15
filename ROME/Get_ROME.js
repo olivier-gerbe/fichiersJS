@@ -1,5 +1,5 @@
 /* =======================================================
-	Copyright 2018 - ePortfolium - Licensed under the
+	Copyright 2024 - ePortfolium - Licensed under the
 	Educational Community License, Version 2.0 (the "License"); you may
 	not use this file except in compliance with the License. You may
 	obtain a copy of the License at
@@ -216,101 +216,38 @@ UIFactory["Get_ROME"].prototype.getView = function(dest,type,langcode,indashboar
 	var style = $(this.style_node).text();
 	var html = "";
 	//--------------------------------------------------
-	if (label.indexOf("resource:")>-1) {
-		var elts = label.split("|");
-		try {
-			html += UICom.structure.ui[elts[0].substring(9)].resource.getView(null,"span");
-		}
-		catch(e) {
-			var semtag = elts[1].substring(7);
-			// search for resource uuid
-			var res_node = $("asmContext:has(metadata[semantictag='"+semtag+"']):has(code:contains('"+code+"'))",g_portfolio_current);
-			if (res_node.length>0) {
-				var resid = $($(res_node)[0]).attr('id');
-				for (var i=0; i<languages.length;i++){
-					this.label_node[i].text('resource:'+resid+'|semtag:'+semtag);
-				}
-				if (resid!=undefined) {
-				//update get_resource
-				this.save();
-				html += UICom.structure.ui[resid].resource.getView();
-				}
-			} else {
-				if (indashboard)
-					html += "<span class='"+cleanCode(code)+"' style='";
-				else
-					html += "<div class='"+cleanCode(code)+" view-div' style='";
-				html += style;
-				html += "'>";
-				if ((code.indexOf("#")>-1 && code.indexOf("##")<0) || (this.queryattr_value != undefined && this.queryattr_value.indexOf("CNAM")>-1))
-					html += "<span name='code'>" + cleanCode(code) + "</span> ";
-				if (code.indexOf("*")>-1)
-					html += "<span name='code'>" + cleanCode(code) + "</span> ";
-				if (code.indexOf("%")<0) {
-						html += "<span name='label'>" + elts[2].substring(6) + "</span> ";
-				}
-				if (code.indexOf("&")>-1)
-					html += " ["+$(this.value_node).text()+ "] ";
-				if (indashboard)
-					html += "</span>";
-				else
-					html += "</div>";
-			}
-		}
-	//--------------------------------------------------
-	} else  if (label.indexOf("nodelabel:")>-1) {
-		var elts = label.split("|");
-		var text = "";
-		var label = "";
-		var code = "";
-		var style = "";
-		try {
-			var resid = elts[0].substring(10);
-			var node = UICom.structure.ui[resid];
-			label = node.label_node[langcode].text();
-			code = node.code_node.text();
-			style = this.style_node.text();
-		}
-		catch(e) {
-			var semtag = elts[1].substring(7);
-			// search for resource uuid
-			var res_node = $("*:has(>metadata[semantictag='"+semtag+"']):has(>code:contains('"+code+"'))",g_portfolio_current);
-			if (res_node.length>0) {
-				var resid = $($(res_node)[0]).attr('id');
-				if (resid!=undefined) {
-					//update get_resource
-					var node = UICom.structure.ui[resid];
-					label = node.label_node[langcode].text();
-					code = node.code_node.text();
-					style = this.style_node.text();
-					for (var i=0; i<languages.length;i++){
-						this.label_node[i].text("nodelabel:"+resid+"|semtag:"+semtag+"|label:"+label);
-					}
-					this.save();
-				}
-			} else {
-				label = elts[2].substring(6);
-			}
-		}
+	if (type!="batchform") {
 		if (indashboard)
 			html += "<span class='"+cleanCode(code)+"' style='";
 		else
 			html += "<div class='"+cleanCode(code)+" view-div' style='";
 		html += style;
 		html += "'>";
-		if (code.indexOf("#")>-1 && code.indexOf("##")<0)
+		if (code.indexOf("#")>-1 && code.indexOf("##")<0) 
 			html += "<span name='code'>" + cleanCode(code) + "</span> ";
 		if (code.indexOf("*")>-1)
 			html += "<span name='code'>" + cleanCode(code) + "</span> ";
-		if (code.indexOf("%")<0 && elts[2]!=undefined) {
+		if (code.indexOf("%")<0) {
+			if (label.indexOf("fileid-")>-1) {
+				if (UICom.structure.ui[label.substring(7)]==undefined)
+					$.ajax({
+						async: false,
+						type : "GET",
+						dataType : "xml",
+						url : serverBCK_API+"/nodes/node/" + label.substring(7),
+						success : function(data) {
+							UICom.parseStructure(data,false);
+						}
+					});
+				html += UICom.structure.ui[label.substring(7)].resource.getView();
+			} else {
 				html += "<span name='label'>" + label + "</span> ";
-		} else {
-				html += "<span name='label'>undefined</span> ";
+			}
 		}
 		if (code.indexOf("&")>-1)
 			html += " ["+$(this.value_node).text()+ "] ";
 		if (this.preview){
-			let js = "previewPage('"+resid+"',100,'standard')";
+			let js = "previewPage('"+this.uuid_node.text()+"',100,'standard')";
 			if (this.previewsharing!=""){
 				options = this.previewsharing.split(",");
 				if (options[3].indexOf(g_userroles[0])>-1){
@@ -325,57 +262,8 @@ UIFactory["Get_ROME"].prototype.getView = function(dest,type,langcode,indashboar
 			html += "</span>";
 		else
 			html += "</div>";
-	//--------------------------------------------------
-	} else {
-		if (type!="batchform") {
-			if (indashboard)
-				html += "<span class='"+cleanCode(code)+"' style='";
-			else
-				html += "<div class='"+cleanCode(code)+" view-div' style='";
-			html += style;
-			html += "'>";
-			if (code.indexOf("#")>-1 && code.indexOf("##")<0) 
-				html += "<span name='code'>" + cleanCode(code) + "</span> ";
-			if (code.indexOf("*")>-1)
-				html += "<span name='code'>" + cleanCode(code) + "</span> ";
-			if (code.indexOf("%")<0) {
-				if (label.indexOf("fileid-")>-1) {
-					if (UICom.structure.ui[label.substring(7)]==undefined)
-						$.ajax({
-							async: false,
-							type : "GET",
-							dataType : "xml",
-							url : serverBCK_API+"/nodes/node/" + label.substring(7),
-							success : function(data) {
-								UICom.parseStructure(data,false);
-							}
-						});
-					html += UICom.structure.ui[label.substring(7)].resource.getView();
-				} else {
-					html += "<span name='label'>" + label + "</span> ";
-				}
-			}
-			if (code.indexOf("&")>-1)
-				html += " ["+$(this.value_node).text()+ "] ";
-			if (this.preview){
-				let js = "previewPage('"+this.uuid_node.text()+"',100,'standard')";
-				if (this.previewsharing!=""){
-					options = this.previewsharing.split(",");
-					if (options[3].indexOf(g_userroles[0])>-1){
-						//-------------------------------------------sharerole,level,duration,role
-						const previewURL = getPreviewSharedURL(this.uuid_node.text(),options[0],options[1],options[2],g_userroles[0])
-						js = "previewPage('"+previewURL+"',100,'previewURL',null,true)";
-					}
-				}
-				html+= "&nbsp;<span class='button preview-button fas fa-binoculars' onclick=\" "+ js +" \" data-title='"+karutaStr[LANG]["preview"]+"' data-toggle='tooltip' data-placement='bottom'></span>";
-			}
-			if (indashboard)
-				html += "</span>";
-			else
-				html += "</div>";
-		} else {	// type=='batchform'
-			html = label;
-		}
+	} else {	// type=='batchform'
+		html = label;
 	}
 	//------------------if function js-----------------
 	const result1 = execJS(this,'display-resource-before');
@@ -426,7 +314,6 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 		var srce_indx = queryattr_value.lastIndexOf('.');
 		var srce = queryattr_value.substring(srce_indx+1);
 		var semtag_indx = queryattr_value.substring(0,srce_indx).lastIndexOf('.');
-		var semtag2 = "";
 		var semtag = queryattr_value.substring(semtag_indx+1,srce_indx);
 		if (semtag.indexOf('+')>-1) {
 			semtag2 = semtag.substring(semtag.indexOf('+')+1);
@@ -450,41 +337,6 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 			});
 		}
 	}
-/*	if (this.get_type=="import_comp"){
-//		let portfoliocode = cleanCode(replaceVariable(this.query_portfolio));
-		let portfoliocode = replaceVariable(this.query_portfolio);
-		let selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",g_portfolio_current)).text();
-		if (portfoliocode=='self') {
-			portfoliocode = selfcode;
-			cachable = false;
-		}
-		let semtag = this.query_semtag;
-		let semtag2 = "";
-		if (semtag.indexOf('+')>-1) {
-			semtag2 = semtag.substring(semtag.indexOf('+')+1);
-			semtag = semtag.substring(0,semtag.indexOf('+'));
-		}
-		let srce = this.query_object;
-		let target = this.query_object;
-		type = 'multiple';
-		//------------
-		var self = this;
-		if (cachable && g_Get_ROME_caches[portfoliocode+semtag]!=undefined && g_Get_ROME_caches[portfoliocode+semtag]!="")
-			self.parse(destid,type,langcode,g_Get_ROME_caches[portfoliocode+semtag],disabled,srce,resettable,target,semtag,null,portfoliocode,semtag2,cachable);
-		else {
-			$.ajax({
-				async:false,
-				type : "GET",
-				dataType : "xml",
-				url : serverBCK_API+"/nodes?portfoliocode=" + portfoliocode + "&semtag="+semtag.replace("!",""),
-				success : function(data) {
-					if (cachable)
-						g_Get_ROME_caches[portfoliocode+semtag] = data;
-					self.parse(destid,type,langcode,data,disabled,srce,resettable,target,semtag,null,portfoliocode,semtag2,cachable);
-				}
-			});
-		}
-	} */
 	//-------- if function js -------------
 	if (UICom.structure.ui[this.id].js!="") {
 		var fcts = UICom.structure.ui[this.id].js.split("|");
@@ -500,123 +352,6 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 	}
 	//---------------------
 };
-
-
-//==================================
-UIFactory["Get_ROME"].getChildren = function(dest,self,langcode,srce,target,portfoliocode,semtag,semtag_parent,code,cachable,tabadded)
-//==================================
-{
-	var semtag2 = "";
-	if (semtag.indexOf('+')>-1) {
-		semtag2 = semtag.substring(semtag.indexOf('+')+1);
-		semtag = semtag.substring(0,semtag.indexOf('+'));
-	}
-	//------------
-	if (cachable && g_Get_ROME_caches[portfoliocode+semtag+semtag_parent+code]!=undefined && g_Get_ROME_caches[portfoliocode+semtag+semtag_parent+code]!="")
-		UIFactory.Get_ROME.parseChildren(dest,self,g_Get_ROME_caches[portfoliocode+semtag+semtag_parent+code],langcode,srce,target,portfoliocode,semtag,semtag_parent,code,semtag2,cachable,tabadded)
-	else {
-		$.ajax({
-			async:false,
-			type : "GET",
-			dataType : "xml",
-			url : serverBCK_API+"/nodes?portfoliocode="+portfoliocode+"&semtag="+semtag.replace("!","")+"&semtag_parent="+semtag_parent+ "&code_parent="+code,
-			success : function(data) {
-				if (cachable)
-					g_Get_ROME_caches[portfoliocode+semtag+semtag_parent+code] = data;
-				UIFactory.Get_ROME.parseChildren(dest,self,data,langcode,srce,target,portfoliocode,semtag,semtag_parent,code,semtag2,cachable,tabadded)
-			}
-		});
-	}
-	//------------
-}
-//==================================
-UIFactory["Get_ROME"].parseChildren = function(dest,self,data,langcode,srce,target,portfoliocode,semtag,semtag_parent,code,semtag2,cachable,tabadded)
-//==================================
-{
-	//-----Node ordering-------------------------------------------------------
-	var nodes = $("node",data);
-	var tableau1 = new Array();
-	for ( var i = 0; i < $(nodes).length; i++) {
-		var resource = null;
-		if ($("asmResource",nodes[i]).length==3)
-			resource = $("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",nodes[i]); 
-		else
-			resource = $("asmResource[xsi_type='nodeRes']",nodes[i]);
-		var code = $('code',resource).text();
-		tableau1[i] = [code,nodes[i]];
-	}
-	var newTableau1 = tableau1.sort(sortOn1);
-	//----------remove allready added----------------------------------------------------------
-	var newTableau2 = [];
-	if (tabadded.length>0) {
-		for ( var i = 0; i < newTableau1.length; ++i) {
-			const indx = tabadded.indexOf(newTableau1[i][0]);
-			if (indx==-1)
-				newTableau2.push(newTableau1[i]);
-		}
-	} else {
-		newTableau2 = newTableau1;
-	}
-	//--------------------------------------------------------------------
-	for ( var i = 0; i < newTableau2.length; ++i) {
-		var uuid = $(newTableau2[i][1]).attr('id');
-		//------------------------------
-		var input = "";
-		//------------------------------
-		var resource = null;
-		if ($("asmResource",newTableau2[i][1]).length==3)
-			resource = $("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",newTableau2[i][1]); 
-		else
-			resource = $("asmResource[xsi_type='nodeRes']",newTableau2[i][1]);
-		//------------------------------
-		var code = $('code',resource).text();
-		var selectable = true;
-		var disabled = false;
-		var display_code = false;
-		var display_label = true;
-		//------------------------
-		if (code.indexOf("$")>-1){ 
-			display_label = false;
-		}
-		if (code.indexOf("@")<0) {
-			display_code = true;
-		}
-		if (code.indexOf("?")>-1) {
-			disabled = true;
-		}
-		if (code.indexOf("!")>-1 || semtag.indexOf("!")>-1 ) {
-			selectable = false;
-		}
-		code = cleanCode(code);
-		//------------------------------
-		input += "<div id='"+code+"' class='subget_ressource'>";
-		if (selectable) {
-			input += "	<input type='checkbox' uuid='"+uuid+"' name='multiple_"+self.id+"' value='"+$('value',resource).text()+"' code='"+$('code',resource).text()+"' class='multiple-item";
-			input += "' ";
-			for (var j=0; j<languages.length;j++){
-				if (target=='fileid' || target=='resource') {
-					if (target=='fileid')
-						input += "label_"+languages[j] + "=\"" + target + "-" + uuid + "\" ";
-					else
-						input += "label_"+languages[j] + "=\"" + target + ":" + uuid + "|semtag:"+semtag+"\" ";
-				} else 
-					input += "label_"+languages[j]+"=\""+$(srce+"[lang='"+languages[j]+"']",resource).text()+"\" ";
-			}
-			if (disabled)
-				input += "disabled";
-			input += "> ";
-		}
-		if (display_code)
-			input += code + " ";
-		input +="<span  class='"+code+"'>"+$(srce+"[lang='"+languages[langcode]+"']",resource).text()+"</span></div>";
-		var input_obj = $(input);
-		$(dest).append(input_obj);
-		if (semtag2!="") {
-			var semtag_parent = semtag.replace("!","");
-			UIFactory.Get_ROME.getChildren(dest,self,langcode,srce,target,portfoliocode,semtag2,semtag_parent,code,cachable);
-		}
-	}
-}
 
 //==================================
 UIFactory["Get_ROME"].update = function(selected_item,itself,langcode,type)
@@ -640,7 +375,6 @@ UIFactory["Get_ROME"].update = function(selected_item,itself,langcode,type)
 			$(UICom.structure.ui[itself.id].resource.value_node[0]).text(value);
 			$(UICom.structure.ui[itself.id].resource.code_node[0]).text(code);
 			$(UICom.structure.ui[itself.id].resource.uuid_node[0]).text(uuid);
-//			$(UICom.structure.ui[itself.id].resource.style_node[0]).text(style.trim());
 			for (var i=0; i<languages.length;i++){
 				var label = $(selected_item).attr('label_'+languages[i]);
 				$(UICom.structure.ui[itself.id].resource.label_node[i][0]).text(label);
@@ -712,381 +446,6 @@ UIFactory["Get_ROME"].prototype.refresh = function()
 //==================================================================================
 //==================================================================================
 //==================================================================================
-
-//==================================
-UIFactory["Get_ROME"].addSimple = function(parentid,targetid,multiple_tags)
-//==================================
-{
-	//------------------------------
-	if (UICom.structure.ui[targetid]==undefined && targetid!="")
-		targetid = getNodeIdBySemtag(targetid);
-	if (targetid!="" && targetid!=parentid)
-		parentid = targetid;
-	//------------------------------
-	$.ajaxSetup({async: false});
-	var part_code = multiple_tags.substring(0,multiple_tags.indexOf(','));
-	var srce = part_code.substring(0,part_code.lastIndexOf('.'));
-	var part_semtag = part_code.substring(part_code.lastIndexOf('.')+1);
-	var get_resource_semtag = multiple_tags.substring(multiple_tags.indexOf(',')+1);
-	var input = $("#button_"+LANGCODE+parentid);
-	// for each one create a part
-	var databack = true;
-	var callback = UIFactory.Get_ROME.updateaddedpart;
-	var param2 = get_resource_semtag;
-	var param3 = input;
-	var param4 = true;
-	importBranch(parentid,srce,part_semtag,databack,callback,param2,param3,param4);
-	$('#edit-window').modal('hide');
-};
-
-//==================================
-UIFactory["Get_ROME"].addMultiple = function(parentid,targetid,multiple_tags,updated_semtag,fctjs)
-//==================================
-{
-	if (fctjs==null)
-		fctjs = "";
-	else
-		fctjs = decode(fctjs);
-	//------------------------------
-	if (UICom.structure.ui[targetid]==undefined && targetid!="")
-		targetid = getNodeIdBySemtag(targetid);
-	else if (targetid=="")
-		targetid = parentid;
-	//------------------------------
-	$.ajaxSetup({async: false});
-	var elts = multiple_tags.split(",");
-	var part_code = elts[0];
-	var srce = part_code.substring(0,part_code.lastIndexOf('.'));
-	var part_semtag = part_code.substring(part_code.lastIndexOf('.')+1);
-	var get_resource_semtag = elts[1];
-	var fct = elts[2];
-	var inputs = $("input[name='multiple_"+parentid+"']").filter(':checked');
-	// for each one create a part
-	var databack = true;
-	var callback = UIFactory.Get_ROME.updateaddedpart;
-	var param2 = get_resource_semtag;
-	var param4 = false;
-	var param5 = parentid;
-	var param6 = fct;
-	if (targetid!="" && targetid!=parentid)
-		parentid = targetid;
-	for (var j=0; j<inputs.length;j++){
-		var param3 = inputs[j];
-		if (j==inputs.length-1)
-			param4 = true;
-		importBranch(parentid,srce,part_semtag,databack,callback,param2,param3,param4,param5,param6);
-		if (fctjs!="")
-			eval(fctjs);
-	}
-};
-
-//==================================
-UIFactory["Get_ROME"].updateaddedpart = function(data,get_resource_semtag,selected_item,last,parentid,fct)
-//==================================
-{
-	var partid = data;
-	var value = $(selected_item).attr('value');
-	var code = $(selected_item).attr('code');
-	var uuid = $(selected_item).attr('uuid');
-	if (fct=="addParentCode") {
-		code = UICom.structure.ui[parentid].getCode() + "*" + code;
-	}
-	var xml = "<asmResource xsi_type='Get_ROME'>";
-	xml += "<code>"+code+"</code>";
-	xml += "<value>"+value+"</value>";
-	xml += "<uuid>"+uuid+"</uuid>";
-	for (var i=0; i<languages.length;i++){
-		var label = $(selected_item).attr('label_'+languages[i]);
-		xml += "<label lang='"+languages[i]+"'>"+label+"</label>";
-	}
-	xml += "</asmResource>";
-	$.ajax({
-		type : "GET",
-		dataType : "xml",
-		url : serverBCK_API+"/nodes/node/"+partid,
-		last : last,
-		success : function(data) {
-			var nodes = $("*:has(>metadata[semantictag*='"+get_resource_semtag+"'])",data);
-			if (nodes.length==0)
-				nodes = $( ":root",data ); //node itself
-			var nodeid = $(nodes[0]).attr('id'); 
-			var url_resource = serverBCK_API+"/resources/resource/" + nodeid;
-			var tagname = $(nodes[0])[0].nodeName;
-			if( "asmContext" == tagname) {
-				const resource = $("asmResource[xsi_type!='nodeRes'][xsi_type!='context']", $(nodes[0])[0]);
-				const xsi_type = $(resource).attr("xsi_type");
-				xml = xml.replace("Get_Get_ROME",xsi_type);
-			} else {
-				xml = xml.replace("Get_Get_ROME","nodeRes");
-				url_resource = serverBCK_API+"/nodes/node/" + nodeid + "/noderesource";
-				
-			}
-			$.ajax({
-				type : "PUT",
-				contentType: "application/xml",
-				dataType : "text",
-				data : xml,
-				last : this.last,
-				url : url_resource,
-				tagname : tagname,
-				success : function(data) {
-					if (this.last) {
-						$('#edit-window').modal('hide');
-						if (this.tagname=='asmUnit' || this.tagname=='asmStructure')
-							UIFactory.Node.reloadStruct();
-						else
-							UIFactory.Node.reloadUnit();
-					}
-				}
-			});
-		}
-	});
-
-}
-
-//==================================
-UIFactory["Get_ROME"].importMultiple = function(parentid,targetid,srce,fctjs)
-//==================================
-{
-	if (fctjs==null)
-		fctjs = "";
-	else
-		fctjs = decode(fctjs);
-	var inputs = $("input[name='multiple_"+parentid+"']").filter(':checked');
-	// for each one import a part
-	//------------------------------
-	if (UICom.structure.ui[targetid]==undefined && targetid!="")
-		targetid = getNodeIdBySemtag(targetid);
-	if (targetid!="" && targetid!=parentid)
-		parentid = targetid;
-	//------------------------------
-	var callback = "";
-	var databack = false;
-	var param2 = "";
-	var param3 = null;
-	var parent = UICom.structure.ui[parentid].node;
-	while ($(parent).prop("nodeName")!="asmUnit" && $(parent).prop("nodeName")!="asmStructure" && $(parent).prop("nodeName")!="asmRoot") {
-		parent = $(parent).parent();
-	}
-	var reloadid = $(parent).attr("id");
-	if ($(parent).prop("nodeName") == "asmUnit"){
-		callback = UIFactory.Node.reloadUnit;
-		param2 = reloadid;
-		if ($("#page").attr('uuid')!=reloadid)
-			param3 = false;
-	}
-	else {
-		callback = UIFactory.Node.reloadStruct;
-		param2 = g_portfolio_rootid;
-		if ($("#page").attr('uuid')!=reloadid)
-			param3 = false;
-	}
-	for (var j=0; j<inputs.length;j++){
-		var code = $(inputs[j]).attr('code');
-		if (srce.indexOf("?")>-1){
-			var newcode = srce.substring(srce.indexOf(".")+1);
-			srce = code;
-			if (srce.indexOf("@")>-1) {
-				srce =srce.substring(0,srce.indexOf("@"))+srce.substring(srce.indexOf("@")+1);
-			}
-			if (srce.indexOf("#")>-1) {
-				srce = srce.substring(0,srce.indexOf("#"))+srce.substring(srce.indexOf("#")+1);
-			}
-			if (srce.indexOf("%")>-1) {
-				srce = srce.substring(0,srce.indexOf("%"))+srce.substring(srce.indexOf("%")+1);
-			}
-			if (code.indexOf("$")>-1) {
-				display_label = false;
-				code = code.substring(0,code.indexOf("$"))+code.substring(code.indexOf("$")+1);
-			}
-			if (code.indexOf("&")>-1) {
-				display_label = false;
-				code = code.substring(0,code.indexOf("$"))+code.substring(code.indexOf("&")+1);
-			}
-			code = newcode;
-		}
-		importBranch(parentid,srce,encodeURIComponent(code),databack,callback,param2,param3);
-		if (fctjs!="")
-			eval(fctjs);
-	}
-	$('#edit-window').modal('hide');
-};
-
-//--------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------
-//----------------------------------Menu Functions--------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------
-
-//==================================
-function get_simple(parentid,targetid,title,query,partcode,get_resource_semtag)
-//==================================
-{
-	// targetid not used with get_simple
-	var js1 = "javascript:$('#edit-window').modal('hide')";
-	var js2 = "UIFactory.Get_ROME.addSimple('"+parentid+"','"+targetid+"','"+replaceVariable(partcode)+","+get_resource_semtag+"')";
-	var footer = "<button class='btn' onclick=\""+js2+";\">"+karutaStr[LANG]['Add']+"</button> <button class='btn' onclick=\""+js1+";\">"+karutaStr[LANG]['Close']+"</button>";
-	$("#edit-window-footer").html(footer);
-	$("#edit-window-title").html(title.replaceAll("##apos##","'"));
-	var html = "<div id='get-resource-node'></div>";
-	$("#edit-window-body").html(html);
-	$("#edit-window-body-node").html("");
-	$("#edit-window-type").html("");
-	$("#edit-window-body-metadata").html("");
-	$("#edit-window-body-metadata-epm").html("");
-	var getResource = new UIFactory["Get_ROME"](UICom.structure.ui[parentid].node,"xsi_type='nodeRes'");
-	getResource.simple = query+"/"+partcode+","+get_resource_semtag;
-	getResource.displayEditor("get-resource-node");
-	$('#edit-window').modal('show');
-}
-//==================================
-function get_multiple(parentid,targetid,title,query,partcode,get_resource_semtag,fct)
-//==================================
-{
-	// targetid not used with get_multiple
-	var js1 = "javascript:$('#edit-window').modal('hide')";
-	var js2 = "UIFactory.Get_ROME.addMultiple('"+parentid+"','"+targetid+"','"+replaceVariable(partcode)+","+get_resource_semtag+","+fct+"')";
-	var footer = "<button class='btn' onclick=\""+js2+";\">"+karutaStr[LANG]['Add']+"</button> <button class='btn' onclick=\""+js1+";\">"+karutaStr[LANG]['Close']+"</button>";
-	$("#edit-window-footer").html(footer);
-	$("#edit-window-title").html(title.replaceAll("##apos##","'"));
-	var html = "<div id='get-resource-node'></div>";
-	$("#edit-window-body").html(html);
-	$("#edit-window-body-node").html("");
-	$("#edit-window-type").html("");
-	$("#edit-window-body-metadata").html("");
-	$("#edit-window-body-metadata-epm").html("");
-	var getResource = new UIFactory["Get_ROME"](UICom.structure.ui[parentid].node,"xsi_type='nodeRes'");
-	getResource.multiple = query+"/"+partcode+","+get_resource_semtag+","+fct;
-	getResource.parentid = parentid;
-	getResource.targetid = targetid;
-	getResource.displayEditor("get-resource-node");
-	$('#edit-window').modal('show');
-}
-
-//==================================
-function import_multiple(parentid,targetid,title,query,partcode,get_resource_semtag)
-//==================================
-{
-	var js1 = "javascript:$('#edit-window').modal('hide')";
-	var js2 = "UIFactory.Get_ROME.importMultiple('"+parentid+"','"+targetid+"','"+replaceVariable(partcode)+"')";
-	var footer = "<button class='btn' onclick=\""+js2+";\">"+karutaStr[LANG]['Add']+"</button> <button class='btn' onclick=\""+js1+";\">"+karutaStr[LANG]['Close']+"</button>";
-	$("#edit-window-footer").html(footer);
-	$("#edit-window-title").html(title.replaceAll("##apos##","'"));
-	var html = "<div id='get-resource-node'></div>";
-	$("#edit-window-body").html(html);
-	$("#edit-window-body-node").html("");
-	$("#edit-window-type").html("");
-	$("#edit-window-body-metadata").html("");
-	$("#edit-window-body-metadata-epm").html("");
-	var getResource = new UIFactory["Get_ROME"](UICom.structure.ui[parentid].node,"xsi_type='nodeRes'");
-	getResource.multiple = query+"/"+partcode+","+get_resource_semtag;
-	getResource.displayEditor("get-resource-node");
-	$('#edit-window').modal('show');
-
-}
-
-//==================================
-function import_get_multiple(parentid,targetid,title,query_portfolio,query_semtag,query_object,actns,unique)
-//==================================
-{
-	if (unique==null)
-		unique = '';
-	$.ajaxSetup({async: false});
-	const acts = actns.split(';');
-	let actions = [];
-	for (let i=0;i<acts.length-1;i++) {
-		//actions.push(JSON.parse(acts[i].replaceAll("|","\"").replaceAll("<<","(").replaceAll(">>",")")));
-		actions.push(JSON.parse(acts[i].replaceAll("|","\"")));
-	}
-	let js1 = "$('#edit-window').modal('hide')";
-	let js2 = "";
-	for (let i=0;i<actions.length;i++) {
-		//-----------------
-		let fctjs = "";
-		let fcts = actions[i].fcts.split(',');
-		for (let j=0;j<fcts.length;j++) {
-			fctjs += fcts[j]+";";
-		}		
-		fctjs = encode(fctjs);
-		//------------------
-		if (actions[i].type=="import_component") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++) {
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "UIFactory.Get_ROME.addMultiple('"+actions[i].parentid+"','"+targets[j]+"','"+replaceVariable(actions[i].foliocode+"."+actions[i].semtag)+"','"+actions[i].updatedtag+"','"+fctjs+"');";
-			}
-		} else if (actions[i].type=="import_proxy") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++) {
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "UIFactory.Get_Proxy.addMultiple('"+actions[i].parentid+"','"+targets[j]+"','"+replaceVariable(actions[i].foliocode+"."+actions[i].semtag)+"','"+actions[i].updatedtag+"','"+fctjs+"');";
-			}
-		} else if (actions[i].type=="import_elts") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++) {
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "UIFactory.Get_ROME.importMultiple('"+actions[i].parentid+"','"+targets[j]+"','"+replaceVariable(actions[i].foliocode+"','"+actions[i].semtag)+"','"+fctjs+"');";
-			}
-		} else if (actions[i].type=="import_elts-from") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++) {
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "UIFactory.Get_ROME.importMultiple('"+actions[i].parentid+"','"+targets[j]+"','"+replaceVariable(actions[i].foliocode)+"','"+fctjs+"');";
-			}
-		} else if (actions[i].type=="import-component-w-today-date") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++){
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "importAndSetDateToday('"+actions[i].parentid+"','"+targets[j]+"','','"+replaceVariable(actions[i].foliocode+"','"+actions[i].semtag)+"','"+actions[i].updatedtag+"','"+fctjs+"');";
-			}
-		} else if (actions[i].type=="import") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++){
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "importComponent('"+actions[i].parentid+"','"+targets[j]+"','"+replaceVariable(actions[i].foliocode+"','"+actions[i].semtag)+"','"+fctjs+"');";
-			}
-		} else if (actions[i].type=="import-today-date") {
-			let targets = actions[i].trgts.split(',');
-			for (let j=0;j<targets.length;j++){
-				if (targetid=="")
-					targetid = targets[j];
-				js2 += "importAndSetDateToday('"+actions[i].parentid+"','"+targets[j]+"','','karuta.karuta-resources','Calendar','Calendar','"+fctjs+"');";
-			}
-		}
-	}
-	var footer = "<button class='btn' onclick=\"$('#wait-window').modal('show');"+js1+"\">"+karutaStr[LANG]['Add']+"</button> <button class='btn' onclick=\"$('#edit-window').off('hidden');"+js1+";\">"+karutaStr[LANG]['Close']+"</button>";
-	$("#edit-window-footer").html(footer);
-	$("#edit-window-title").html(title.replaceAll("##apos##","'"));
-	var html = "<div id='get-resource-node'></div>";
-	$("#edit-window-body").html(html);
-	$("#edit-window-body-node").html("");
-	$("#edit-window-type").html("");
-	$("#edit-window-body-metadata").html("");
-	$("#edit-window-body-metadata-epm").html("");
-	var getResource = new UIFactory["Get_ROME"](UICom.structure.ui[parentid].node,"xsi_type='nodeRes'");
-	getResource.get_type = "import_comp";
-	getResource.query_portfolio = query_portfolio;
-	getResource.query_semtag = query_semtag;
-	getResource.query_object = query_object;
-	getResource.targetid = targetid;
-	getResource.unique = unique;
-	getResource.displayEditor("get-resource-node",null,null,false,false);
-	$('#edit-window').modal('show');
-	//--------------------------------------
-	$('#edit-window').on('hidden.bs.modal', function (e) {
-		eval(js2);$('#wait-window').modal('hide');
-		$('#edit-window').off('hidden');
-	})
-	//--------------------------------------
-}
-
-//======================================================================================
 
 //==================================
 UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags) {
