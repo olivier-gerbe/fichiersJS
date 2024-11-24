@@ -493,7 +493,7 @@ UIFactory["Get_Get_ROME"].updateaddedpart = function(data,get_resource_semtag,se
 }
 
 //==================================
-function get_get_multiple(parentid,targetid,title,query,partcode,get_get_resource_semtag)
+function get_get_rome_multiple(parentid,targetid,title,query,partcode,get_get_resource_semtag)
 //==================================
 {
 	// targetid not used with get_get_multiple

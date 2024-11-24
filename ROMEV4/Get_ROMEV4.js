@@ -19,19 +19,19 @@ if( UIFactory === undefined )
   var UIFactory = {};
 }
 
-var g_Get_ROME_caches = {};
+var g_Get_ROMEV4_caches = {};
 
 /// Define our type
 //==================================
-UIFactory["Get_ROME"] = function(node,condition)
+UIFactory["Get_ROMEV4"] = function(node,condition)
 //==================================
 {
-	this.clause = "xsi_type='Get_ROME'";
+	this.clause = "xsi_type='Get_ROMEV4'";
 	if (condition!=null)
 		this.clause = condition;
 	this.id = $(node).attr('id');
 	this.node = node;
-	this.type = 'Get_ROME';
+	this.type = 'Get_ROMEV4';
 	//--------------------
 	if ($("asmResource[xsi_type='"+this.type+"']",node).length>0 && $("lastmodified",$("asmResource[xsi_type='"+this.type+"']",node)).length==0){  // for backward compatibility
 		var newelement = createXmlElement("lastmodified");
@@ -77,9 +77,9 @@ UIFactory["Get_ROME"] = function(node,condition)
 			this.text_node[i] = $("text[lang='"+languages[i]+"']",$("asmResource["+this.clause+"]",node));
 		}
 	}
-	if (this.clause=="xsi_type='Get_ROME'")
+	if (this.clause=="xsi_type='Get_ROMEV4'")
 		this.multilingual = ($("metadata",node).attr('multilingual-resource')=='Y') ? true : false;
-	else // asmUnitStructure - Get_ROME
+	else // asmUnitStructure - Get_ROMEV4
 		this.multilingual = ($("metadata",node).attr('multilingual-node')=='Y') ? true : false;
 	this.inline = ($("metadata",node).attr('inline')=='Y') ? true : false;
 	this.reloadpage = ($("metadata",node).attr('reloadpage')=='Y') ? true : false;
@@ -110,7 +110,7 @@ UIFactory["Get_ROME"] = function(node,condition)
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.getAttributes = function(type,langcode)
+UIFactory["Get_ROMEV4"].prototype.getAttributes = function(type,langcode)
 //==================================
 {
 	var result = {};
@@ -135,7 +135,7 @@ UIFactory["Get_ROME"].prototype.getAttributes = function(type,langcode)
 /// Display
 
 //==================================
-UIFactory["Get_ROME"].prototype.getCode = function(dest)
+UIFactory["Get_ROMEV4"].prototype.getCode = function(dest)
 //==================================
 {
 	if (dest!=null) {
@@ -145,7 +145,7 @@ UIFactory["Get_ROME"].prototype.getCode = function(dest)
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.getValue = function(dest)
+UIFactory["Get_ROMEV4"].prototype.getValue = function(dest)
 //==================================
 {
 	if (dest!=null) {
@@ -155,7 +155,7 @@ UIFactory["Get_ROME"].prototype.getValue = function(dest)
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.getLabel = function(dest,type,langcode)
+UIFactory["Get_ROMEV4"].prototype.getLabel = function(dest,type,langcode)
 //==================================
 {
 	//---------------------
@@ -179,7 +179,7 @@ UIFactory["Get_ROME"].prototype.getLabel = function(dest,type,langcode)
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.getView = function(dest,type,langcode,indashboard)
+UIFactory["Get_ROMEV4"].prototype.getView = function(dest,type,langcode,indashboard)
 //==================================
 {
 	//-------- if function js -------------
@@ -277,7 +277,7 @@ UIFactory["Get_ROME"].prototype.getView = function(dest,type,langcode,indashboar
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.displayView = function(dest,type,langcode)
+UIFactory["Get_ROMEV4V4"].prototype.displayView = function(dest,type,langcode)
 //==================================
 {
 	var html = this.getView(dest,type,langcode);
@@ -288,7 +288,7 @@ UIFactory["Get_ROME"].prototype.displayView = function(dest,type,langcode)
 /// Editor
 
 //==================================
-UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,disabled,cachable,resettable)
+UIFactory["Get_ROMEV4"].prototype.displayEditor = function(destid,type,langcode,disabled,cachable,resettable)
 //==================================
 {
 	var multiple_tags = "";
@@ -322,8 +322,8 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 		var target = queryattr_value.substring(srce_indx+1); // label or text
 		// ==============================================================================
 		var self = this;
-		if (cachable && g_Get_ROME_caches[queryattr_value]!=undefined && g_Get_ROME_caches[queryattr_value]!="")
-			UIFactory["Get_ROME"].parseROME(destid,type,langcode,g_Get_ROME_caches[queryattr_value],self,disabled,srce,resettable,target,semtag,multiple_tags);
+		if (cachable && g_Get_ROMEV4_caches[queryattr_value]!=undefined && g_Get_ROMEV4_caches[queryattr_value]!="")
+			UIFactory["Get_ROMEV4"].parseROME(destid,type,langcode,g_Get_ROMEV4_caches[queryattr_value],self,disabled,srce,resettable,target,semtag,multiple_tags);
 		else {
 			$.ajax({
 				type : "GET",
@@ -331,8 +331,8 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 				url : serverBCK+"/rome/"+semtag,
 				success : function(data) {
 					if (cachable)
-						g_Get_ROME_caches[queryattr_value] = data;
-					UIFactory["Get_ROME"].parseROME(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags);
+						g_Get_ROMEV4_caches[queryattr_value] = data;
+					UIFactory["Get_ROMEV4"].parseROME(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags);
 				}
 			});
 		}
@@ -354,7 +354,7 @@ UIFactory["Get_ROME"].prototype.displayEditor = function(destid,type,langcode,di
 };
 
 //==================================
-UIFactory["Get_ROME"].update = function(selected_item,itself,langcode,type)
+UIFactory["Get_ROMEV4"].update = function(selected_item,itself,langcode,type)
 //==================================
 {
 	try {
@@ -392,7 +392,7 @@ UIFactory["Get_ROME"].update = function(selected_item,itself,langcode,type)
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.save = function()
+UIFactory["Get_ROMEV4"].prototype.save = function()
 //==================================
 {
 	//------------------------------
@@ -402,7 +402,7 @@ UIFactory["Get_ROME"].prototype.save = function()
 	//------------------------------
 	$(this.lastmodified_node).text(new Date().getTime());
 	//------------------------------
-	if (this.clause=="xsi_type='Get_ROME'") {
+	if (this.clause=="xsi_type='Get_ROMEV4'") {
 		UICom.UpdateResource(this.id,writeSaved);
 		if (!this.inline)
 			if (this.blockparent!=null)
@@ -410,7 +410,7 @@ UIFactory["Get_ROME"].prototype.save = function()
 			else
 				this.refresh();
 	}
-	else {// Node - Get_ROME {
+	else {// Node - Get_ROMEV4 {
 		UICom.UpdateNode(this.node);
 		UICom.structure.ui[this.id].refresh()
 	}
@@ -425,7 +425,7 @@ UIFactory["Get_ROME"].prototype.save = function()
 };
 
 //==================================
-UIFactory["Get_ROME"].prototype.refresh = function()
+UIFactory["Get_ROMEV4"].prototype.refresh = function()
 //==================================
 {
 	for (dest in this.display) {
@@ -448,7 +448,7 @@ UIFactory["Get_ROME"].prototype.refresh = function()
 //==================================================================================
 
 //==================================
-UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags) {
+UIFactory["Get_ROMEV4"].parseROME = function(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags) {
 //==================================
 	//---------------------
 	if (langcode==null)
@@ -485,7 +485,7 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 		var btn_group = $(html);
 		$(form).append($(btn_group));
 		$("#"+destid).append(form);
-		var onupdate = "UIFactory.Get_ROME.update(input,self)";
+		var onupdate = "UIFactory.Get_ROMEV4.update(input,self)";
 		autocomplete(document.getElementById("input_"+self.id), newTableau1,onupdate,self,langcode);
 		//-------------------------------------------------
 		html = "<ul class='dropdown-menu' role='menu'></ul>";
@@ -507,7 +507,7 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 			if (display_label)
 				html += $(this).attr("label_fr");
 			$("#input_"+self.id).attr('value',html);
-			UIFactory["Get_ROME"].update(this,self,langcode);
+			UIFactory["Get_ROMEV4"].update(this,self,langcode);
 			//--------------------------------
 		});
 		$(select).append($(select_item));
@@ -537,7 +537,7 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 				if (display_label)
 					html += $(this).attr("label_fr");
 				$("#input_"+self.id).attr('value',html);
-				UIFactory["Get_ROME"].update(this,self,langcode);
+				UIFactory["Get_ROMEV4"].update(this,self,langcode);
 				//--------------------------------
 			});
 			$(select_item).append($(select_item_a))
@@ -568,7 +568,7 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 		var btn_group = $(html);
 		$(form).append($(btn_group));
 		$("#"+destid).append(form);
-		var onupdate = "UIFactory.Get_ROME.update(inp,self)";
+		var onupdate = "UIFactory.Get_ROMEV4.update(inp,self)";
 		autocomplete(document.getElementById("input_"+self.id), newTableau1,onupdate,self,langcode);
 		//===============
 		html = "<ul class='dropdown-menu' role='menu'></ul>";
@@ -599,7 +599,7 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 				if (display_label)
 					html += $(this).attr("label_fr");
 				$("#input_"+self.id).attr("value",html);
-				UIFactory["Get_ROME"].update(this,self,langcode);
+				UIFactory["Get_ROMEV4"].update(this,self,langcode);
 				//--------------------------------
 			});
 			$(select_item).append($(select_item_a))
@@ -619,4 +619,4 @@ UIFactory["Get_ROME"].parseROME = function(destid,type,langcode,data,self,disabl
 	}
 }
 
-//# sourceURL=Get_ROME.js
+//# sourceURL=Get_ROMEV4.js

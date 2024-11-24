@@ -14,8 +14,10 @@
    ======================================================= */
 
 
-karutaStr["fr"]['ROME'] = "ROME";
-karutaStr["en"]['ROME'] = "ROME";
+karutaStr["fr"]['Get_ROME'] = "Get_ROME";
+karutaStr["en"]['Get_ROME'] = "Get_ROME";
+karutaStr['fr']['queryGet_ROME']="Recherche <br/><span style='font-size:smaller'><i>ROME</i>.tag_sémantique.<i>label</i><br></span>";
+
 plugin_resources[plugin_resources.length] = {location:'karuta-configuration.configuration-tech',tag:'ROME',label:'ROME'};
 
 //# sourceURL=ROME.js
