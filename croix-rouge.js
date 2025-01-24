@@ -132,6 +132,9 @@ function envoiCourrielCR(nodeid)
 	UIFactory.Node.reloadUnit();
 }
 
+function initVariablesRapport {
+//	g_variables.splice()
+}
 //# sourceURL=croix-rouge.js
 
 
