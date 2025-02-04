@@ -119,6 +119,7 @@ function envoiCourrielCR(nodeid)
 	message += "Bonjour,<br><br>";
 	message += USER.firstname + " " + USER.lastname +" a posté un message  le "+today.toLocaleString()+"<br><br>";
 	message += "<div style='padding:5px;border:1px solid #c6c2c1'>" + messtext + "</div>"
+	message += "<div><a href='https://croix-rouge.eportfolium.fr'>Accédez au portfolio</a></div>"
 	const courriels = $("asmContext:has(metadata[semantictag*='email-'])",g_portfolio_current);
 	var emails = [];
 	for (i=0;i<courriels.length;i++){
@@ -132,9 +133,6 @@ function envoiCourrielCR(nodeid)
 	UIFactory.Node.reloadUnit();
 }
 
-function initVariablesRapport {
-//	g_variables.splice()
-}
 //# sourceURL=croix-rouge.js
 
 
