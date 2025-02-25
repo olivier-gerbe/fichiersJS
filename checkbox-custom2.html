@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<title>
+		Using CSS Webkit-Appearance To Style Checkbox ::after Pseudo-Element
+	</title>
+</head>
+<body>
+
+	<h1>
+		Using CSS Webkit-Appearance To Style Checkbox ::after Pseudo-Element
+	</h1>
+
+	<style type="text/css">
+
+
+		/*
+			Only apply custom styles to browsers that are going to support them. This is
+			important because even old browsers will apply SOME of these CSS properties;
+			and, we don't want to create Frankenstein checkboxes.
+		*/
+		@supports ( appearance: none ) or ( -moz-appearance: none ) or ( -webkit-appearance: none ) {
+
+			input.custom {
+				appearance: none ;
+					-moz-appearance: none ;
+					-webkit-appearance: none ;
+				border: 1px solid currentcolor ;
+				border-radius: 26px 26px 26px 26px ;
+				box-sizing: content-box ;
+				color: yellowgreen ;
+				height: 10px ;
+				padding: 2px 2px 2px 2px ;
+				transition-duration: 300ms ;
+				transition-property: border-color, color ; /* Safari needed border-color. */
+				transition-timing-function: ease ;
+				width: 26px ;
+			}
+
+			input.custom:checked {
+				color: #ff3366 ;
+			}
+
+			input.custom:disabled {
+				color: #9e9e9e;
+			}
+
+			/*
+				NOTE: The ::after pseudo-selector is being applied to the INPUT itself,
+				not a parent element. I had no idea this even works! I can't find any
+				documented support on this (just some StackOverflow threads).
+			*/
+			input.custom::after {
+/*				background-color: currentcolor ;*/
+				border-radius: 10px 10px 10px 10px ;
+				content: "" ;
+				display: block ;
+				height: 10px ;
+				transform: translateX( 0px ) ;
+				transition: transform 300ms ease ;
+				width: 12px ;
+			}
+
+			input.custom:checked::after {
+				transform: translateX( 12px ) ;
+			}
+
+		
+		}
+		
+
+	</style>
+	<link rel="stylesheet" type="text/css" href="checkbox2.css"></link>
+	<p>
+		<label for="checkbox1">
+			Default checkbox:
+			<input id="checkboxA" type="checkbox" />
+			<input id="checkboxB" checked type="checkbox" />
+			<input id="checkboxC" disabled type="checkbox" />
+			<input id="checkboxB" disabled checked type="checkbox" />
+		</label>
+	</p>
+
+	<p>
+			<input id="checkbox2" type="checkbox" class="custom" />
+			<input id="checkbox3"  disabled type="checkbox" class="custom" />
+			<input id="checkbox4"  disabled checked type="checkbox" class="custom" />
+			<input id="checkbox5"  checked type="checkbox" class="custom" />
+	</p>
+	<p class='resource'>
+			<input id="checkbox2" type="checkbox"  />
+			<input id="checkbox3"  disabled type="checkbox"  />
+			<input id="checkbox4"  disabled checked type="checkbox"  />
+			<input id="checkbox5"  checked type="checkbox"  />
+	</p>
+
+</body>
+</html>
