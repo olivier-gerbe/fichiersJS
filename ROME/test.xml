@@ -1,0 +1,1222 @@
+<?xml version="1.0" encoding="iso-8859-15" ?>
+<fiches_metier>
+	<fiche_metier>
+		<numero>11</numero>
+		<rome>
+			<code_rome>A1101</code_rome>
+			<intitule>Conducteur / Conductrice d&apos;engins agricoles</intitule>
+			<code_ogr>6</code_ogr>
+		</rome>
+		<appellations>
+			<appellation>
+				<libelle>Chauffeur / Chauffeuse de machines agricoles</libelle>
+				<libelle_court>Chauffeur / Chauffeuse de machines agricoles
+				</libelle_court>
+				<code_ogr>11987</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;automoteur de récolte
+				</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;automoteur de récolte
+				</libelle_court>
+				<code_ogr>38874</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de machines à vendanger</libelle>
+				<libelle_court>Conducteur / Conductrice de machines à vendanger
+				</libelle_court>
+				<code_ogr>13232</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de matériels de semis</libelle>
+				<libelle_court>Conducteur / Conductrice de matériels de semis
+				</libelle_court>
+				<code_ogr>38878</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de pulvérisateur</libelle>
+				<libelle_court>Conducteur / Conductrice de pulvérisateur
+				</libelle_court>
+				<code_ogr>38875</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de tracteur</libelle>
+				<libelle_court>Conducteur / Conductrice de tracteur</libelle_court>
+				<code_ogr>13201</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de tracteur enjambeur</libelle>
+				<libelle_court>Conducteur / Conductrice de tracteur enjambeur
+				</libelle_court>
+				<code_ogr>140877</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de tracto-benne</libelle>
+				<libelle_court>Conducteur / Conductrice de tracto-benne
+				</libelle_court>
+				<code_ogr>38879</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;engins d&apos;exploitation
+					agricole</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;engins
+					d&apos;exploitation agricole</libelle_court>
+				<code_ogr>13254</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;épareuse</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;épareuse
+				</libelle_court>
+				<code_ogr>38877</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Opérateur / Opératrice d&apos;épandage</libelle>
+				<libelle_court>Opérateur / Opératrice d&apos;épandage
+				</libelle_court>
+				<code_ogr>38876</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Tractoriste agricole</libelle>
+				<libelle_court>Tractoriste agricole</libelle_court>
+				<code_ogr>20404</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Tractoriste viticole</libelle>
+				<libelle_court>Tractoriste viticole</libelle_court>
+				<code_ogr>405363</code_ogr>
+			</appellation>
+		</appellations>
+		<definition>Réalise des travaux agricoles mécanisés. Aménage et
+			prépare les terrains, assure le labourage, le désherbage, les semis
+			et récolte la production. Utilise différentes machines (tracteur,
+			moissonneuse-batteuse, ensileuse) et en assure l&apos;entretien et la
+			maintenance de premier niveau.</definition>
+		<acces_metier>Cet emploi est accessible sans diplôme particulier. Un
+			CAPA ou un Bac pro dans le domaine agricole ou le certificat de
+			spécialisation option &quot;Tracteurs et machines agricoles&quot;
+			ainsi que différents CACES sont cependant appréciés, même s&apos;il
+			est possible de les obtenir en cours d&apos;emploi. </acces_metier>
+		<competences>
+			<savoir_faire>
+				<enjeux>
+					<enjeu>
+						<libelle>Data et Nouvelles technologies</libelle>
+						<items>
+							<item>
+								<libelle>Traiter une information météorologique recueillie
+								</libelle>
+								<code_ogr>123176</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Conception</libelle>
+						<items>
+							<item>
+								<libelle>Planifier une opération de semis, de traitement ou de
+									récolte sur un site d&apos;exploitation</libelle>
+								<code_ogr>122573</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Production, Fabrication</libelle>
+						<items>
+							<item>
+								<libelle>Effectuer des opérations agricoles (semis, récoltes)
+								</libelle>
+								<code_ogr>125527</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Préparer des mélanges de produits de synthèse</libelle>
+								<code_ogr>404016</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Préparer du matériel en prévision d&apos;un travail
+								</libelle>
+								<code_ogr>300152</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Réaliser des opérations de traitement hydrofuge,
+									insecticide, fongicide, pesticide</libelle>
+								<code_ogr>404020</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Récolter un produit à maturité et selon les consignes
+									de calibrage</libelle>
+								<code_ogr>122853</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Régler les systèmes hydrauliques des machines agricoles
+								</libelle>
+								<code_ogr>300160</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Aménagement</libelle>
+						<items>
+							<item>
+								<libelle>Contrôler l&apos;état d&apos;une plantation</libelle>
+								<code_ogr>122568</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Débroussailler une plantation et ses chemins
+									d&apos;accès</libelle>
+								<code_ogr>122567</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Préparer les sols, les plantations (épandage, semis,
+									etc.)</libelle>
+								<code_ogr>122730</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Réaliser des travaux d&apos;aménagement</libelle>
+								<code_ogr>122817</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Maintenance, Réparation</libelle>
+						<items>
+							<item>
+								<libelle>Assurer la maintenance préventive de base des
+									équipements</libelle>
+								<code_ogr>402131</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Entretenir les mécanismes d&apos;un engin motorisé
+								</libelle>
+								<code_ogr>107141</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Maintenir la propreté du véhicule</libelle>
+								<code_ogr>483361</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Réaliser une opération de maintenance</libelle>
+								<code_ogr>300183</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Prévention des risques</libelle>
+						<items>
+							<item>
+								<libelle>Contrôlerle fonctionnement d&apos;un dispositif de
+									sécurité</libelle>
+								<code_ogr>104016</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Contrôler le fonctionnement d&apos;un équipement,
+									d&apos;une machine, d&apos;une installation</libelle>
+								<code_ogr>300172</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Pratiquer des gestes et postures de manutention en
+									toute sécurité</libelle>
+								<code_ogr>400094</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Gestion des stocks</libelle>
+						<items>
+							<item>
+								<libelle>Stocker un produit</libelle>
+								<code_ogr>117548</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Transport</libelle>
+						<items>
+							<item>
+								<libelle>Conduire un poids lourd</libelle>
+								<code_ogr>110024</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Conduire un véhicule agricole</libelle>
+								<code_ogr>404006</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Relation client</libelle>
+						<items>
+							<item>
+								<libelle>Répondre aux attentes d&apos;un client</libelle>
+								<code_ogr>300364</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Organisation</libelle>
+						<items>
+							<item>
+								<libelle>Respecter les règles de Qualité, Hygiène, Sécurité,
+									Santé et Environnement (QHSSE)</libelle>
+								<code_ogr>300446</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+				</enjeux>
+			</savoir_faire>
+			<savoir_etre_professionnel>
+				<enjeux>
+					<enjeu>
+						<libelle>Savoir-être professionnels</libelle>
+						<items>
+							<item>
+								<libelle>Faire preuve d&apos;autonomie</libelle>
+								<code_ogr>300460</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Faire preuve de rigueur et de précision</libelle>
+								<code_ogr>300490</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Travailler en équipe</libelle>
+								<code_ogr>300465</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+				</enjeux>
+			</savoir_etre_professionnel>
+			<savoirs>
+				<categories>
+					<categorie>
+						<libelle>Produits, outils et matières</libelle>
+						<items>
+							<item>
+								<libelle>Utilisation de produits phytosanitaires</libelle>
+								<code_ogr>121998</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Fonctionnement des engins agricoles</libelle>
+								<code_ogr>100003</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Certifications et habilitations</libelle>
+						<items>
+							<item>
+								<libelle>Bac pro agroéquipement</libelle>
+								<code_ogr>403984</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Tracteur et petits engins de chantiers mobiles (CACES R
+									372-1)</libelle>
+								<code_ogr>123701</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Engins de transport (CACES R 482-E) - Depuis le
+									01/01/2020</libelle>
+								<code_ogr>200047</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Certificat de spécialisation option tracteurs et
+									machines agricoles</libelle>
+								<code_ogr>404310</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>CACES R482 catégorie F - Engins de chantier</libelle>
+								<code_ogr>200048</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>BP agroéquipement, conduite et maintenance des
+									matériels</libelle>
+								<code_ogr>404315</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>CAP agricole métiers de l&apos;agriculture</libelle>
+								<code_ogr>403970</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Engins rail-route à déplacement séquentiel (CACES
+									R482-B3) - Depuis le 01/01/2020</libelle>
+								<code_ogr>200042</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Domaines d'expertise</libelle>
+						<items>
+							<item>
+								<libelle>Biologie végétale</libelle>
+								<code_ogr>100131</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Installation de systèmes hydrauliques</libelle>
+								<code_ogr>104425</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Mise à jour des connaissances en mécanique</libelle>
+								<code_ogr>104514</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Système informatique (embarqué ou fixe)</libelle>
+								<code_ogr>109995</code_ogr>
+								<coeur_metier>Émergente</coeur_metier>
+							</item>
+							<item>
+								<libelle>Gestes et postures de manutention</libelle>
+								<code_ogr>100016</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Agronomie</libelle>
+								<code_ogr>100104</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Caractéristiques des écosystèmes</libelle>
+								<code_ogr>100019</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Techniques de moissonnage</libelle>
+								<code_ogr>122855</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Pneumatique</libelle>
+								<code_ogr>104547</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Techniques culturales</libelle>
+								<code_ogr>100011</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Techniques de fauchage</libelle>
+								<code_ogr>122854</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Normes et procédés</libelle>
+						<items>
+							<item>
+								<libelle>Procédés de préparation des mélanges</libelle>
+								<code_ogr>120016</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Réglementation phytosanitaire</libelle>
+								<code_ogr>101869</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Règles de sécurité</libelle>
+								<code_ogr>100017</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Réglementation sur le stockage de produits spécifiques
+									(dangereux, sous température dirigée, phytosanitaire, ...)
+								</libelle>
+								<code_ogr>106465</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Maintenance de base des engins de manutention</libelle>
+								<code_ogr>109998</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Maintenance préventive de matériel agricole</libelle>
+								<code_ogr>116781</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Cadre réglementaire environnemental</libelle>
+								<code_ogr>100015</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Techniques professionnelles</libelle>
+						<items>
+							<item>
+								<libelle>Techniques de pressage</libelle>
+								<code_ogr>105545</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Méthodes de conservation de la biodiversité</libelle>
+								<code_ogr>100057</code_ogr>
+								<coeur_metier>Émergente</coeur_metier>
+							</item>
+						</items>
+					</categorie>
+				</categories>
+			</savoirs>
+		</competences>
+		<contextes_travail>
+			<type_contexte>
+				<libelle>Conditions de travail et risques professionnels</libelle>
+				<items>
+					<item>
+						<libelle>En environnement allergène</libelle>
+						<code_ogr>300781</code_ogr>
+					</item>
+					<item>
+						<libelle>En environnement bruyant</libelle>
+						<code_ogr>300824</code_ogr>
+					</item>
+					<item>
+						<libelle>En extérieur</libelle>
+						<code_ogr>300783</code_ogr>
+					</item>
+					<item>
+						<libelle>Port d&apos;équipement de protection individuelle (EPI) :
+							gants, chaussures, casque, protections auditives</libelle>
+						<code_ogr>38055</code_ogr>
+					</item>
+					<item>
+						<libelle>Port et manipulation de charges lourdes ou encombrantes
+						</libelle>
+						<code_ogr>300795</code_ogr>
+					</item>
+				</items>
+			</type_contexte>
+			<type_contexte>
+				<libelle>Horaires et durée du travail</libelle>
+				<items>
+					<item>
+						<libelle>Travail en horaires décalés</libelle>
+						<code_ogr>300805</code_ogr>
+					</item>
+					<item>
+						<libelle>Travail les week-ends et jours fériés</libelle>
+						<code_ogr>23376</code_ogr>
+					</item>
+					<item>
+						<libelle>Travail selon un rythme irrégulier et des pics
+							d&apos;activité</libelle>
+						<code_ogr>403095</code_ogr>
+					</item>
+				</items>
+			</type_contexte>
+			<type_contexte>
+				<libelle>Types de structures</libelle>
+				<items>
+					<item>
+						<libelle>Exploitation agricole</libelle>
+						<code_ogr>403960</code_ogr>
+					</item>
+				</items>
+			</type_contexte>
+		</contextes_travail>
+		<secteurs_activite>
+			<secteur_activite>
+				<code>79</code>
+				<libelle>Agriculture et élevage</libelle>
+				<principal>true</principal>
+			</secteur_activite>
+		</secteurs_activite>
+		<mobilites>
+			<mobilite>
+				<rome_cible>A1414 - Horticulteur / Horticultrice</rome_cible>
+				<code_org_rome_cible>28</code_org_rome_cible>
+				<ordre_mobilite>1</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1205 - Sylviculteur / Sylvicultrice</rome_cible>
+				<code_org_rome_cible>11</code_org_rome_cible>
+				<ordre_mobilite>2</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1416 - Agriculteur / Agricultrice</rome_cible>
+				<code_org_rome_cible>30</code_org_rome_cible>
+				<ordre_mobilite>3</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1202 - Agent / Agente d&apos;entretien des espaces
+					naturels</rome_cible>
+				<code_org_rome_cible>8</code_org_rome_cible>
+				<ordre_mobilite>4</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1201 - Bûcheron / Bûcheronne</rome_cible>
+				<code_org_rome_cible>7</code_org_rome_cible>
+				<ordre_mobilite>5</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1102 - Conducteur / Conductrice d&apos;engins
+					d&apos;exploitation forestière</rome_cible>
+				<code_org_rome_cible>403950</code_org_rome_cible>
+				<ordre_mobilite>6</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>N1104 - Pontier / Pontière</rome_cible>
+				<code_org_rome_cible>503</code_org_rome_cible>
+				<ordre_mobilite>7</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>F1302 - Conducteur / Conductrice d&apos;engins de
+					chantier</rome_cible>
+				<code_org_rome_cible>155</code_org_rome_cible>
+				<ordre_mobilite>8</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>N4101 - Conducteur / Conductrice de poids lourd
+				</rome_cible>
+				<code_org_rome_cible>523</code_org_rome_cible>
+				<ordre_mobilite>9</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>I1603 - Mécanicien-réparateur / Mécanicienne-réparatrice
+					en matériels agricoles</rome_cible>
+				<code_org_rome_cible>327</code_org_rome_cible>
+				<ordre_mobilite>10</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>I1604 - Mécanicien / Mécanicienne automobile
+				</rome_cible>
+				<code_org_rome_cible>328</code_org_rome_cible>
+				<ordre_mobilite>11</ordre_mobilite>
+			</mobilite>
+		</mobilites>
+	</fiche_metier>
+	<fiche_metier>
+		<numero>30047</numero>
+		<rome>
+			<code_rome>A1102</code_rome>
+			<intitule>Conducteur / Conductrice d&apos;engins d&apos;exploitation
+				forestière</intitule>
+			<code_ogr>403950</code_ogr>
+		</rome>
+		<appellations>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;abatteuses</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;abatteuses
+				</libelle_court>
+				<code_ogr>12862</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de tête d&apos;abattage</libelle>
+				<libelle_court>Conducteur / Conductrice de tête d&apos;abattage
+				</libelle_court>
+				<code_ogr>13197</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice de tracteur forestier</libelle>
+				<libelle_court>Conducteur / Conductrice de tracteur forestier
+				</libelle_court>
+				<code_ogr>404027</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;engins de débardage
+				</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;engins de débardage
+				</libelle_court>
+				<code_ogr>13248</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;engins forestiers</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;engins forestiers
+				</libelle_court>
+				<code_ogr>13256</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Conducteur / Conductrice d&apos;engins sylvicoles</libelle>
+				<libelle_court>Conducteur / Conductrice d&apos;engins sylvicoles
+				</libelle_court>
+				<code_ogr>404029</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Débardeur / Débardeuse</libelle>
+				<libelle_court>Débardeur / Débardeuse</libelle_court>
+				<code_ogr>13886</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Débardeur forestier / Débardeuse forestière</libelle>
+				<libelle_court>Débardeur forestier / Débardeuse forestière
+				</libelle_court>
+				<code_ogr>13887</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Opérateur / Opératrice d&apos;abatteuse</libelle>
+				<libelle_court>Opérateur / Opératrice d&apos;abatteuse
+				</libelle_court>
+				<code_ogr>17055</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Pilote de machines d&apos;abattage</libelle>
+				<libelle_court>Pilote de machines d&apos;abattage</libelle_court>
+				<code_ogr>17751</code_ogr>
+			</appellation>
+			<appellation>
+				<libelle>Tractoriste forestier / Tractoriste forestière</libelle>
+				<libelle_court>Tractoriste forestier / Tractoriste forestière
+				</libelle_court>
+				<code_ogr>20405</code_ogr>
+			</appellation>
+		</appellations>
+		<definition>Réalise des travaux mécanisés de sylviculture et
+			d&apos;exploitation forestière. Conduit des engins perfectionnés de
+			bûcheronnage afin d&apos;exécuter des travaux d&apos;abattage,
+			d&apos;ébranchage, de tronçonnage, de débardage. Abat des arbres
+			pré-identifiés tout en préservant le peuplement. Effectue
+			l&apos;entretien et la maintenance de premier niveau des engins.
+		</definition>
+		<acces_metier>Cet emploi est accessible avec un certificat de
+			spécialisation &quot;pilote de machines de bûcheronnage&quot; ou
+			d&apos;autres diplômes (CAP, BP ou Bac) dans le domaine agricole ou
+			spécialisés dans les travaux forestiers. </acces_metier>
+		<competences>
+			<savoir_faire>
+				<enjeux>
+					<enjeu>
+						<libelle>Data et Nouvelles technologies</libelle>
+						<items>
+							<item>
+								<libelle>Traiter une information météorologique recueillie
+								</libelle>
+								<code_ogr>123176</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Production, Fabrication</libelle>
+						<items>
+							<item>
+								<libelle>Abattre un arbre</libelle>
+								<code_ogr>100023</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Débiter un arbre selon son usage</libelle>
+								<code_ogr>122579</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Monter et régler une installation, une machine
+								</libelle>
+								<code_ogr>300135</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Monter les accessoires d&apos;engins forestiers
+								</libelle>
+								<code_ogr>125144</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Préparer du matériel en prévision d&apos;un travail
+								</libelle>
+								<code_ogr>300152</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Aménagement</libelle>
+						<items>
+							<item>
+								<libelle>Aménager, entretenir un espace naturel, une forêt
+								</libelle>
+								<code_ogr>300297</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Débroussailler une plantation et ses chemins
+									d&apos;accès</libelle>
+								<code_ogr>122567</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Déterminer l&apos;abattage ou l&apos;élagage selon la
+									trajectoire de chute des arbres en prenant en compte
+									l&apos;environnement et les conditions climatiques</libelle>
+								<code_ogr>122575</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Recenser les arbres à abattre ou à élaguer</libelle>
+								<code_ogr>122698</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Réaliser des travaux d&apos;aménagement</libelle>
+								<code_ogr>122817</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Construction</libelle>
+						<items>
+							<item>
+								<libelle>Planifier des opérations de chantier</libelle>
+								<code_ogr>118788</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Préparer l&apos;exécution du chantier</libelle>
+								<code_ogr>300236</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Maintenance, Réparation</libelle>
+						<items>
+							<item>
+								<libelle>Assurer la maintenance préventive de base des
+									équipements</libelle>
+								<code_ogr>402131</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Entretenir les mécanismes d&apos;un engin motorisé
+								</libelle>
+								<code_ogr>107141</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Maintenir la propreté du véhicule</libelle>
+								<code_ogr>483361</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Réaliser l&apos;entretien du matériel</libelle>
+								<code_ogr>116663</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Prévention des risques</libelle>
+						<items>
+							<item>
+								<libelle>Contrôler le fonctionnement d&apos;un dispositif de
+									sécurité</libelle>
+								<code_ogr>104016</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Contrôler le fonctionnement d&apos;un équipement,
+									d&apos;une machine, d&apos;une installation</libelle>
+								<code_ogr>300172</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Sécuriser un équipement, un périmètre</libelle>
+								<code_ogr>100240</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Évaluer une situation à risques</libelle>
+								<code_ogr>300353</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Gestion des stocks</libelle>
+						<items>
+							<item>
+								<libelle>Débarder une grume</libelle>
+								<code_ogr>117489</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Manipuler un engin de manutention ou de chantier
+								</libelle>
+								<code_ogr>300264</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Transport</libelle>
+						<items>
+							<item>
+								<libelle>Conduire un véhicule agricole</libelle>
+								<code_ogr>404006</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Conduire un véhicule routier</libelle>
+								<code_ogr>300270</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Transporter des grumes</libelle>
+								<code_ogr>110503</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Relation client</libelle>
+						<items>
+							<item>
+								<libelle>Répondre aux attentes d&apos;un client</libelle>
+								<code_ogr>300364</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+					<enjeu>
+						<libelle>Organisation</libelle>
+						<items>
+							<item>
+								<libelle>Respecter les règles de Qualité, Hygiène, Sécurité,
+									Santé et Environnement (QHSSE)</libelle>
+								<code_ogr>300446</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+				</enjeux>
+			</savoir_faire>
+			<savoir_etre_professionnel>
+				<enjeux>
+					<enjeu>
+						<libelle>Savoir-être professionnels</libelle>
+						<items>
+							<item>
+								<libelle>Faire preuve d&apos;autonomie</libelle>
+								<code_ogr>300460</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Faire preuve de rigueur et de précision</libelle>
+								<code_ogr>300490</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Organiser son travail selon les priorités et les
+									objectifs</libelle>
+								<code_ogr>300483</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</enjeu>
+				</enjeux>
+			</savoir_etre_professionnel>
+			<savoirs>
+				<categories>
+					<categorie>
+						<libelle>Produits, outils et matières</libelle>
+						<items>
+							<item>
+								<libelle>Véhicules agricoles, forestiers</libelle>
+								<code_ogr>107058</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Certifications et habilitations</libelle>
+						<items>
+							<item>
+								<libelle>Bac pro agroéquipement</libelle>
+								<code_ogr>403984</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Certificat de spécialisation pilote de machines de
+									bûcheronnage</libelle>
+								<code_ogr>403985</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Tracteur et petits engins de chantiers mobiles (CACES R
+									372-1)</libelle>
+								<code_ogr>123701</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>BP agricole option travaux forestiers</libelle>
+								<code_ogr>404313</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>CAP Agricole travaux forestiers</libelle>
+								<code_ogr>404351</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Grues auxiliaires de chargement de véhicules (CACES R
+									390)</libelle>
+								<code_ogr>120408</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Engins de manutention, chariot de chantier (CACES R
+									372-9)</libelle>
+								<code_ogr>123699</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Bac pro forêt</libelle>
+								<code_ogr>404314</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Domaines d'expertise</libelle>
+						<items>
+							<item>
+								<libelle>Biologie végétale</libelle>
+								<code_ogr>100131</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Nouvelles Technologies de l&apos;information et de la
+									Communication (NTIC)</libelle>
+								<code_ogr>123009</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Installation de systèmes hydrauliques</libelle>
+								<code_ogr>104425</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Système informatique (embarqué ou fixe)</libelle>
+								<code_ogr>109995</code_ogr>
+								<coeur_metier>Émergente</coeur_metier>
+							</item>
+							<item>
+								<libelle>Caractéristiques des écosystèmes</libelle>
+								<code_ogr>100019</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Mise à jour des connaissances en mécanique</libelle>
+								<code_ogr>104514</code_ogr>
+								<coeur_metier>Principale</coeur_metier>
+							</item>
+							<item>
+								<libelle>Pneumatique</libelle>
+								<code_ogr>104547</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Topographie</libelle>
+								<code_ogr>103060</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Normes et procédés</libelle>
+						<items>
+							<item>
+								<libelle>Règles de sécurité</libelle>
+								<code_ogr>100017</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Cadre réglementaire environnemental</libelle>
+								<code_ogr>100015</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+							<item>
+								<libelle>Maintenance de matériel forestier</libelle>
+								<code_ogr>403969</code_ogr>
+								<coeur_metier></coeur_metier>
+							</item>
+						</items>
+					</categorie>
+					<categorie>
+						<libelle>Techniques professionnelles</libelle>
+						<items>
+							<item>
+								<libelle>Méthodes de conservation de la biodiversité</libelle>
+								<code_ogr>100057</code_ogr>
+								<coeur_metier>Émergente</coeur_metier>
+							</item>
+						</items>
+					</categorie>
+				</categories>
+			</savoirs>
+		</competences>
+		<contextes_travail>
+			<type_contexte>
+				<libelle>Conditions de travail et risques professionnels</libelle>
+				<items>
+					<item>
+						<libelle>Déplacements professionnels</libelle>
+						<code_ogr>300779</code_ogr>
+					</item>
+					<item>
+						<libelle>En environnement allergène</libelle>
+						<code_ogr>300781</code_ogr>
+					</item>
+					<item>
+						<libelle>En environnement bruyant</libelle>
+						<code_ogr>300824</code_ogr>
+					</item>
+					<item>
+						<libelle>En extérieur</libelle>
+						<code_ogr>300783</code_ogr>
+					</item>
+					<item>
+						<libelle>Port d&apos;équipement de protection individuelle (EPI) :
+							gants, chaussures, casque, protections auditives</libelle>
+						<code_ogr>38055</code_ogr>
+					</item>
+					<item>
+						<libelle>Port et manipulation de charges lourdes ou encombrantes
+						</libelle>
+						<code_ogr>300795</code_ogr>
+					</item>
+					<item>
+						<libelle>Sur chantier</libelle>
+						<code_ogr>403962</code_ogr>
+					</item>
+					<item>
+						<libelle>Travail en autonomie et en situation isolée </libelle>
+						<code_ogr>490468</code_ogr>
+					</item>
+				</items>
+			</type_contexte>
+			<type_contexte>
+				<libelle>Horaires et durée du travail</libelle>
+				<items>
+					<item>
+						<libelle>Travail en horaires décalés</libelle>
+						<code_ogr>300805</code_ogr>
+					</item>
+					<item>
+						<libelle>Travail les week-ends et jours fériés</libelle>
+						<code_ogr>23376</code_ogr>
+					</item>
+					<item>
+						<libelle>Travail selon un rythme irrégulier et des pics
+							d&apos;activité</libelle>
+						<code_ogr>403095</code_ogr>
+					</item>
+				</items>
+			</type_contexte>
+		</contextes_travail>
+		<secteurs_activite>
+			<secteur_activite>
+				<code>79</code>
+				<libelle>Agriculture et élevage</libelle>
+				<principal>true</principal>
+			</secteur_activite>
+		</secteurs_activite>
+		<mobilites>
+			<mobilite>
+				<rome_cible>A1201 - Bûcheron / Bûcheronne</rome_cible>
+				<code_org_rome_cible>7</code_org_rome_cible>
+				<ordre_mobilite>1</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1205 - Sylviculteur / Sylvicultrice</rome_cible>
+				<code_org_rome_cible>11</code_org_rome_cible>
+				<ordre_mobilite>2</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1202 - Agent / Agente d&apos;entretien des espaces
+					naturels</rome_cible>
+				<code_org_rome_cible>8</code_org_rome_cible>
+				<ordre_mobilite>3</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1203 - Agent / Agente d&apos;entretien des espaces
+					verts</rome_cible>
+				<code_org_rome_cible>9</code_org_rome_cible>
+				<ordre_mobilite>4</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>A1101 - Conducteur / Conductrice d&apos;engins agricoles
+				</rome_cible>
+				<code_org_rome_cible>6</code_org_rome_cible>
+				<ordre_mobilite>5</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>N1104 - Pontier / Pontière</rome_cible>
+				<code_org_rome_cible>503</code_org_rome_cible>
+				<ordre_mobilite>6</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>N4101 - Conducteur / Conductrice de poids lourd
+				</rome_cible>
+				<code_org_rome_cible>523</code_org_rome_cible>
+				<ordre_mobilite>7</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>K2111 - Formateur / Formatrice</rome_cible>
+				<code_org_rome_cible>414</code_org_rome_cible>
+				<ordre_mobilite>8</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>F1705 - Poseur / Poseuse de canalisations</rome_cible>
+				<code_org_rome_cible>178</code_org_rome_cible>
+				<ordre_mobilite>9</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>I1603 - Mécanicien-réparateur / Mécanicienne-réparatrice
+					en matériels agricoles</rome_cible>
+				<code_org_rome_cible>327</code_org_rome_cible>
+				<ordre_mobilite>10</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>F1302 - Conducteur / Conductrice d&apos;engins de
+					chantier</rome_cible>
+				<code_org_rome_cible>155</code_org_rome_cible>
+				<ordre_mobilite>11</ordre_mobilite>
+			</mobilite>
+			<mobilite>
+				<rome_cible>F1301 - Grutier / Grutière</rome_cible>
+				<code_org_rome_cible>154</code_org_rome_cible>
+				<ordre_mobilite>12</ordre_mobilite>
+			</mobilite>
+		</mobilites>
+	</fiche_metier>
+</fiches_metier>
