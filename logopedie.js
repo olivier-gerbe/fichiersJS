@@ -41,16 +41,11 @@ function envoiDemandeFeedback(nodeid)
 {
 	const today = new Date();
 	//-------------------------------
-//	const parent = UICom.structure.ui[nodeid].node;
-//	const messtextnode = $("asmContext:has(metadata[semantictag*='texte-commentaire'])",parent);
-//	const messtextnodeid =  $(messtextnode).attr("id");
-//	const messtext = UICom.structure.ui[messtextnodeid].resource.text_node[LANGCODE].text();
-	//-------------------------------
 	let message = "";
 	message += "Bonjour,<br><br>";
 	message += USER.firstname + " " + USER.lastname +" vous a fait une demande de feedback  le "+today.toLocaleString()+"<br><br>";
-//	message += "<div><a href='https://xxx.eportfolium.fr'>Accédez au LAN</a></div>"
-	const courriels = $("asmContext:has(metadata[semantictag*='courriel-'])",g_portfolio_current);
+//	message += "<div><a href='https://xxx.eportfolium.fr'>Accédez au portfolio</a></div>"
+	const courriels = $("asmContext:has(metadata[semantictag*='courriel-maitre-stage'])",g_portfolio_current);
 	var emails = new Array();
 	for (i=0;i<courriels.length;i++){
 		const courrielid =  $(courriels[i]).attr("id");
@@ -64,6 +59,30 @@ function envoiDemandeFeedback(nodeid)
 	}, []);
 	//-------------------------------------
 	envoiEmails(message,emailsSansDoublons) ;
-//	submit(nodeid);
-//	UIFactory.Node.reloadUnit();
+}
+
+//==================================
+function envoiAjoutFeedback(nodeid)
+//==================================
+{
+	const today = new Date();
+	//-------------------------------
+	let message = "";
+	message += "Bonjour,<br><br>";
+	message += USER.firstname + " " + USER.lastname +" vous a ajouté un feedback  le "+today.toLocaleString()+"<br><br>";
+//	message += "<div><a href='https://xxx.eportfolium.fr'>Accédez au portfolio</a></div>"
+	const courriels = $("asmContext:has(metadata[semantictag*='courriel-apprenant'])",g_portfolio_current);
+	var emails = new Array();
+	for (i=0;i<courriels.length;i++){
+		const courrielid =  $(courriels[i]).attr("id");
+		const email = UICom.structure.ui[courrielid].resource.text_node[LANGCODE].text()
+		if (email.length>0 && email.indexOf(USER.email)<0)
+			emails.push(email);
+	}
+	// ------ suppression des doublons ----
+	const emailsSansDoublons = emails.reduce((unique, email) => {
+	    return unique.includes(email) ? unique : [...unique, email];
+	}, []);
+	//-------------------------------------
+	envoiEmails(message,emailsSansDoublons) ;
 }
