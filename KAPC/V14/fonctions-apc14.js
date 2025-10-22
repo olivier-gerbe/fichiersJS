@@ -215,7 +215,8 @@ function testNodeNotSubmitted(semtag,uuid) {
 function testFeedbacksNonRepondus(pageid) {
 	if (pageid == null)
 		pageid = $("#page").attr('uuid');
-	const nodes = $("*:has(>metadata[semantictag='commentaires-feedback'])",UICom.structure.ui[pageid].node).has("asmResource[xsi_type!='context'][xsi_type!='nodeRes'] > text[lang="+LANG+"]:not(:empty)");
+	const nodes = $("*:has(>metadata[semantictag='commentaires-feedback'])",UICom.structure.ui[pageid].node).has("asmResource[xsi_type!='context'][xsi_type!='nodeRes'] > text[lang="+LANG+"]:empty");
+//	const nodes = $("*:has(>metadata[semantictag='commentaires-feedback'])",UICom.structure.ui[pageid].node).has("asmResource[xsi_type!='context'][xsi_type!='nodeRes'] > text[lang="+LANG+"]:not(:empty)");
 	return (nodes.length==0) ? true:false;;
 }
 
@@ -1464,5 +1465,5 @@ function afficherDateAjout(nodeid) {
 }
 
 
-//# sourceURL=apc14.js
+//# sourceURL=fonction-apc14.js
 
