@@ -277,7 +277,7 @@ UIFactory["Get_ROMEV4"].prototype.getView = function(dest,type,langcode,indashbo
 };
 
 //==================================
-UIFactory["Get_ROMEV4V4"].prototype.displayView = function(dest,type,langcode)
+UIFactory["Get_ROMEV4"].prototype.displayView = function(dest,type,langcode)
 //==================================
 {
 	var html = this.getView(dest,type,langcode);
@@ -325,6 +325,7 @@ UIFactory["Get_ROMEV4"].prototype.displayEditor = function(destid,type,langcode,
 		if (cachable && g_Get_ROMEV4_caches[queryattr_value]!=undefined && g_Get_ROMEV4_caches[queryattr_value]!="")
 			UIFactory["Get_ROMEV4"].parseROME(destid,type,langcode,g_Get_ROMEV4_caches[queryattr_value],self,disabled,srce,resettable,target,semtag,multiple_tags);
 		else {
+			/* --------
 			$.ajax({
 				type : "GET",
 				dataType : "json",
@@ -333,6 +334,31 @@ UIFactory["Get_ROMEV4"].prototype.displayEditor = function(destid,type,langcode,
 					if (cachable)
 						g_Get_ROMEV4_caches[queryattr_value] = data;
 					UIFactory["Get_ROMEV4"].parseROME(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags);
+				}
+			});
+			------*/
+			let url = null;
+			if (semtag=="metier")
+				url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/metier";
+			if (semtag=="fiche-metier")
+				url = "https://api.francetravail.io/partenaire/rome-fiches-metiers/v1/fiches-rome/fiche-metier";
+			const authorization = "Bearer " + access_token;
+			alert(authorization);
+			$.ajax({
+				async : false,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader ("Authorization", authorization);
+				},
+				type : "GET",
+				dataType : "json",
+				url : url,
+				success : function(data) {
+					if (cachable)
+						g_Get_ROMEV4_caches[queryattr_value] = data;
+					UIFactory["Get_ROMEV4"].parseROME(destid,type,langcode,data,self,disabled,srce,resettable,target,semtag,multiple_tags);
+				},
+				error : function(data) {
+						alert("Erreur"+data);
 				}
 			});
 		}

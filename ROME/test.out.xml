@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portfolio xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<version>4</version>
+	<version>4</version>
+	<asmRoot delete="Y" id="d25e6272-4d0c-11f0-8ea3-fa163ebfbd00"
+		read="Y" role="" submit="Y" write="Y" last_modif="2022-03-28 17:43:43"
+		xsi_type="">
+		<metadata-wad seenoderoles="all" />
+		<metadata-epm />
+		<metadata multilingual-node="Y" public="Y"
+			semantictag="root karuta-rubrics" sharedNode="N" sharedResource="N" />
+		<asmResource>
+			<code>testog/tests.ROMEv4-referentiel</code>
+			<label lang="fr">Référentiel ROME V4</label>
+			<label lang="en">Référentiel ROME V4</label>
+			<value />
+			<version />
+		</asmResource>
+		<asmResource xsi_type="context">
+			<text lang="fr" />
+			<text lang="en" />
+		</asmResource>
+	</asmRoot>
+</portfolio>

@@ -28,20 +28,23 @@ menuItems['item'].push('import_get_get_romev4_multiple');
 
 //# sourceURL=ROMEV4.js
 
+var access_token = null;
 
 function getToken() {
 	const idclient = "PAR_karuta_53daa114db1e33b704b64ea935cc71060497b70cfdcf3f1c90fece0939ba5a49";
 	const clientsecret = "08ce1de786ae1551fc79a52d462fd2c6d64f706acfbe1f3d39c2fd23cc88b996"
 	const url = "https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=partenaire";
-	const data = "grant_type=client_credentials&client_id="+idclient + "&client_secret=" + clientsecret + "&scope=api_rome-metiersv1"
+	const data = "grant_type=client_credentials&client_id="+idclient + "&client_secret=" + clientsecret + "&scope=api_rome-metiersv1 api_rome-fiches-metiersv1 nomenclatureRome api_rome-competencesv1"
 	$.ajax({
 		async : false,
 		type : "POST",
 		url : url,
 		data:data,
+		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		success : function(data) {
-			alert("OK");
+			access_token = data.access_token;
+			alert(access_token)
 		},
 		error : function(data) {
 				alert("Erreur");
@@ -51,7 +54,8 @@ function getToken() {
 
 function getMetiers() {
 	const url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/metier";
-	const authorization = "Bearer rG3wkJtBpLgpigC_GJuZwYdptHM";
+	const authorization = "Bearer " + access_token;
+	alert (authorization);
 	$.ajax({
 		async : false,
 		beforeSend: function (xhr) {
@@ -71,7 +75,7 @@ function getMetiers() {
 
 function getCompetences() {
 	const url = "https://api.francetravail.io/partenaire/rome-competences/v1/competences/competence";
-	const authorization = "Bearer _nXCfcc5aHUQpGMSApp7ttLMRcM";
+	const authorization = "Bearer " + access_token;
 	$.ajax({
 		async : false,
 		beforeSend: function (xhr) {
@@ -91,7 +95,7 @@ function getCompetences() {
 
 function getCompetencesMetier(code) {
 	const url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/metier/"+code;
-	const authorization = "Bearer rG3wkJtBpLgpigC_GJuZwYdptHM";
+	const authorization = "Bearer " + access_token;
 	$.ajax({
 		async : false,
 		beforeSend: function (xhr) {
@@ -112,7 +116,8 @@ function getCompetencesMetier(code) {
 
 function getFichesMetier() {
 	const url = "https://api.francetravail.io/partenaire/rome-fiches-metiers/v1/fiches-rome/fiche-metier";
-	const authorization = "Bearer 5tD2MqNJ4TwV2P1hrie7awaASq0";
+	const authorization = "Bearer " + access_token;
+	alert(authorization);
 	$.ajax({
 		async : false,
 		beforeSend: function (xhr) {
@@ -132,7 +137,7 @@ function getFichesMetier() {
 
 function getFicheMetier(code) {
 	const url = "https://api.francetravail.io/partenaire/rome-fiches-metiers/v1/fiches-rome/fiche-metier/"+code;
-	const authorization = "Bearer 5tD2MqNJ4TwV2P1hrie7awaASq0";
+	const authorization = "Bearer " + access_token;
 	$.ajax({
 		async : false,
 		beforeSend: function (xhr) {

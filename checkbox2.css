@@ -1,0 +1,45 @@
+@supports ( appearance: none ) or ( -moz-appearance: none ) or ( -webkit-appearance: none ) {
+	.resource input {
+		appearance: none ;
+			-moz-appearance: none ;
+			-webkit-appearance: none ;
+		border: 1px solid currentcolor ;
+		box-sizing: content-box ;
+		color: blue;
+		height: 15px ;
+		padding: 2px 1px 1px 2px ;
+		transition-property: border-color, color ; /* Safari needed border-color. */
+		width: 15px ;
+		cursor:pointer;
+	}
+
+	.resource input:checked {
+		color: white;
+		background-color:blue;
+	}
+
+	.resource input:disabled {
+		color: #9e9e9e;
+		cursor:not-allowed;
+	}
+
+	.resource input::after {
+		content: "" ;
+		display: block ;
+		height: 14px ;
+		width: 14px ;
+		
+		
+	}
+
+	.resource input:checked::after {
+		margin-left:4px;
+		width: 6px;
+		height: 12px;
+		border: solid white;
+		border-width: 0 3px 3px 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+	} 
+}

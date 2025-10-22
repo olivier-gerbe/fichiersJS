@@ -558,8 +558,9 @@ UIFactory["Get_Get_ROMEV4"].prototype.displayEditor = function(destid,type,langc
 					if (cachable && g_Get_Resource_caches[queryattr_value]!=undefined && g_Get_Resource_caches[queryattr_value]!="")
 						UIFactory["Get_Get_ROMEV4"].parse(destid,type,langcode,g_Get_Resource_caches[queryattr_value],self,disabled,srce,portfoliocode);
 					else {
-						const url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/metier/"+code;
-						const authorization = "Bearer rG3wkJtBpLgpigC_GJuZwYdptHM";
+						//const url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/metier/"+code;
+						const url = "https://api.francetravail.io/partenaire/rome-fiches-metiers/v1/fiches-rome/fiche-metier/"+code;
+						const authorization = "Bearer " + access_token;
 						$.ajax({
 							async : false,
 							beforeSend: function (xhr) {
